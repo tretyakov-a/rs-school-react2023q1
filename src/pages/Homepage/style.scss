@@ -1,0 +1,9 @@
+.homepage {
+  padding-top: 1rem;
+
+  &__search-bar-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+  }
+}
