@@ -2,11 +2,50 @@
 
 :root {
   --color-primary: orange;
+  --color-error: salmon;
 
+  --color-text: #000000;
+  --color-bg: #ffffff;
+
+  --content-padding: 20px;
+  --content-width: 1024px;
+  --footer-height: 50px;
+  --header-height: 50px;
+}
+
+html, body, #root {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
   font-family: Arial, sans-serif;
   font-weight: 400;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+*, h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 a {
   text-decoration: none;
+  color: var(--color-text);
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: calc(var(--content-width) + 2 * var(--content-padding));
+  padding: 0 var(--content-padding);
+  margin: 0 auto;
+  height: 100%;
 }

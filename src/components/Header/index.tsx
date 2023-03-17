@@ -1,20 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import './style.scss';
+import HeaderMenu from '@components/HeaderMenu';
 
 export default class Header extends React.Component {
   render() {
     return (
       <header className="header">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About Us</Link>
-            </li>
-          </ul>
-        </nav>
+        <div className="container header__container">
+          <nav className="header__menu-container">
+            <HeaderMenu />
+          </nav>
+        </div>
       </header>
     );
   }

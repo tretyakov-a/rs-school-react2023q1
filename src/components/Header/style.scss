@@ -1,0 +1,10 @@
+.header {
+  height: var(--header-height);
+  background-color: #eeeeee;
+  flex: none;
+
+  &__menu-container {
+    display: flex;
+    justify-content: space-between;
+  }
+}

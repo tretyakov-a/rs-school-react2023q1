@@ -1,0 +1,30 @@
+.not-found-page {
+  height: 100%;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 8rem;
+    font-weight: 400;
+    color: var(--color-error);
+  }
+
+  &__subtitle {
+    font-size: 1.6rem;
+    margin-top: 2rem;
+  }
+
+  &__info {
+    margin-top: 0.5rem;
+  }
+
+  &__link {
+    margin-top: 2rem;
+    text-decoration: underline;
+  }
+}
