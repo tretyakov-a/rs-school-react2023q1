@@ -1,6 +1,6 @@
 .header {
   height: var(--header-height);
-  background-color: #eeeeee;
+  background-color: var(--color-bg);
   flex: none;
 
   &__menu-container {

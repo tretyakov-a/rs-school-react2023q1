@@ -1,10 +1,8 @@
 .header-menu {
   display: flex;
-
-  &__item {
-  }
-
+  
   &__link {
+    color: var(--color-text);
     position: relative;
     overflow: hidden;
     display: block;
@@ -26,13 +24,15 @@
     }
 
     &.active {
-      color: var(--color-primary);
+      background-color: var(--color-primary-alpha50);
     }
+  }
+}
 
-    &:hover {
-      &::after {
-        transform: translateX(0%);
-      }
+@media (hover: hover) {
+  .header-menu {
+    &__link:hover::after {
+      transform: translateX(0%);
     }
   }
 }

@@ -3,38 +3,39 @@
 
   &__form {
     display: flex;
+    box-shadow: 0px 0px 4px -2px black;
+    border-radius: 5px;
+    overflow: hidden;
   }
 
   &__input-container {
     position: relative;
     display: flex;
     height: $search-bar-height;
-    border: 1px solid grey;
-    border-radius: 5px;
-    overflow: hidden;
     background-color: var(--color-bg);
-    box-shadow: 0px 0px 4px -2px black;
   }
 
   &__input {
     border: none;
     height: 100%;
     padding: 0.4rem 1rem;
+    color: var(--color-text);
+
+    &:focus {
+      outline: none;
+    }
   }
 
   &__submit {
-    margin-left: 1rem;
     padding: 0 1rem;
-    border: 1px solid grey;
-    border-radius: 5px;
+    border: none;
     background-color: var(--color-bg);
-    box-shadow: 0px 0px 4px -2px black;
+    color: var(--color-text);
     cursor: pointer;
     transition: background 0.25s;
 
     &:active {
-      box-shadow: none;
-      background-color: #eeeeee;
+      background-color: var(--color-primary-alpha50);
     }
   }
 }

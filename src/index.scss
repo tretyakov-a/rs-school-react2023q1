@@ -2,12 +2,18 @@
 
 :root {
   --color-primary: orange;
+  --color-primary-alpha50: rgba(255, 165, 0, 0.5);
+
+  --color-rating: orange;
   --color-error: salmon;
 
-  --color-text: #000000;
-  --color-text-xl: #383838;
-  --color-text-l: #505050;
-  --color-bg: #ffffff;
+  --color-text: #212121;
+  --color-text-xl: #424242;
+  --color-text-l: #616161;
+  --color-text-m: #757575;
+  --color-text-s: #e0e0e0;
+
+  --color-bg: #fafafa;
 
   --content-padding: 20px;
   --content-width: 1024px;
