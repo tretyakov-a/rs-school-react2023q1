@@ -4,23 +4,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 interface SearchBarState {
-  inputValue: string
+  inputValue: string;
 }
 
-export default class SearchBar extends React.Component<{}, SearchBarState> {
-  static localStorageKey  = "searchInputValue";
+export default class SearchBar extends React.Component<unknown, SearchBarState> {
+  static localStorageKey = 'searchInputValue';
 
   constructor(props: React.PropsWithChildren) {
     super(props);
     this.state = {
-      inputValue: localStorage.getItem(SearchBar.localStorageKey) || "",
+      inputValue: localStorage.getItem(SearchBar.localStorageKey) || '',
     };
   }
 
   componentDidMount(): void {
     const inputValue = localStorage.getItem(SearchBar.localStorageKey);
     if (inputValue !== null) {
-      this.setState(() => ({ inputValue }))
+      this.setState(() => ({ inputValue }));
     }
   }
 
@@ -32,13 +32,13 @@ export default class SearchBar extends React.Component<{}, SearchBarState> {
     const el = e.target;
 
     if (el instanceof HTMLInputElement) {
-      this.setState(() => ({ inputValue: el.value }))
+      this.setState(() => ({ inputValue: el.value }));
     }
-  }
+  };
 
   handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-  }
+  };
 
   render() {
     return (
@@ -52,13 +52,14 @@ export default class SearchBar extends React.Component<{}, SearchBarState> {
               name="search"
               id="search"
               value={this.state.inputValue}
-              onChange={this.handleInputChange}/>
+              onChange={this.handleInputChange}
+            />
           </div>
           <button className="search-bar__submit" type="submit">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
         </form>
       </div>
-    )
+    );
   }
 }

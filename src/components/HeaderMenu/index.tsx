@@ -7,12 +7,16 @@ export default class HeaderMenu extends React.Component {
     return (
       <ul className="header__menu header-menu">
         <li className="header-menu__item">
-          <NavLink className="header-menu__link" to="/">Home</NavLink>
+          <NavLink className="header-menu__link" to="/">
+            Home
+          </NavLink>
         </li>
         <li className="header-menu__item">
-          <NavLink className="header-menu__link" to="/about">About Us</NavLink>
+          <NavLink className="header-menu__link" to="/about">
+            About Us
+          </NavLink>
         </li>
       </ul>
-    )
+    );
   }
 }

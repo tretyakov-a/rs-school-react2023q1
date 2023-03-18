@@ -4,13 +4,12 @@ import Card from '@components/Card';
 import './style.scss';
 
 export default class CardsList extends React.Component {
-
   render() {
     return (
       <ul className="cards-list">
-        {cardsData.map(item => (
+        {cardsData.map((item) => (
           <li className="cards-list__item" key={item.id}>
-            <Card data={item}/>
+            <Card data={item} />
           </li>
         ))}
       </ul>
