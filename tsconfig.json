@@ -20,7 +20,8 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@assets/*": ["assets/*"],
     }
   },
   "include": ["./src/**/*", "styled.d.ts"],
