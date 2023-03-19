@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run lint && tsc --noEmit && vite build",
+    "build-gh-pages": "npm run lint && tsc --noEmit && vite build --base='/rs-school-react2023q1/'",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "jest --config ./jest.config.ts --coverage=true --maxWorkers=1"
