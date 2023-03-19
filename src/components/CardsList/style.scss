@@ -19,7 +19,7 @@ $gap: 2rem;
   }
 }
 
-@media (max-width: var(--max-width-tablet)) {
+@media (max-width: 768px) {
   .cards-list {
     justify-content: center;
 
