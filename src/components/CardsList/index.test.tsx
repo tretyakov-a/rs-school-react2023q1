@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import CardsList from '.';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import cardsData from '@assets/cards.json';
 
 describe('<CardsList /> test', () => {

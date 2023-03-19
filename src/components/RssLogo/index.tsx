@@ -1,11 +1,11 @@
 import React from 'react';
 import './style.scss';
 
-interface PropsType {
+interface RssLogoPropsType {
   width: number;
 }
 
-export default class RssLogo extends React.Component<PropsType> {
+export default class RssLogo extends React.Component<RssLogoPropsType> {
   render() {
     return (
       <a
@@ -16,7 +16,7 @@ export default class RssLogo extends React.Component<PropsType> {
         style={{ width: `${this.props.width}px` }}
         rel="noreferrer"
       >
-        <img src="/src/assets/rsslogo.svg" alt="logo" />
+        <img src="/rsslogo.svg" alt="logo" />
       </a>
     );
   }

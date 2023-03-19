@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import data from '@assets/cards.json';
 import { isEqualProductsArrays } from './product';
 
