@@ -24,13 +24,17 @@
     &:focus {
       outline: none;
     }
+
+    &::placeholder {
+      color: var(--color-text-m);
+    }
   }
 
   &__submit {
     padding: 0 1rem;
     border: none;
     background-color: var(--color-bg);
-    color: var(--color-text);
+    color: var(--color-text-l);
     cursor: pointer;
     transition: background 0.25s;
 

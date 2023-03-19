@@ -25,6 +25,7 @@
 
     &.active {
       background-color: var(--color-primary-alpha50);
+      pointer-events: none;
     }
   }
 }

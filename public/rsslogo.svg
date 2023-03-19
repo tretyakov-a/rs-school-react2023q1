@@ -2,18 +2,18 @@
   <title>rs_school_js</title>
   <style>
   .st0, .st1, .st2, .st3, .st4, .st5, .st6, .st8, .st9 {
-    fill: silver;
-    stroke: grey;
+    fill: #ffa500;
+    stroke: #212121;
   }
   .st1 {
-    fill: black;
+    fill: #212121;
   }
   .st7 {
-    fill: silver;
+    fill: #e0e0e0;
   }
   .logo-path {
-    fill: silver;
-    stroke: gray;
+    fill: #e0e0e0;
+    stroke: #212121;
     stroke-width: 4px;
     transition: 0.1s ease-in;
   }

@@ -1,16 +1,17 @@
 @import "../node_modules/normalize.css/normalize.css";
 
 :root {
-  --color-primary: orange;
+  --color-primary: #ffa500;
   --color-primary-alpha50: rgba(255, 165, 0, 0.5);
 
-  --color-rating: orange;
+  --color-rating: #ffa500;
   --color-error: salmon;
 
   --color-text: #212121;
   --color-text-xl: #424242;
   --color-text-l: #616161;
-  --color-text-m: #757575;
+  --color-text-xm: #757575;
+  --color-text-m: #bdbdbd;
   --color-text-s: #e0e0e0;
 
   --color-bg: #fafafa;
@@ -19,6 +20,10 @@
   --content-width: 1024px;
   --footer-height: 50px;
   --header-height: 50px;
+
+  --max-width-phone: 320px;
+  --max-width-tablet: 768px;
+  --max-width-desctop: 1200px;
 }
 
 html, body, #root {
@@ -43,9 +48,14 @@ body {
   box-sizing: border-box;
 }
 
+h2 {
+  color: var(--color-text-xl);
+}
+
 a {
   text-decoration: none;
-  color: var(--color-text);
+  color: var(--color-text-xl);
+  transition: 0.25s;
 }
 
 ul {
@@ -57,4 +67,16 @@ ul {
   padding: 0 var(--content-padding);
   margin: 0 auto;
   height: 100%;
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: var(--color-primary);
+  }
+}
+
+@media (max-width: var(--max-width-tablet)) {
+  :root {
+    --content-padding: 10px;
+  }
 }

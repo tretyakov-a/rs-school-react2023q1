@@ -7,3 +7,11 @@
     margin-bottom: 1rem;
   }
 }
+
+@media (max-width: var(--max-width-tablet)) {
+  .homepage {
+    &__search-bar-container {
+      justify-content: center;
+    }
+  }
+}
