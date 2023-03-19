@@ -20,7 +20,7 @@ export default class SearchBar extends React.Component<unknown, SearchBarState> 
   componentDidMount(): void {
     const inputValue = localStorage.getItem(SearchBar.localStorageKey);
     if (inputValue !== null) {
-      this.setState(() => ({ inputValue }));
+      this.setState({ inputValue });
     }
   }
 
@@ -32,12 +32,13 @@ export default class SearchBar extends React.Component<unknown, SearchBarState> 
     const el = e.target;
 
     if (el instanceof HTMLInputElement) {
-      this.setState(() => ({ inputValue: el.value }));
+      this.setState({ inputValue: el.value });
     }
   };
 
   handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    this.setState({ inputValue: '' });
   };
 
   render() {

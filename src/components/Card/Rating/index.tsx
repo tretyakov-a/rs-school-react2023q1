@@ -1,11 +1,11 @@
 import React from 'react';
 import './style.scss';
 
-interface RatingProps {
+export interface RatingPropsType {
   value: number;
 }
 
-export default class Rating extends React.Component<RatingProps> {
+export class Rating extends React.Component<RatingPropsType> {
   static NumOfStars = 5;
 
   private getStarStyle(colorStop: number) {
@@ -26,14 +26,13 @@ export default class Rating extends React.Component<RatingProps> {
       });
     return starColorStops.map((colorStop, index) => (
       <span className="product-rating__star" key={index}>
-        <span className="product-rating__start-inner" style={this.getStarStyle(colorStop)}></span>
+        <span className="product-rating__star-inner" style={this.getStarStyle(colorStop)}></span>
       </span>
     ));
   }
 
   render() {
     const { value } = this.props;
-
     return (
       <div className="product-rating">
         <span className="product-rating__stars" title={`rating ${String(value)}`}>

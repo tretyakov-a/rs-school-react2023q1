@@ -7,13 +7,13 @@ import {
   ProductKeyType,
   ProductProps,
 } from '../../common/product';
-import Rating from './Rating';
+import { Rating } from './Rating';
 
-interface PropsType {
+export interface CardPropsType {
   data: Product;
 }
 
-export default class Card extends React.Component<PropsType> {
+export class Card extends React.Component<CardPropsType> {
   render() {
     const keys = Object.keys(propPickers) as ProductKeyType[];
     const productProps: ProductProps = keys.reduce((acc, key) => {
