@@ -6,7 +6,7 @@ import './style.scss';
 export default class Homepage extends React.Component {
   render() {
     return (
-      <section className="homepage">
+      <section className="homepage page">
         <div className="container">
           <div className="homepage__search-bar-container">
             <SearchBar />

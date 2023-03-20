@@ -65,6 +65,10 @@ ul {
   height: 100%;
 }
 
+.page {
+  padding: 1rem 0;
+}
+
 @media (hover: hover) {
   a:hover {
     color: var(--color-primary);

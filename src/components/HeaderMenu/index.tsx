@@ -16,6 +16,11 @@ export default class HeaderMenu extends React.Component {
             About Us
           </NavLink>
         </li>
+        <li>
+          <NavLink className="header-menu__link" to="/registration">
+            Registration
+          </NavLink>
+        </li>
       </ul>
     );
   }

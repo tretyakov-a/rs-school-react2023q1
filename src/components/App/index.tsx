@@ -4,6 +4,7 @@ import Homepage from '@pages/Homepage';
 import About from '@pages/About';
 import NotFound from '@pages/NotFound';
 import Layout from '@components/Layout';
+import Registration from '@pages/Registration';
 
 export default class App extends React.Component {
   render() {
@@ -12,6 +13,7 @@ export default class App extends React.Component {
         <Route path="/" element={<Layout />}>
           <Route index element={<Homepage />} />
           <Route path="about" element={<About />} />
+          <Route path="registration" element={<Registration />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
