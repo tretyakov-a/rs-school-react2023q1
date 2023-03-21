@@ -1,4 +1,10 @@
-export const countries = [
+import { SelectOptionData } from '.';
+
+export type Country = SelectOptionData & {
+  code: string;
+};
+
+export const countries: Country[] = [
   { name: 'Afghanistan', code: 'AF' },
   { name: 'Åland Islands', code: 'AX' },
   { name: 'Albania', code: 'AL' },

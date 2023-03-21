@@ -1,4 +1,20 @@
-import { FormFieldOption, ValidationOptions, matchValidationType } from './form-fields';
+import { FormFieldOption } from './form-fields';
+
+export type matchValidationType = {
+  regexp: RegExp;
+  message?: string;
+};
+
+export type ValidationOptions = {
+  required?: boolean;
+  capitalized?: boolean;
+  match?: matchValidationType;
+  minLength?: number;
+  maxLength?: number;
+  maxFileSize?: number;
+  email?: matchValidationType;
+  age?: number;
+};
 
 type Validator<T> = (validationValue: T, inputValue: string) => string;
 
@@ -58,17 +74,34 @@ const validationOptions = {
   age: ageValidator,
 };
 
-export const validate = (field: FormFieldOption, value: string) => {
+export type ValidationResult = {
+  isValid: boolean;
+  errors: string[];
+};
+
+export const defaultValidationResult = {
+  isValid: true,
+  errors: [],
+};
+
+export const validate = (field: FormFieldOption, value: string): ValidationResult => {
   const { validation } = field;
+  const result: ValidationResult = { ...defaultValidationResult };
   if (validation !== undefined) {
     const keys = Object.keys(validation) as (keyof ValidationOptions)[];
-    const errors = keys.map((key) => {
-      const validationValue = validation[key];
-      if (validationValue === undefined) return;
-      const validator = validationOptions[key] as Validator<typeof validationValue>;
-      return validator(validationValue, value);
-    });
-    return errors.filter((error) => error !== '').join('\n');
+    const errors = keys
+      .map((key): string => {
+        const validationValue = validation[key];
+        if (validationValue === undefined) return '';
+        const validator = validationOptions[key] as Validator<typeof validationValue>;
+        return validator(validationValue, value);
+      })
+      .filter((error) => error !== '');
+
+    if (errors.length !== 0) {
+      result.isValid = false;
+      result.errors = errors;
+    }
   }
-  return '';
+  return result;
 };
