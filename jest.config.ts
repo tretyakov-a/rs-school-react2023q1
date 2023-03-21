@@ -14,6 +14,7 @@ const config: Config.InitialOptions = {
     '^@assets/(.*)$': '<rootDir>/src/assets/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@pages/(.*)$': '<rootDir>/src/pages/$1',
+    '^@common/(.*)$': '<rootDir>/src/common/$1',
     '\\.(scss)$': 'identity-obj-proxy',
   },
 };
