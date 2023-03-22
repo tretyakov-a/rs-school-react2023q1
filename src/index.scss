@@ -1,27 +1,5 @@
 @import "../node_modules/normalize.css/normalize.css";
-
-:root {
-  --color-primary: #ffa500;
-  --color-secondary: salmon;
-  --color-primary-alpha50: rgba(255, 165, 0, 0.5);
-
-  --color-rating: #ffa500;
-  --color-error: red;
-
-  --color-text: #212121;
-  --color-text-xl: #424242;
-  --color-text-l: #616161;
-  --color-text-xm: #757575;
-  --color-text-m: #bdbdbd;
-  --color-text-s: #e0e0e0;
-
-  --color-bg: #fafafa;
-
-  --content-padding: 20px;
-  --content-width: 1024px;
-  --footer-height: 50px;
-  --header-height: 50px;
-}
+@import "@styles/variables";
 
 html, body, #root {
   height: 100%;
@@ -53,6 +31,12 @@ a {
   text-decoration: none;
   color: var(--color-text-xl);
   transition: 0.25s;
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
 }
 
 ul {
@@ -68,16 +52,4 @@ ul {
 
 .page {
   padding: 1rem 0;
-}
-
-@media (hover: hover) {
-  a:hover {
-    color: var(--color-primary);
-  }
-}
-
-@media (max-width: 768px) {
-  :root {
-    --content-padding: 10px;
-  }
 }

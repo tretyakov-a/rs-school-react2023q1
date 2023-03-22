@@ -1,3 +1,6 @@
+@import "@styles/mixins";
+@import "@styles/breakpoints";
+
 $gap: 2rem;
 
 .cards-list {
@@ -6,24 +9,18 @@ $gap: 2rem;
   column-gap: $gap;
   row-gap: $gap;
 
-  &__item {
-    flex-basis: calc((100% - $gap * 3) / 4);
-  }
-}
-
-@media (max-width: 1024px) {
-  .cards-list {
-    &__item {
-      flex-basis: calc((100% - $gap * 2) / 3);
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .cards-list {
+  @include sm-breakpoint {
     justify-content: center;
+  }
 
-    &__item {
+  &__item {
+    @include flexBasisColumns(4, $gap);
+
+    @include md-breakpoint {
+      @include flexBasisColumns(3, $gap);
+    }
+
+    @include sm-breakpoint {
       flex-basis: auto;
       width: 250px;
     }

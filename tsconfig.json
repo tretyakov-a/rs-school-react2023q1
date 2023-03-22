@@ -23,6 +23,7 @@
       "@pages/*": ["pages/*"],
       "@assets/*": ["assets/*"],
       "@common/*": ["common/*"],
+      "@styles/*": ["styles/*"],
     }
   },
   "include": ["./src/**/*", "styled.d.ts"],
