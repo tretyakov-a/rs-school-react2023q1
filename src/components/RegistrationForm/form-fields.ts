@@ -1,20 +1,8 @@
-import React from 'react';
 import { countries } from './data/countries';
 import { genders } from './data/genders';
 import { programmingLanguages } from './data/programming-languages';
 import { ValidationOptions } from './validation';
 import InputRef from './input-ref';
-
-export type FieldName =
-  | 'name'
-  | 'email'
-  | 'password'
-  | 'birthday'
-  | 'country'
-  | 'programmingLanguage'
-  | 'gender'
-  | 'avatar'
-  | '';
 
 export type InputType =
   | 'text'
@@ -27,23 +15,28 @@ export type InputType =
   | 'file'
   | '';
 
-export type FormFieldOption = {
-  name: FieldName;
+export type FormFieldType = 'list' | '';
+
+export type FormField = {
   type: InputType;
+  formFieldType?: FormFieldType;
   label?: string;
   defaultSelectOptionValue?: string;
-  defaultValue?: string;
+  defaultValue?: string | boolean;
   data?: unknown[];
   validation?: ValidationOptions;
   matchErrorMessage?: string;
+};
+
+export type FormFieldOption = FormField & {
+  name: string;
   inputRef?: InputRef | InputRef[];
 };
 
 const createRefsArray = (length: number) => Array.from({ length }, () => new InputRef());
 
-export const formFields: FormFieldOption[] = [
-  {
-    name: 'name',
+const formFieldsOptions: Record<string, FormField> = {
+  name: {
     label: 'Name:',
     type: 'text',
     validation: {
@@ -56,22 +49,18 @@ export const formFields: FormFieldOption[] = [
       minLength: 3,
       maxLength: 12,
     },
-    inputRef: new InputRef(),
     defaultValue: 'Username',
   },
-  {
-    name: 'password',
+  password: {
     label: 'Password:',
     type: 'password',
     validation: {
       required: true,
       minLength: 8,
     },
-    inputRef: new InputRef(),
     defaultValue: '12345678',
   },
-  {
-    name: 'email',
+  email: {
     label: 'Email:',
     type: 'email',
     validation: {
@@ -81,49 +70,61 @@ export const formFields: FormFieldOption[] = [
         message: `should be valid email address`,
       },
     },
-    inputRef: new InputRef(),
     defaultValue: 'test@test.ru',
   },
-  {
-    name: 'birthday',
+  birthday: {
     label: 'Birthday:',
     type: 'date',
     validation: {
       age: 16,
     },
-    inputRef: new InputRef(),
-    defaultValue: '1988-05-21',
+    defaultValue: '2001-01-01',
   },
-  {
-    name: 'country',
+  country: {
     label: 'Country:',
     type: 'select',
     data: countries,
-    inputRef: new InputRef(),
     defaultSelectOptionValue: 'Choose country',
-    defaultValue: 'Angola',
+    defaultValue: 'China',
   },
-  {
-    name: 'programmingLanguage',
+  programmingLanguage: {
     label: 'Programming languages:',
     type: 'checkbox',
+    formFieldType: 'list',
     data: programmingLanguages,
-    inputRef: createRefsArray(programmingLanguages.length),
   },
-  {
-    name: 'gender',
+  gender: {
     label: 'Gender:',
     type: 'radio',
+    formFieldType: 'list',
     data: genders,
-    inputRef: createRefsArray(genders.length),
   },
-  {
-    name: 'avatar',
+  avatar: {
     label: 'Avatar:',
     type: 'file',
     validation: {
       maxFileSize: 100000,
     },
-    inputRef: new InputRef(),
   },
-];
+  subscribe: {
+    label: 'Subscribe to newsletter:',
+    type: 'checkbox',
+    defaultValue: true,
+  },
+};
+
+export type FieldName = keyof typeof formFieldsOptions;
+
+const getFormFields = () => {
+  return Object.keys(formFieldsOptions).reduce<FormFieldOption[]>((acc, optionKey) => {
+    const { formFieldType, data } = formFieldsOptions[optionKey];
+    const inputRef =
+      formFieldType && data && formFieldType === 'list'
+        ? createRefsArray(data.length)
+        : new InputRef();
+    acc.push({ ...formFieldsOptions[optionKey], inputRef, name: optionKey });
+    return acc;
+  }, [] as FormFieldOption[]);
+};
+
+export const formFields = getFormFields();

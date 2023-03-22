@@ -26,9 +26,12 @@ class Input extends React.Component<InputProps> {
       type,
       name,
       id,
-      defaultValue,
     };
     if (value !== undefined) props.value = value;
+    if (defaultValue !== undefined) {
+      if (typeof defaultValue === 'string') props.defaultValue = defaultValue;
+      else props.defaultChecked = defaultValue;
+    }
     return <input {...props} />;
   }
 }

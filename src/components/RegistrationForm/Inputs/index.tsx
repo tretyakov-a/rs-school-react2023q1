@@ -4,7 +4,7 @@ import InputsList from './InputsList';
 import Select from './Select';
 
 const renderInput = (options: FormFieldOption) => {
-  const { type, inputRef } = options;
+  const { type, inputRef, formFieldType } = options;
   const ref = (inputRef !== undefined && !Array.isArray(inputRef) && inputRef.ref) || null;
   switch (type) {
     case 'text':
@@ -17,7 +17,11 @@ const renderInput = (options: FormFieldOption) => {
       return <Select inputRef={ref} />;
     case 'radio':
     case 'checkbox':
-      return <InputsList />;
+      return formFieldType !== undefined && formFieldType === 'list' ? (
+        <InputsList />
+      ) : (
+        <Input inputRef={ref} />
+      );
   }
 };
 
