@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputProps } from '../Input';
 import { isOptionsDataArray } from '@components/RegistrationForm/data';
-import { withFormFieldOptions } from '@components/RegistrationForm/FormField/form-field-context';
+import { withFormFieldOptions } from '@components/RegistrationForm/form-field/context';
 
 class Select extends React.Component<InputProps> {
   renderOptions = (data: unknown) => {
@@ -25,7 +25,7 @@ class Select extends React.Component<InputProps> {
         ref={inputRef as React.RefObject<HTMLSelectElement>}
         name={name}
         id={id}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue as string}
       >
         <option value="" disabled hidden>
           {defaultSelectOptionValue}

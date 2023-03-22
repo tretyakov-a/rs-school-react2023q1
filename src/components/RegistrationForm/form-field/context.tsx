@@ -1,20 +1,20 @@
 import React from 'react';
-import { FormFieldOption } from '../form-fields';
+import { FormFieldOptions } from './types';
 
-const defaultValue: FormFieldOption = {
+const defaultValue: FormFieldOptions = {
   name: '',
   type: '',
 };
 
 interface withFormFieldOptionsProps {
-  options: FormFieldOption;
+  options: FormFieldOptions;
 }
 
-const FormFieldOptionsContext = React.createContext<withFormFieldOptionsProps>({
+export const FormFieldOptionsContext = React.createContext<withFormFieldOptionsProps>({
   options: { ...defaultValue },
 });
 
-const withFormFieldOptions =
+export const withFormFieldOptions =
   <P extends object>(
     Wrapped: React.ComponentType<P>
   ): React.FC<Omit<P, keyof withFormFieldOptionsProps>> =>
@@ -24,5 +24,3 @@ const withFormFieldOptions =
         {({ options }) => <Wrapped {...(props as P)} options={options} />}
       </FormFieldOptionsContext.Consumer>
     );
-
-export { FormFieldOptionsContext, withFormFieldOptions };

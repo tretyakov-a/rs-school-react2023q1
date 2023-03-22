@@ -1,41 +1,12 @@
-import { countries } from './data/countries';
-import { genders } from './data/genders';
-import { programmingLanguages } from './data/programming-languages';
-import { ValidationOptions } from './validation/types';
-import InputRef from './input-ref';
-
-export type InputType =
-  | 'text'
-  | 'password'
-  | 'date'
-  | 'email'
-  | 'select'
-  | 'radio'
-  | 'checkbox'
-  | 'file'
-  | '';
-
-export type FormFieldType = 'list' | '';
-
-export type FormField = {
-  type: InputType;
-  formFieldType?: FormFieldType;
-  label?: string;
-  defaultSelectOptionValue?: string;
-  defaultValue?: string | boolean;
-  data?: unknown[];
-  validation?: ValidationOptions;
-  matchErrorMessage?: string;
-};
-
-export type FormFieldOption = FormField & {
-  name: string;
-  inputRef?: InputRef | InputRef[];
-};
+import { countries } from '../data/countries';
+import { genders } from '../data/genders';
+import { programmingLanguages } from '../data/programming-languages';
+import InputRef from '../input-ref';
+import { FormFieldBaseOptions, FormFieldOptions } from './types';
 
 const createRefsArray = (length: number) => Array.from({ length }, () => new InputRef());
 
-const formFieldsOptions: Record<string, FormField> = {
+const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
   name: {
     label: 'Name',
     type: 'text',
@@ -111,7 +82,7 @@ const formFieldsOptions: Record<string, FormField> = {
 export type FieldName = keyof typeof formFieldsOptions;
 
 const getFormFields = () => {
-  return Object.keys(formFieldsOptions).reduce<FormFieldOption[]>((acc, optionKey) => {
+  return Object.keys(formFieldsOptions).reduce<FormFieldOptions[]>((acc, optionKey) => {
     const { formFieldType, data } = formFieldsOptions[optionKey];
     const inputRef =
       formFieldType && data && formFieldType === 'list'
@@ -119,7 +90,7 @@ const getFormFields = () => {
         : new InputRef();
     acc.push({ ...formFieldsOptions[optionKey], inputRef, name: optionKey });
     return acc;
-  }, [] as FormFieldOption[]);
+  }, [] as FormFieldOptions[]);
 };
 
 export const formFields = getFormFields();

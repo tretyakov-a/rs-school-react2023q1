@@ -1,5 +1,5 @@
 import { getAge } from '@common/helpers';
-import { FormFieldOption } from '../form-fields';
+import { FormFieldOptions } from '../form-field';
 import { ValidationOptions, ValidationResult, Validator } from './types';
 import { getMessage } from './messages';
 
@@ -58,7 +58,7 @@ export const defaultValidationResult: ValidationResult = {
   errors: [],
 };
 
-export const validate = (field: FormFieldOption, value: FormDataEntryValue): ValidationResult => {
+export const validate = (field: FormFieldOptions, value: FormDataEntryValue): ValidationResult => {
   const { validation, name } = field;
   const result: ValidationResult = { ...defaultValidationResult };
   if (validation !== undefined) {
@@ -79,3 +79,5 @@ export const validate = (field: FormFieldOption, value: FormDataEntryValue): Val
   }
   return result;
 };
+
+export type { ValidationOptions, ValidationResult, Validator };

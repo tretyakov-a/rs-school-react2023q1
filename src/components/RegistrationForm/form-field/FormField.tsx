@@ -1,11 +1,11 @@
 import React from 'react';
-import { FormFieldOption } from '../form-fields';
-import { ValidationResult } from '../validation/types';
+import { FormFieldOptions } from './types';
+import { ValidationResult } from '../validation';
+import { withFormFieldOptions } from './context';
 import { renderInput } from '../Inputs';
-import { withFormFieldOptions } from './form-field-context';
 
-export interface FormFieldProps {
-  options: FormFieldOption;
+interface FormFieldProps {
+  options: FormFieldOptions;
   validationResult: ValidationResult;
 }
 

@@ -1,9 +1,8 @@
-import { withFormFieldOptions } from '@components/RegistrationForm/FormField/form-field-context';
-import { FormFieldOption } from '@components/RegistrationForm/form-fields';
+import { withFormFieldOptions, FormFieldOptions } from '@components/RegistrationForm/form-field';
 import React from 'react';
 
 export interface InputProps {
-  options: FormFieldOption;
+  options: FormFieldOptions;
   inputRef: React.RefObject<HTMLElement> | null;
   value?: string;
 }

@@ -1,12 +1,11 @@
-import { isRadioInputDataArray } from '@components/RegistrationForm/data';
 import React from 'react';
+import { isRadioInputDataArray } from '@components/RegistrationForm/data';
 import { Input } from '..';
-import { FormFieldOption } from '@components/RegistrationForm/form-fields';
-import { withFormFieldOptions } from '@components/RegistrationForm/FormField/form-field-context';
+import { FormFieldOptions, withFormFieldOptions } from '@components/RegistrationForm/form-field';
 import InputRef from '@components/RegistrationForm/input-ref';
 
 interface InputsListProps {
-  options: FormFieldOption;
+  options: FormFieldOptions;
 }
 
 class InputsList extends React.Component<InputsListProps> {
