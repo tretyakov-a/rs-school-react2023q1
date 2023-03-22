@@ -6,7 +6,11 @@ export default class About extends React.Component {
     return (
       <section className="about">
         <div className="container">
-          <h2>About page</h2>
+          <p>
+            <a href="https://github.com/rolling-scopes-school/tasks/tree/master/react/modules/module01">
+              React. Components
+            </a>
+          </p>
         </div>
       </section>
     );
