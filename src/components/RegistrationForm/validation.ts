@@ -1,3 +1,4 @@
+import { getAge } from '@common/helpers';
 import { FormFieldOption } from './form-fields';
 
 export type matchValidationType = {
@@ -12,18 +13,19 @@ export type ValidationOptions = {
   minLength?: number;
   maxLength?: number;
   maxFileSize?: number;
+  fileType?: string;
   email?: matchValidationType;
   age?: number;
 };
 
-type Validator<T> = (validationValue: T, inputValue: string) => string;
+type Validator<T> = (validationValue: T, inputValue: FormDataEntryValue) => string;
 
-const validateRequired: Validator<boolean> = (validationValue: boolean, inputValue: string) => {
+const validateRequired: Validator<boolean> = (validationValue, inputValue) => {
   return validationValue && inputValue === '' ? 'field is required' : '';
 };
 
-const capitalizedValidator: Validator<boolean> = (validationValue: boolean, inputValue: string) => {
-  if (inputValue === '') return '';
+const capitalizedValidator: Validator<boolean> = (validationValue, inputValue) => {
+  if (typeof inputValue !== 'string' || inputValue === '') return '';
   const firstLetter = inputValue[0];
 
   return validationValue && firstLetter !== firstLetter.toUpperCase()
@@ -31,13 +33,13 @@ const capitalizedValidator: Validator<boolean> = (validationValue: boolean, inpu
     : '';
 };
 
-const minLengthValidator: Validator<number> = (validationValue: number, inputValue: string) => {
+const minLengthValidator: Validator<number> = (validationValue, inputValue) => {
   return inputValue.length < validationValue
     ? `length should be more or equal then ${validationValue}`
     : '';
 };
 
-const maxLengthValidator: Validator<number> = (validationValue: number, inputValue: string) => {
+const maxLengthValidator: Validator<number> = (validationValue, inputValue) => {
   return inputValue.length > validationValue
     ? `length should be less or equal then ${validationValue}`
     : '';
@@ -45,25 +47,33 @@ const maxLengthValidator: Validator<number> = (validationValue: number, inputVal
 
 const matchValidator: Validator<matchValidationType> = (
   { regexp, message }: matchValidationType,
-  inputValue: string
+  inputValue
 ) => {
+  if (typeof inputValue !== 'string') return '';
   return !regexp.test(inputValue) ? message || `should match '${regexp}' expression` : '';
 };
 
-const maxFileSizeValidator: Validator<number> = (validationValue: number, inputValue: string) => {
-  return validationValue < Number(inputValue)
+const maxFileSizeValidator: Validator<number> = (validationValue, file) => {
+  if (!(file instanceof File) || file.size === 0) return '';
+  return validationValue < file.size
     ? `file size should be less or equal then ${validationValue / 1000} KB`
     : '';
 };
 
-const ageValidator: Validator<number> = (validationValue: number, inputValue: string) => {
-  const bornDate = new Date(inputValue);
-  const ageDate = new Date(Date.now() - bornDate.getTime());
-  const ageInYears = Math.abs(ageDate.getUTCFullYear() - 1970);
-  return ageInYears < validationValue ? `age should be more or equal then ${validationValue}` : '';
+const ageValidator: Validator<number> = (validationValue, inputValue) => {
+  if (typeof inputValue !== 'string') return '';
+  return getAge(inputValue) < validationValue
+    ? `age should be more or equal then ${validationValue}`
+    : '';
 };
 
-const validationOptions = {
+const fileTypeValidator: Validator<string> = (validationValue, file) => {
+  if (!(file instanceof File) || file.size === 0) return '';
+  console.log(file.type);
+  return file.type.split('/')[0] !== validationValue ? `should be ${validationValue} file` : '';
+};
+
+const validators = {
   required: validateRequired,
   capitalized: capitalizedValidator,
   match: matchValidator,
@@ -72,6 +82,7 @@ const validationOptions = {
   maxLength: maxLengthValidator,
   email: matchValidator,
   age: ageValidator,
+  fileType: fileTypeValidator,
 };
 
 export type ValidationResult = {
@@ -84,7 +95,7 @@ export const defaultValidationResult = {
   errors: [],
 };
 
-export const validate = (field: FormFieldOption, value: string): ValidationResult => {
+export const validate = (field: FormFieldOption, value: FormDataEntryValue): ValidationResult => {
   const { validation } = field;
   const result: ValidationResult = { ...defaultValidationResult };
   if (validation !== undefined) {
@@ -93,7 +104,7 @@ export const validate = (field: FormFieldOption, value: string): ValidationResul
       .map((key): string => {
         const validationValue = validation[key];
         if (validationValue === undefined) return '';
-        const validator = validationOptions[key] as Validator<typeof validationValue>;
+        const validator = validators[key] as Validator<typeof validationValue>;
         return validator(validationValue, value);
       })
       .filter((error) => error !== '');

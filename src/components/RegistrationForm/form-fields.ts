@@ -104,6 +104,7 @@ const formFieldsOptions: Record<string, FormField> = {
     type: 'file',
     validation: {
       maxFileSize: 100000,
+      fileType: 'image',
     },
   },
   subscribe: {
