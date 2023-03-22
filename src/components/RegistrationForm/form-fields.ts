@@ -37,7 +37,7 @@ const createRefsArray = (length: number) => Array.from({ length }, () => new Inp
 
 const formFieldsOptions: Record<string, FormField> = {
   name: {
-    label: 'Name:',
+    label: 'Name',
     type: 'text',
     validation: {
       required: true,
@@ -52,7 +52,7 @@ const formFieldsOptions: Record<string, FormField> = {
     defaultValue: 'Username',
   },
   password: {
-    label: 'Password:',
+    label: 'Password',
     type: 'password',
     validation: {
       required: true,
@@ -61,7 +61,7 @@ const formFieldsOptions: Record<string, FormField> = {
     defaultValue: '12345678',
   },
   email: {
-    label: 'Email:',
+    label: 'Email',
     type: 'email',
     validation: {
       required: true,
@@ -73,7 +73,7 @@ const formFieldsOptions: Record<string, FormField> = {
     defaultValue: 'test@test.ru',
   },
   birthday: {
-    label: 'Birthday:',
+    label: 'Birthday',
     type: 'date',
     validation: {
       age: 16,
@@ -81,7 +81,7 @@ const formFieldsOptions: Record<string, FormField> = {
     defaultValue: '2001-01-01',
   },
   country: {
-    label: 'Country:',
+    label: 'Country',
     type: 'select',
     data: countries,
     defaultSelectOptionValue: 'Choose country',
@@ -94,20 +94,20 @@ const formFieldsOptions: Record<string, FormField> = {
     data: programmingLanguages,
   },
   gender: {
-    label: 'Gender:',
+    label: 'Gender',
     type: 'radio',
     formFieldType: 'list',
     data: genders,
   },
   avatar: {
-    label: 'Avatar:',
+    label: 'Avatar',
     type: 'file',
     validation: {
       maxFileSize: 100000,
     },
   },
   subscribe: {
-    label: 'Subscribe to newsletter:',
+    label: 'Subscribe to newsletter',
     type: 'checkbox',
     defaultValue: true,
   },

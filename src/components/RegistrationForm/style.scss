@@ -65,6 +65,11 @@
     text-align: right;
   }
 
+  &__row-subtitle {
+    font-size: 0.7rem;
+    color: var(--color-text-xm);
+  }
+
   &__buttons {
     display: flex;
     justify-content: space-between;
