@@ -32,6 +32,7 @@ class Input extends React.Component<InputProps> {
       if (typeof defaultValue === 'string') props.defaultValue = defaultValue;
       else props.defaultChecked = defaultValue;
     }
+    if (type === 'file') props.accept = 'image/*';
     return <input {...props} />;
   }
 }

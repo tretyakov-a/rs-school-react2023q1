@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormFieldOption } from '../form-fields';
-import { ValidationResult } from '../validation';
+import { ValidationResult } from '../validation/types';
 import { renderInput } from '../Inputs';
 import { withFormFieldOptions } from './form-field-context';
 

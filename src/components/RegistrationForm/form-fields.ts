@@ -1,7 +1,7 @@
 import { countries } from './data/countries';
 import { genders } from './data/genders';
 import { programmingLanguages } from './data/programming-languages';
-import { ValidationOptions } from './validation';
+import { ValidationOptions } from './validation/types';
 import InputRef from './input-ref';
 
 export type InputType =
@@ -42,10 +42,7 @@ const formFieldsOptions: Record<string, FormField> = {
     validation: {
       required: true,
       capitalized: true,
-      match: {
-        regexp: /^[\w]+$/,
-        message: `should consist of english letters, numbers and '_'`,
-      },
+      match: /^[\w]+$/,
       minLength: 3,
       maxLength: 12,
     },
@@ -65,10 +62,7 @@ const formFieldsOptions: Record<string, FormField> = {
     type: 'email',
     validation: {
       required: true,
-      match: {
-        regexp: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-        message: `should be valid email address`,
-      },
+      match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
     },
     defaultValue: 'test@test.ru',
   },
