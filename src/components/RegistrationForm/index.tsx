@@ -79,15 +79,25 @@ export default class RegistrationForm extends React.Component<
       return;
     }
 
-    // show confirmation modal
-    // if OK, add new card with formData
-    const result = confirm('Are you really want to submit form? (form will be cleared after)');
+    const result = confirm('Are you really want to submit form? (form will be cleared)');
     if (result) {
       for (const entrie of formData.entries()) {
         console.log(entrie);
       }
       this.clearForm();
     }
+  };
+
+  fillFormWithTestValues = () => {
+    this.props.formFields.forEach((field) => {
+      const { inputRef } = field;
+      if (inputRef === undefined) return;
+      if (Array.isArray(inputRef)) {
+        inputRef.forEach((item) => item.setValue(field));
+      } else {
+        inputRef.setValue(field);
+      }
+    });
   };
 
   render() {
@@ -102,9 +112,18 @@ export default class RegistrationForm extends React.Component<
                 <FormField validationResult={errors[field.name]} />
               </FormFieldOptionsContext.Provider>
             ))}
-            <button className="registration-form__button" type="submit">
-              Submit
-            </button>
+            <div className="registration-form__buttons">
+              <button
+                className="registration-form__button"
+                type="button"
+                onClick={this.fillFormWithTestValues}
+              >
+                Fill with test values
+              </button>
+              <button className="registration-form__button" type="submit">
+                Submit
+              </button>
+            </div>
           </form>
         </div>
       </section>
