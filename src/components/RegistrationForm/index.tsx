@@ -1,9 +1,8 @@
 import React from 'react';
 import './style.scss';
-import { ValidationResult, defaultValidationResult, validate } from './validation';
-import FormField from './FormField';
-import { FormFieldOption, FieldName } from './form-fields';
-import { FormFieldOptionsContext } from './FormField/form-field-context';
+import { defaultValidationResult, validate } from './validation';
+import { ValidationResult } from './validation/types';
+import { FormField, FieldName, FormFieldOptions, FormFieldOptionsContext } from './form-field';
 
 type Errors = Record<FieldName, ValidationResult>;
 
@@ -12,16 +11,19 @@ interface RegistrationState {
 }
 
 interface RegistrationFormProps extends React.PropsWithChildren {
-  formFields: FormFieldOption[];
+  formFields: FormFieldOptions[];
+  onSubmit: (data: FormData) => void;
 }
 
 export default class RegistrationForm extends React.Component<
   RegistrationFormProps,
   RegistrationState
 > {
+  private formRef: React.RefObject<HTMLFormElement>;
   constructor(props: RegistrationFormProps) {
     super(props);
 
+    this.formRef = React.createRef<HTMLFormElement>();
     this.state = {
       errors: this.props.formFields
         .map(({ name }) => name)
@@ -56,11 +58,7 @@ export default class RegistrationForm extends React.Component<
       if (field.validation !== undefined) {
         const values = formData.getAll(field.name);
         const value = values.length > 1 ? values.join('') : values[0] || '';
-        if (value instanceof File && value.size !== 0) {
-          errors[field.name] = validate(field, String(value.size));
-        } else if (typeof value === 'string') {
-          errors[field.name] = validate(field, value);
-        }
+        errors[field.name] = validate(field, value);
       }
     });
     return errors;
@@ -78,14 +76,13 @@ export default class RegistrationForm extends React.Component<
     if (this.isErrors(errors)) {
       return;
     }
-
-    const result = confirm('Are you really want to submit form? (form will be cleared)');
-    if (result) {
-      for (const entrie of formData.entries()) {
-        console.log(entrie);
+    setTimeout(() => {
+      const result = confirm('Are you really want to submit form? (form will be cleared)');
+      if (result) {
+        this.props.onSubmit(formData);
+        this.clearForm();
       }
-      this.clearForm();
-    }
+    });
   };
 
   fillFormWithTestValues = () => {
@@ -98,35 +95,41 @@ export default class RegistrationForm extends React.Component<
         inputRef.setValue(field);
       }
     });
+
+    if (this.formRef.current === null) return;
+    const formData = new FormData(this.formRef.current);
+    const errors = this.validate(formData);
+    this.setState({ errors });
   };
 
   render() {
     const { errors } = this.state;
     return (
-      <section className="registration page">
-        <div className="container registration__container">
-          <form className="registration-form" onSubmit={this.handleSubmit} noValidate>
-            <h3 className="registration-form__title">Registration</h3>
-            {this.props.formFields.map((field) => (
-              <FormFieldOptionsContext.Provider value={{ options: field }} key={field.name}>
-                <FormField validationResult={errors[field.name]} />
-              </FormFieldOptionsContext.Provider>
-            ))}
-            <div className="registration-form__buttons">
-              <button
-                className="registration-form__button"
-                type="button"
-                onClick={this.fillFormWithTestValues}
-              >
-                Fill with test values
-              </button>
-              <button className="registration-form__button" type="submit">
-                Submit
-              </button>
-            </div>
-          </form>
+      <form
+        className="registration-form"
+        onSubmit={this.handleSubmit}
+        ref={this.formRef}
+        noValidate
+      >
+        <h3 className="registration-form__title">Registration</h3>
+        {this.props.formFields.map((field) => (
+          <FormFieldOptionsContext.Provider value={{ options: field }} key={field.name}>
+            <FormField validationResult={errors[field.name]} />
+          </FormFieldOptionsContext.Provider>
+        ))}
+        <div className="registration-form__buttons">
+          <button
+            className="registration-form__button"
+            type="button"
+            onClick={this.fillFormWithTestValues}
+          >
+            Fill with test values
+          </button>
+          <button className="registration-form__button" type="submit">
+            Submit
+          </button>
         </div>
-      </section>
+      </form>
     );
   }
 }

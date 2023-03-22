@@ -53,7 +53,7 @@ const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
     defaultValue: 'China',
   },
   programmingLanguage: {
-    label: 'Programming languages:',
+    label: 'Programming languages',
     type: 'checkbox',
     formFieldType: 'list',
     data: programmingLanguages,

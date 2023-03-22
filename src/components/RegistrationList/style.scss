@@ -1,0 +1,56 @@
+@import "@styles/mixins";
+@import "@styles/breakpoints";
+
+$gap: 2rem;
+
+.registration-list {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: $gap;
+  column-gap: $gap;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  
+  @include sm-breakpoint {
+    justify-content: center;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+    box-shadow: 0px 0px 4px -2px var(--color-text);
+    padding: 0.5rem;
+    border-radius: 5px;
+    @include flexBasisColumns(4, $gap);
+
+    @include md-breakpoint {
+      @include flexBasisColumns(3, $gap);
+    }
+
+    @include sm-breakpoint {
+      flex-basis: auto;
+      width: 250px;
+    }
+  }
+
+  &__item-row {
+    display: flex;
+    column-gap: 0.5rem;
+  }
+
+  &__item-row-label {
+    flex-basis: 40%;
+    flex-shrink: 0;
+    text-align: right;
+    color: var(--color-text-l);
+  }
+
+  &__item-row-value {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    column-gap: 0.5rem;
+    color: var(--color-text);
+  }
+}
