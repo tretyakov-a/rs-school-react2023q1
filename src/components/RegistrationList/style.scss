@@ -1,14 +1,14 @@
 @import "@styles/mixins";
 @import "@styles/breakpoints";
 
-$gap: 2rem;
+$gap: 1rem;
 
 .registration-list {
   display: flex;
   flex-wrap: wrap;
   row-gap: $gap;
   column-gap: $gap;
-  margin-top: 1rem;
+  margin-top: 2rem;
   font-size: 0.8rem;
   
   @include sm-breakpoint {
@@ -19,9 +19,6 @@ $gap: 2rem;
     display: flex;
     flex-direction: column;
     row-gap: 0.5rem;
-    box-shadow: 0px 0px 4px -2px var(--color-text);
-    padding: 0.5rem;
-    border-radius: 5px;
     @include flexBasisColumns(4, $gap);
 
     @include md-breakpoint {
@@ -32,6 +29,12 @@ $gap: 2rem;
       flex-basis: auto;
       width: 250px;
     }
+  }
+
+  &__card {
+    box-shadow: 0px 0px 4px -2px var(--color-text);
+    padding: 0.5rem;
+    border-radius: 5px;
   }
 
   &__item-row {
@@ -51,6 +54,7 @@ $gap: 2rem;
     display: flex;
     flex-direction: column;
     column-gap: 0.5rem;
+    word-break: break-word;
     color: var(--color-text);
   }
 }

@@ -18,17 +18,12 @@ export default class RegistrationList extends React.Component<RegistrationListPr
     );
   };
 
-  renderDate = (date: string) => {
-    const age = getAge(date);
-    return `${new Date(date).toLocaleDateString()} - ${age} years old`;
-  };
-
   renderFieldValue = (value: FormDataEntryValue | string, type: string) => {
     if (value instanceof File) {
       return this.renderFile(value);
     }
     if (type === 'date') {
-      return this.renderDate(value);
+      return new Date(value).toLocaleDateString();
     }
     return value;
   };
@@ -57,7 +52,7 @@ export default class RegistrationList extends React.Component<RegistrationListPr
       <ul className="registration-list">
         {this.props.data.map((formData, index) => (
           <li className="registration-list__item" key={index}>
-            {this.renderListItemContent(formData)}
+            <div className="registration-list__card">{this.renderListItemContent(formData)}</div>
           </li>
         ))}
       </ul>
