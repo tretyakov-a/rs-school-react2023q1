@@ -1,8 +1,7 @@
-import '@testing-library/jest-dom';
-import { Card } from '.';
 import { render, screen } from '@testing-library/react';
+import { Card } from '.';
 import data from '@assets/cards.json';
-import { imagesUrl } from '../../common/product';
+import { imagesUrl } from '@common/product';
 
 describe('<Card /> test', () => {
   test('Should render correctly with granted data', () => {

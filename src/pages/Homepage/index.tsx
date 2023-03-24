@@ -1,4 +1,4 @@
-import SearchBar from '@components/SeachBar';
+import SearchBar from '@components/SearchBar';
 import React from 'react';
 import CardsList from '@components/CardsList';
 import './style.scss';

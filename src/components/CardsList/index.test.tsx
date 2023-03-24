@@ -1,17 +1,15 @@
-import '@testing-library/jest-dom';
 import CardsList from '.';
-import { render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import cardsData from '@assets/cards.json';
 
 describe('<CardsList /> test', () => {
   test('Should render correctly', () => {
-    const { container } = render(<CardsList />);
-    const list = container.querySelector('ul.cards-list');
-    const listItems = container.querySelectorAll('li.cards-list__item');
-    const cards = container.querySelectorAll('.card');
+    render(<CardsList />);
 
-    expect(list).not.toBeNull();
-    expect(listItems.length).toEqual(cardsData.length);
-    expect(cards.length).toEqual(cardsData.length);
+    expect(screen.getByRole('list')).toBeInTheDocument();
+
+    const items = screen.getAllByRole('listitem');
+    expect(items.length).toEqual(cardsData.length);
+    expect(items.every((item) => item.firstElementChild?.classList.contains('card'))).toEqual(true);
   });
 });
