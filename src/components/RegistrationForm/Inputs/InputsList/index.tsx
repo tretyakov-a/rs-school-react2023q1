@@ -1,7 +1,8 @@
 import React from 'react';
 import { isRadioInputDataArray } from '@components/RegistrationForm/data';
 import { Input } from '..';
-import { FormFieldOptions, withFormFieldOptions } from '@components/RegistrationForm/form-field';
+import { FormFieldOptions } from '@components/RegistrationForm/form-field';
+import { withFormFieldOptions } from '@components/RegistrationForm/form-field/context';
 import InputRef from '@components/RegistrationForm/input-ref';
 
 interface InputsListProps {
