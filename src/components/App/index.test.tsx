@@ -10,6 +10,7 @@ describe('<App /> test', () => {
       </MemoryRouter>
     );
     expect(screen.getByRole('link', { name: /about/i })).toHaveClass('active');
+    expect(screen.getByRole('main')).toHaveClass('about');
   });
 
   test('Test for bad route', () => {
