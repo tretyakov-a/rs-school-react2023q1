@@ -1,7 +1,7 @@
 import { countries } from '../data/countries';
 import { genders } from '../data/genders';
 import { programmingLanguages } from '../data/programming-languages';
-import InputRef from '../input-ref';
+import { default as InputRef } from '../input-ref';
 import { FormFieldBaseOptions, FormFieldOptions } from './types';
 
 const createRefsArray = (length: number) => Array.from({ length }, () => new InputRef());
@@ -81,7 +81,7 @@ const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
 
 export type FieldName = keyof typeof formFieldsOptions;
 
-const getFormFields = () => {
+export const getFormFields = () => {
   return Object.keys(formFieldsOptions).reduce<FormFieldOptions[]>((acc, optionKey) => {
     const { formFieldType, data } = formFieldsOptions[optionKey];
     const inputRef =
@@ -93,4 +93,5 @@ const getFormFields = () => {
   }, [] as FormFieldOptions[]);
 };
 
-export const formFields = getFormFields();
+export const getDefaultValue = (field?: FormFieldOptions) =>
+  field && field.defaultValue !== undefined ? field.defaultValue : null;

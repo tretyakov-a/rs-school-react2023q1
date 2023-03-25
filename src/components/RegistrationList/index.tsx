@@ -1,10 +1,10 @@
 import React from 'react';
 import './style.scss';
-import { formFields } from '@components/RegistrationForm/form-field';
-import { getAge } from '@common/helpers';
+import { FormFieldOptions } from '@components/RegistrationForm/form-field';
 
 interface RegistrationListProps {
   data: FormData[];
+  formFields: FormFieldOptions[];
 }
 
 export default class RegistrationList extends React.Component<RegistrationListProps> {
@@ -30,7 +30,7 @@ export default class RegistrationList extends React.Component<RegistrationListPr
 
   renderListItemContent = (formData: FormData) => {
     const items: JSX.Element[] = [];
-    formFields.forEach(({ name, label, type }) => {
+    this.props.formFields.forEach(({ name, label, type }) => {
       const values = formData.getAll(name);
       if (values.length === 0) return;
       const value = values.length > 1 ? values.join(', ') : values[0];

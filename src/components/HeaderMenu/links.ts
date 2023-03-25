@@ -1,7 +1,7 @@
 export const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About Us' },
-  { to: '/registration', label: 'Registration' },
+  { to: '/forms', label: 'Forms' },
 ];
 
 export const getLink = () => {

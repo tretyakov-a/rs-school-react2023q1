@@ -13,7 +13,7 @@ export default class App extends React.Component {
         <Route path="/" element={<Layout />}>
           <Route index element={<Homepage />} />
           <Route path="about" element={<About />} />
-          <Route path="registration" element={<Registration />} />
+          <Route path="forms" element={<Registration />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

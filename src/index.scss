@@ -47,14 +47,3 @@ a {
 ul {
   list-style: none;
 }
-
-.container {
-  max-width: calc(var(--content-width) + 2 * var(--content-padding));
-  padding: 0 var(--content-padding);
-  margin: 0 auto;
-  height: 100%;
-}
-
-.page {
-  padding: 1rem 0;
-}

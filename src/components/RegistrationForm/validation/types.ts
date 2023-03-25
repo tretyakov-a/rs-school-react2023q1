@@ -9,7 +9,7 @@ export type ValidationOptions = {
   age?: number;
 };
 
-export type Validator<T> = (validationValue: T, inputValue: FormDataEntryValue) => boolean;
+export type Validator<T> = (validationValue: T, inputValue: FormDataEntryValue) => boolean | null;
 
 export type ValidationResult = {
   isValid: boolean;

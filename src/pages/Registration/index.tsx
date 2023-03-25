@@ -1,8 +1,9 @@
 import React from 'react';
 import './style.scss';
 import RegistrationForm from '@components/RegistrationForm';
-import { formFields } from '@components/RegistrationForm/form-field';
+import { getFormFields } from '@components/RegistrationForm/form-field';
 import RegistrationList from '@components/RegistrationList';
+import PageWrap from '@components/PageWrap';
 
 interface RegistrationState {
   data: FormData[];
@@ -23,13 +24,13 @@ export default class Registration extends React.Component<unknown, RegistrationS
   };
 
   render() {
+    const formFields = getFormFields();
+
     return (
-      <section className="registration page">
-        <div className="container registration__container">
-          <RegistrationForm formFields={formFields} onSubmit={this.handleRegistrationFormSubmit} />
-          <RegistrationList data={this.state.data} />
-        </div>
-      </section>
+      <PageWrap className="registration">
+        <RegistrationForm formFields={formFields} onSubmit={this.handleRegistrationFormSubmit} />
+        <RegistrationList formFields={formFields} data={this.state.data} />
+      </PageWrap>
     );
   }
 }

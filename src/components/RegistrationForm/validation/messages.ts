@@ -2,15 +2,18 @@ import { ValidationOptions } from './types';
 
 export type ExtraMessageKey = 'name' | 'email' | 'default';
 
-export const validationMessages: Record<
-  keyof ValidationOptions | ExtraMessageKey,
-  (value: unknown) => string
-> = {
+export type Message = (value: unknown) => string;
+export type ExtraMessage = Record<ExtraMessageKey, Message>;
+export type ValidationMessageKey = keyof ValidationOptions | Extract<ExtraMessageKey, 'default'>;
+
+export const validationMessages: Record<ValidationMessageKey, Message | ExtraMessage> = {
   required: () => 'field is required',
   capitalized: () => 'should be capitalized',
-  match: (value) => `should match '${value}' expression`,
-  name: () => `should consist of english letters, numbers and '_'`,
-  email: () => `should be valid email address`,
+  match: {
+    name: () => `should consist of english letters, numbers and '_'`,
+    email: () => `should be valid email address`,
+    default: (value) => `should match '${value}' expression`,
+  },
   minLength: (value) => `length should be more or equal then ${value}`,
   maxLength: (value) => `length should be less or equal then ${value}`,
   maxFileSize: (value) => `file size should be less or equal then ${Number(value) / 1000} KB`,
@@ -19,11 +22,12 @@ export const validationMessages: Record<
   default: () => 'invalid value',
 };
 
-export const getMessage = (key: keyof ValidationOptions, name: string) => {
-  const messageKey = key === 'match' ? (name as ExtraMessageKey) : key;
+export const getMessage = (key: ValidationMessageKey, name?: string) => {
   const messageFn =
-    validationMessages[messageKey] !== undefined
-      ? validationMessages[messageKey]
-      : validationMessages.default;
-  return messageFn;
+    key === 'match'
+      ? name === undefined
+        ? (validationMessages[key] as ExtraMessage)['default']
+        : (validationMessages[key] as ExtraMessage)[name as ExtraMessageKey]
+      : validationMessages[key];
+  return messageFn as Message;
 };

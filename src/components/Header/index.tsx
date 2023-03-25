@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import { HeaderMenu } from '@components/HeaderMenu';
+import HeaderMenu from '@components/HeaderMenu';
 import { getLink } from '@components/HeaderMenu/links';
 
 interface HeaderState {
