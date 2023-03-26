@@ -3,6 +3,8 @@ import './style.scss';
 import { defaultValidationResult, validate } from './validation';
 import { ValidationResult } from './validation/types';
 import { FormField, FieldName, FormFieldOptions, FormFieldOptionsContext } from './form-field';
+import Modal from '@components/Modal';
+import { withModal } from '@components/Modal/context';
 
 type Errors = Record<FieldName, ValidationResult>;
 
@@ -13,12 +15,10 @@ interface RegistrationState {
 interface RegistrationFormProps extends React.PropsWithChildren {
   formFields: FormFieldOptions[];
   onSubmit: (data: FormData) => void;
+  modalRef: React.RefObject<Modal>;
 }
 
-export default class RegistrationForm extends React.Component<
-  RegistrationFormProps,
-  RegistrationState
-> {
+class RegistrationForm extends React.Component<RegistrationFormProps, RegistrationState> {
   private formRef: React.RefObject<HTMLFormElement>;
   constructor(props: RegistrationFormProps) {
     super(props);
@@ -76,12 +76,12 @@ export default class RegistrationForm extends React.Component<
     if (this.isErrors(errors)) {
       return;
     }
+
+    this.props.onSubmit(formData);
     setTimeout(() => {
-      const result = confirm('Are you really want to submit form? (form will be cleared)');
-      if (result) {
-        this.props.onSubmit(formData);
+      this.props.modalRef.current?.open(() => {
         this.clearForm();
-      }
+      }, 'Form data has been saved. Do you want to clear form?');
     });
   };
 
@@ -119,13 +119,13 @@ export default class RegistrationForm extends React.Component<
         ))}
         <div className="registration-form__buttons">
           <button
-            className="registration-form__button"
+            className="registration-form__button button"
             type="button"
             onClick={this.fillFormWithTestValues}
           >
             Fill with test values
           </button>
-          <button className="registration-form__button" type="submit">
+          <button className="registration-form__button button" type="submit">
             Submit
           </button>
         </div>
@@ -133,3 +133,5 @@ export default class RegistrationForm extends React.Component<
     );
   }
 }
+
+export default withModal(RegistrationForm);

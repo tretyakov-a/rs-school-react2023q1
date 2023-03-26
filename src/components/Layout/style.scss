@@ -1,0 +1,9 @@
+.scroll-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+
+  &.no-scroll {
+    overflow: hidden;
+  }
+}

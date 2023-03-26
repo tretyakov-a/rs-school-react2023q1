@@ -1,6 +1,5 @@
 .custom-file-input {
   width: calc(70% - 1rem);
-  height: 30px;
   cursor: pointer;
   
   &:focus {
@@ -12,7 +11,7 @@
     align-items: center;
     width: 100%;
     padding: 0.5rem;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 3px;
     box-shadow: 0px 0px 4px -2px var(--color-text);
     color: var(--color-text-l);
@@ -32,5 +31,11 @@
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
+  }
+}
+
+.registration-form__row.invalid {
+  .custom-file-input label {
+    border-color: var(--color-error);
   }
 }
