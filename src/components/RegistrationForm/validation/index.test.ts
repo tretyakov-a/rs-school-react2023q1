@@ -3,7 +3,7 @@ import { FormFieldOptions } from '../form-field';
 import { textFileMock, imageFileMock } from '../../../__mocks__/file-instance-mock';
 
 describe('Validation tests', () => {
-  test('validate()', () => {
+  test('validate() on text field works properly', () => {
     const nameFormField: FormFieldOptions = {
       name: 'name',
       type: 'text',
@@ -38,7 +38,9 @@ describe('Validation tests', () => {
       isValid: false,
       errors: ['should be capitalized', 'length should be less or equal then 12'],
     });
+  });
 
+  test('validate() on email field works properly', () => {
     const emailFormField: FormFieldOptions = {
       name: 'email',
       type: 'email',
@@ -58,7 +60,9 @@ describe('Validation tests', () => {
       isValid: false,
       errors: ['should be valid email address'],
     });
+  });
 
+  test('validate() on file field works properly', () => {
     const fileFormField: FormFieldOptions = {
       name: 'file',
       type: 'file',
@@ -79,7 +83,9 @@ describe('Validation tests', () => {
       isValid: false,
       errors: ['should be image file'],
     });
+  });
 
+  test('validate() on date field works properly', () => {
     const birthdayField: FormFieldOptions = {
       name: 'birthday',
       type: 'date',

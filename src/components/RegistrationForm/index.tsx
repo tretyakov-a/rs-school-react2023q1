@@ -18,7 +18,7 @@ interface RegistrationFormProps extends React.PropsWithChildren {
   modalRef: React.RefObject<Modal>;
 }
 
-class RegistrationForm extends React.Component<RegistrationFormProps, RegistrationState> {
+export class RegistrationForm extends React.Component<RegistrationFormProps, RegistrationState> {
   private formRef: React.RefObject<HTMLFormElement>;
   constructor(props: RegistrationFormProps) {
     super(props);
@@ -67,9 +67,8 @@ class RegistrationForm extends React.Component<RegistrationFormProps, Registrati
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target;
-    if (!(form instanceof HTMLFormElement)) return;
 
-    const formData = new FormData(form);
+    const formData = new FormData(form as HTMLFormElement);
     const errors = this.validate(formData);
     this.setState({ errors });
 
@@ -96,8 +95,7 @@ class RegistrationForm extends React.Component<RegistrationFormProps, Registrati
       }
     });
 
-    if (this.formRef.current === null) return;
-    const formData = new FormData(this.formRef.current);
+    const formData = new FormData(this.formRef.current as HTMLFormElement);
     const errors = this.validate(formData);
     this.setState({ errors });
   };

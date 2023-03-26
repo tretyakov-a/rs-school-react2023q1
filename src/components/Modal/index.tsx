@@ -48,13 +48,14 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <div
+        role="modal"
         className={classes}
         onClick={this.close}
         style={{
           animationDuration: `${Modal.animationDuration}ms`,
         }}
       >
-        <div className="modal__window" onClick={(e) => e.stopPropagation()}>
+        <div role="modal-window" className="modal__window" onClick={(e) => e.stopPropagation()}>
           <div className="modal__content">{this.state.question}</div>
           <div className="modal__buttons">
             <button className="button" onClick={this.close}>
