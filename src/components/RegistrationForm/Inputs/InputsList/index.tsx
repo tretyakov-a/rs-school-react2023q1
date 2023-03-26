@@ -12,16 +12,13 @@ interface InputsListProps {
 class InputsList extends React.Component<InputsListProps> {
   renderItems = () => {
     const { options } = this.props;
-    const { data, type } = options;
+    const { data } = options;
     const inputRefs = options.inputRef as InputRef[];
 
     if (isRadioInputDataArray(data)) {
       return data.map(({ label, name }, index) => (
         <li key={name}>
-          <Input inputRef={inputRefs[index].ref} value={name} />
-          <label htmlFor={`${name}-${type}-input`}>
-            <span>{label}</span>
-          </label>
+          <Input inputRef={inputRefs[index].ref} value={name} label={label} />
         </li>
       ));
     }

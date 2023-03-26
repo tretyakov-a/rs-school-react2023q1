@@ -24,6 +24,9 @@ export default class InputRef {
       el.defaultChecked = defaultValue !== null ? Boolean(defaultValue) : false;
     } else {
       el.value = defaultValue !== null ? String(defaultValue) : '';
+      if (el.type === 'file') {
+        el.dispatchEvent(new InputEvent('input', { bubbles: true }));
+      }
     }
   };
 

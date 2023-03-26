@@ -33,13 +33,18 @@ $gap: 1rem;
 
   &__card {
     box-shadow: 0px 0px 4px -2px var(--color-text);
-    padding: 0.5rem;
+    overflow: hidden;
     border-radius: 5px;
   }
 
   &__item-row {
     display: flex;
     column-gap: 0.5rem;
+    padding: 0.2rem 0.5rem;
+
+    &:nth-child(2n + 1) {
+      background-color: var(--color-bg);
+    }
   }
 
   &__item-row-label {

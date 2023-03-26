@@ -1,14 +1,16 @@
 import { FormFieldOptions } from '@components/RegistrationForm/form-field';
 import { withFormFieldOptions } from '@components/RegistrationForm/form-field/context';
 import React from 'react';
+import './style.scss';
 
 export interface InputProps {
   options: FormFieldOptions;
   inputRef: React.RefObject<HTMLElement> | null;
   value?: string;
+  label?: string;
 }
 
-interface InputAttributes extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputAttributes extends React.InputHTMLAttributes<HTMLInputElement> {
   ref: React.RefObject<HTMLInputElement>;
 }
 
@@ -18,10 +20,11 @@ class Input extends React.Component<InputProps> {
       options: { name, type, defaultValue },
       inputRef,
       value,
+      label,
     } = this.props;
 
     const id = `${value || name}-${type}-input`;
-    let props: InputAttributes = {
+    const props: InputAttributes = {
       ref: inputRef as React.RefObject<HTMLInputElement>,
       type,
       name,
@@ -33,7 +36,15 @@ class Input extends React.Component<InputProps> {
       else props.defaultChecked = defaultValue;
     }
     if (type === 'file') props.accept = 'image/*';
-    return <input {...props} />;
+    return (
+      <div className="custom-input">
+        <input {...props} />
+        <label htmlFor={`${value}-${type}-input`}>
+          <span className="custom-input__check"></span>
+          {label && <span>{label}</span>}
+        </label>
+      </div>
+    );
   }
 }
 

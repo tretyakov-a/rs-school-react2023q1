@@ -3,7 +3,7 @@ import { links } from './links';
 import { screen, render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
-const onChangeMock = jest.fn((page: string) => {});
+const onChangeMock = jest.fn(() => {});
 
 describe('<HeaderMenu /> test', () => {
   test('Should render correctly', () => {

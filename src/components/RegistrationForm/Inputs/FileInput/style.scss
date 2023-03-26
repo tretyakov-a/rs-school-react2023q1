@@ -1,0 +1,36 @@
+.custom-file-input {
+  width: calc(70% - 1rem);
+  height: 30px;
+  cursor: pointer;
+  
+  &:focus {
+    outline: 1px solid var(--color-primary);
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0px 0px 4px -2px var(--color-text);
+    color: var(--color-text-l);
+    cursor: pointer;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+  
+  &__icon {
+    margin-right: 0.5rem;
+    width: 16px;
+  }
+
+  &__filename {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

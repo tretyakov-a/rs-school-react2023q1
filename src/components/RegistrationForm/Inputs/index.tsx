@@ -1,7 +1,9 @@
 import { FormFieldOptions } from '../form-field';
+import FileInput from './FileInput';
 import Input from './Input';
 import InputsList from './InputsList';
 import Select from './Select';
+import Switch from './Switch';
 
 const renderInput = (options: FormFieldOptions) => {
   const { type, inputRef, formFieldType } = options;
@@ -11,8 +13,9 @@ const renderInput = (options: FormFieldOptions) => {
     case 'password':
     case 'date':
     case 'email':
-    case 'file':
       return <Input inputRef={ref} />;
+    case 'file':
+      return <FileInput inputRef={ref} />;
     case 'select':
       return <Select inputRef={ref} />;
     case 'radio':
@@ -20,7 +23,7 @@ const renderInput = (options: FormFieldOptions) => {
       return formFieldType !== undefined && formFieldType === 'list' ? (
         <InputsList />
       ) : (
-        <Input inputRef={ref} />
+        <Switch inputRef={ref} />
       );
   }
 };
