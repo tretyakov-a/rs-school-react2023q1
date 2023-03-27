@@ -1,66 +1,55 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import useLocalStorage from '@src/hooks/useLocalStorage';
+import useStateWithRef from '@src/hooks/useStateWithRef';
 
-interface SearchBarState {
-  inputValue: string;
-}
+const SearchBar = () => {
+  const [storageSet, storageGet] = useLocalStorage(SearchBar.localStorageKey);
+  const [searchValue, setSearchValue, searchValueRef] = useStateWithRef<string>(storageGet() || '');
 
-export default class SearchBar extends React.Component<unknown, SearchBarState> {
-  static localStorageKey = 'searchInputValue';
-
-  constructor(props: React.PropsWithChildren) {
-    super(props);
-    this.state = {
-      inputValue: localStorage.getItem(SearchBar.localStorageKey) || '',
+  useEffect(() => {
+    return () => {
+      storageSet(searchValueRef.current || '');
     };
-  }
+  }, []);
 
-  componentDidMount(): void {
-    const inputValue = localStorage.getItem(SearchBar.localStorageKey);
-    if (inputValue !== null) {
-      this.setState({ inputValue });
-    }
-  }
-
-  componentWillUnmount(): void {
-    localStorage.setItem(SearchBar.localStorageKey, this.state.inputValue);
-  }
-
-  handleInputChange = (e: React.SyntheticEvent) => {
+  const handleInputChange = (e: React.ChangeEvent) => {
     const el = e.target;
 
     if (el instanceof HTMLInputElement) {
-      this.setState({ inputValue: el.value });
+      setSearchValue(el.value);
     }
   };
 
-  handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    this.setState({ inputValue: '' });
+    setSearchValue('');
   };
 
-  render() {
-    return (
-      <div className="search-bar">
-        <form className="search-bar__form" onSubmit={this.handleSubmit}>
-          <div className="search-bar__input-container">
-            <input
-              placeholder="Search..."
-              className="search-bar__input"
-              type="text"
-              name="search"
-              id="search"
-              value={this.state.inputValue}
-              onChange={this.handleInputChange}
-            />
-          </div>
-          <button className="search-bar__submit" type="submit">
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="search-bar">
+      <form className="search-bar__form" onSubmit={handleSubmit}>
+        <div className="search-bar__input-container">
+          <input
+            placeholder="Search..."
+            className="search-bar__input"
+            type="text"
+            name="search"
+            id="search"
+            value={searchValue}
+            onChange={handleInputChange}
+          />
+        </div>
+        <button className="search-bar__submit" type="submit">
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </button>
+      </form>
+    </div>
+  );
+};
+
+SearchBar.localStorageKey = 'searchInputValue';
+
+export default SearchBar;
