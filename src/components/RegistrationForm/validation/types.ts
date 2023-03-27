@@ -1,3 +1,5 @@
+import { FieldName } from '../form-field';
+
 export type ValidationOptions = {
   required?: boolean;
   capitalized?: boolean;
@@ -15,3 +17,5 @@ export type ValidationResult = {
   isValid: boolean;
   errors: string[];
 };
+
+export type Errors = Record<FieldName, ValidationResult>;

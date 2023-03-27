@@ -1,6 +1,6 @@
 import { getAge } from '@common/helpers';
 import { FormFieldOptions } from '../form-field';
-import { ValidationOptions, ValidationResult, Validator } from './types';
+import { ValidationOptions, ValidationResult, Validator, Errors } from './types';
 import { getMessage } from './messages';
 
 const withStringCheck =
@@ -68,6 +68,11 @@ export const defaultValidationResult: ValidationResult = {
   errors: [],
 };
 
+export const isErrors = (errors: Errors) => {
+  const keys = Object.keys(errors) as (keyof Errors)[];
+  return keys.some((key) => !errors[key].isValid);
+};
+
 export const validate = (field: FormFieldOptions, value: FormDataEntryValue): ValidationResult => {
   const { validation, name } = field;
   const result: ValidationResult = { ...defaultValidationResult };
@@ -100,4 +105,4 @@ export const validate = (field: FormFieldOptions, value: FormDataEntryValue): Va
   return result;
 };
 
-export type { ValidationOptions, ValidationResult, Validator };
+export type { ValidationOptions, ValidationResult, Validator, Errors };

@@ -10,10 +10,11 @@ const SearchBar = () => {
   const [searchValue, setSearchValue, searchValueRef] = useStateWithRef<string>(storageGet() || '');
 
   useEffect(() => {
+    const valueRef = searchValueRef.current; // this fixes eslint warning
     return () => {
-      storageSet(searchValueRef.current || '');
+      storageSet(valueRef || '');
     };
-  }, []);
+  }, [searchValueRef, storageSet]);
 
   const handleInputChange = (e: React.ChangeEvent) => {
     const el = e.target;

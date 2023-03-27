@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './style.scss';
 import RegistrationForm from '@components/RegistrationForm';
 import { getFormFields } from '@components/RegistrationForm/form-field';
@@ -12,7 +12,7 @@ const Registration = () => {
     setListData((prevState) => [...prevState, formData]);
   };
 
-  const formFields = getFormFields();
+  const formFields = useMemo(() => getFormFields(), []);
 
   return (
     <PageWrap className="registration">

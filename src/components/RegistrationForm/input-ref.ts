@@ -38,7 +38,6 @@ export default class InputRef {
   public setValue = (field?: FormFieldOptions) => {
     const { el } = this;
     if (el === null) return;
-
     if (el instanceof HTMLInputElement) {
       this.setInputValue(el, field);
     } else if (el instanceof HTMLSelectElement) {

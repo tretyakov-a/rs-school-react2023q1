@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { isRadioInputDataArray } from '@components/RegistrationForm/data';
 import { Input } from '..';
-import { FormFieldOptions } from '@components/RegistrationForm/form-field';
-import { withFormFieldOptions } from '@components/RegistrationForm/form-field/context';
+import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
 import InputRef from '@components/RegistrationForm/input-ref';
 
-interface InputsListProps {
-  options: FormFieldOptions;
-}
+const InputsList = () => {
+  const { options } = useContext(FormFieldOptionsContext);
 
-class InputsList extends React.Component<InputsListProps> {
-  renderItems = () => {
-    const { options } = this.props;
+  const renderItems = () => {
     const { data } = options;
     const inputRefs = options.inputRef as InputRef[];
 
@@ -24,9 +20,7 @@ class InputsList extends React.Component<InputsListProps> {
     }
   };
 
-  render() {
-    return <ul className="registration-form__inputs-list">{this.renderItems()}</ul>;
-  }
-}
+  return <ul className="registration-form__inputs-list">{renderItems()}</ul>;
+};
 
-export default withFormFieldOptions(InputsList);
+export default InputsList;

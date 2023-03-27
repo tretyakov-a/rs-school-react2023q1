@@ -57,6 +57,16 @@
   }
 
   &__content {
+    display: flex;
+  }
+
+  &__icon {
+    margin-right: 1rem;
+    font-size: 2rem;
+    color: var(--color-primary);
+  }
+
+  &__message {
     color: var(--color-text);
   }
 
