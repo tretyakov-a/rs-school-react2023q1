@@ -1,13 +1,10 @@
-import { getLink, links } from './links';
+import { getLabel } from './links';
 
 describe('Links tests', () => {
-  test('getLink()', () => {
-    links.forEach((link) => {
-      window.history.replaceState({}, '', decodeURIComponent(link.to));
-      expect(getLink().label).toBe(link.label);
-    });
-
-    window.history.replaceState({}, '', decodeURIComponent('/bad-route'));
-    expect(getLink().label).toBe('404');
+  test('getLabel()', () => {
+    expect(getLabel('/')).toBe('Home');
+    expect(getLabel('/about')).toBe('About Us');
+    expect(getLabel('/forms')).toBe('Forms');
+    expect(getLabel('/bad-route')).toBe('404');
   });
 });

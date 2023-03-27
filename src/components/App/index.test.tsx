@@ -19,6 +19,6 @@ describe('<App /> test', () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByRole('heading', { name: /404/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /404/i, level: 1 })).toBeInTheDocument();
   });
 });

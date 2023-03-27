@@ -1,39 +1,31 @@
 import Header from '@components/Header';
 import Footer from '@components/Footer';
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Modal from '@components/Modal';
 import { ModalContext } from '@components/Modal/context';
 import './style.scss';
 
-interface LayoutState {
-  isScroll: boolean;
-}
+const Layout = () => {
+  const [isScroll, setIsScroll] = useState<boolean>(true);
 
-export default class Layout extends React.Component<unknown, LayoutState> {
-  constructor(props: React.PropsWithChildren) {
-    super(props);
-    this.state = {
-      isScroll: true,
-    };
-  }
-
-  handleScrollStateChange = (isScroll: boolean) => {
-    this.setState({ isScroll });
+  const handleScrollStateChange = (isScroll: boolean) => {
+    setIsScroll(isScroll);
   };
 
-  render() {
-    const modalRef = React.createRef<Modal>();
-    const classes = ['scroll-container', this.state.isScroll ? '' : 'no-scroll'].join(' ');
-    return (
-      <div className={classes}>
-        <Modal ref={modalRef} onScrollStateChange={this.handleScrollStateChange} />
-        <ModalContext.Provider value={{ modalRef }}>
-          <Header />
-          <Outlet />
-          <Footer />
-        </ModalContext.Provider>
-      </div>
-    );
-  }
-}
+  const modalRef = React.createRef<Modal>();
+  const classes = ['scroll-container', isScroll ? '' : 'no-scroll'].join(' ');
+
+  return (
+    <div className={classes}>
+      <Modal ref={modalRef} onScrollStateChange={handleScrollStateChange} />
+      <ModalContext.Provider value={{ modalRef }}>
+        <Header />
+        <Outlet />
+        <Footer />
+      </ModalContext.Provider>
+    </div>
+  );
+};
+
+export default Layout;

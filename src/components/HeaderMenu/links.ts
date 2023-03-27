@@ -4,6 +4,6 @@ export const links = [
   { to: '/forms', label: 'Forms' },
 ];
 
-export const getLink = () => {
-  return links.find(({ to }) => to === window.location.pathname) || { label: '404' };
+export const getLabel = (pathname: string) => {
+  return links.find(({ to }) => to === pathname)?.label || '404';
 };
