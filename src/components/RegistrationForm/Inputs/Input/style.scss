@@ -55,7 +55,7 @@
       }
     }
   }
-  
+
   input[type="checkbox"],
   input[type="radio"] {
     display: none;
@@ -66,7 +66,6 @@
 
     &:checked {
       + label .custom-input__check {
-
         border-color: var(--color-primary);
         &::before {
           opacity: 1;

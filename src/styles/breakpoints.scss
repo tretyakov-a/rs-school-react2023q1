@@ -5,24 +5,24 @@ $lgBreakpoint: 1200px;
 
 @mixin xs-breakpoint {
   @media only screen and (max-width: $xsBreakpoint) {
-    @content
+    @content;
   }
-};
-  
+}
+
 @mixin sm-breakpoint {
-  @media only screen and (max-width: $smBreakpoint){
-    @content
+  @media only screen and (max-width: $smBreakpoint) {
+    @content;
   }
-};
-  
+}
+
 @mixin md-breakpoint {
-  @media only screen and (max-width: $mdBreakpoint){
-    @content
+  @media only screen and (max-width: $mdBreakpoint) {
+    @content;
   }
-};
-  
+}
+
 @mixin lg-breakpoint {
-  @media only screen and (max-width: $lgBreakpoint){
-    @content
+  @media only screen and (max-width: $lgBreakpoint) {
+    @content;
   }
-};
+}

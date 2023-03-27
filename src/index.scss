@@ -2,7 +2,10 @@
 @import "@styles/variables";
 @import "@styles/button";
 
-html, body, #root, .scroll-container {
+html,
+body,
+#root,
+.scroll-container {
   height: 100%;
   min-height: 100%;
 }
@@ -14,7 +17,10 @@ body {
   overflow: hidden;
 }
 
-*, h1, h2, h3 {
+*,
+h1,
+h2,
+h3 {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

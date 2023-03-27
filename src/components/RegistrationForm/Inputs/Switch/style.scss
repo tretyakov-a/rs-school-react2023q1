@@ -17,7 +17,6 @@
     transition: 0.25s;
 
     &::before {
-      
       content: "";
       position: relative;
       left: $border-width;
@@ -51,7 +50,6 @@
 
     &:checked {
       + label .switch__check {
-  
         border-color: var(--color-primary);
         &::before {
           left: $width - $thumb-size - $border-width * 2;

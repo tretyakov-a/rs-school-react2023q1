@@ -1,7 +1,7 @@
 .custom-file-input {
   width: calc(70% - 1rem);
   cursor: pointer;
-  
+
   &:focus {
     outline: 1px solid var(--color-primary);
   }
@@ -21,7 +21,7 @@
   input[type="file"] {
     display: none;
   }
-  
+
   &__icon {
     margin-right: 0.5rem;
     width: 16px;
