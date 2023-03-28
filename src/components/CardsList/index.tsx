@@ -1,5 +1,5 @@
 import cardsData from '@assets/cards.json';
-import { Card } from '@components/Card';
+import Card from '@components/Card';
 import './style.scss';
 
 const CardsList = () => {

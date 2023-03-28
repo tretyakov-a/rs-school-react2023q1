@@ -1,25 +1,13 @@
-import React from 'react';
 import './style.scss';
-import {
-  Product,
-  propPickers,
-  imagesUrl,
-  ProductKeyType,
-  ProductProps,
-} from '../../common/product';
+import { Product, imagesUrl } from '@common/product';
 import { Rating } from './Rating';
 
-export interface CardPropsType {
+interface CardPropsType {
   data: Product;
 }
 
-export const Card = (props: CardPropsType) => {
-  const keys = Object.keys(propPickers) as ProductKeyType[];
-  const productProps: ProductProps = keys.reduce((acc, key) => {
-    return { ...acc, [key]: propPickers[key](props.data) };
-  }, {} as ProductProps);
-
-  const { brand, brandImage, imgs, price, rating, title } = productProps;
+const Card = (props: CardPropsType) => {
+  const { brand, brandImage, imgs, price, rating, title } = props.data;
 
   return (
     <div className="card">
@@ -41,3 +29,5 @@ export const Card = (props: CardPropsType) => {
     </div>
   );
 };
+
+export default Card;
