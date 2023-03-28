@@ -1,0 +1,17 @@
+.homepage {
+  padding: 1rem 0;
+
+  &__search-bar-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .homepage {
+    &__search-bar-container {
+      justify-content: center;
+    }
+  }
+}

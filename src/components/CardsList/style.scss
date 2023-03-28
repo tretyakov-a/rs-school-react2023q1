@@ -1,0 +1,31 @@
+$gap: 2rem;
+
+.cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: $gap;
+  row-gap: $gap;
+
+  &__item {
+    flex-basis: calc((100% - $gap * 3) / 4);
+  }
+}
+
+@media (max-width: 1024px) {
+  .cards-list {
+    &__item {
+      flex-basis: calc((100% - $gap * 2) / 3);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-list {
+    justify-content: center;
+
+    &__item {
+      flex-basis: auto;
+      width: 250px;
+    }
+  }
+}
