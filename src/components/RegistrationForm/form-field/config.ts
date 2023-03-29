@@ -6,7 +6,7 @@ import { FormFieldBaseOptions, FormFieldOptions } from './types';
 
 const createRefsArray = (length: number) => Array.from({ length }, () => new InputRef());
 
-const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
+export const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
   name: {
     label: 'Name',
     type: 'text',
@@ -81,8 +81,8 @@ const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
 
 export type FieldName = keyof typeof formFieldsOptions;
 
-export const getFormFields = () => {
-  return Object.keys(formFieldsOptions).reduce<FormFieldOptions[]>((acc, optionKey) => {
+export const formFields = Object.keys(formFieldsOptions).reduce<FormFieldOptions[]>(
+  (acc, optionKey) => {
     const { formFieldType, data } = formFieldsOptions[optionKey];
     const inputRef =
       formFieldType && data && formFieldType === 'list'
@@ -90,8 +90,9 @@ export const getFormFields = () => {
         : new InputRef();
     acc.push({ ...formFieldsOptions[optionKey], inputRef, name: optionKey });
     return acc;
-  }, [] as FormFieldOptions[]);
-};
+  },
+  [] as FormFieldOptions[]
+);
 
 export const getDefaultValue = (field?: FormFieldOptions) =>
   field && field.defaultValue !== undefined ? field.defaultValue : null;

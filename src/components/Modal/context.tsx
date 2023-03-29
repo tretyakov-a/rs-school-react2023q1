@@ -7,20 +7,16 @@ export interface ModalState {
 }
 
 export interface ModalContextProps {
-  modal: ModalState;
-  setModal: React.Dispatch<React.SetStateAction<ModalState>>;
+  modal?: ModalState;
+  setModal?: React.Dispatch<React.SetStateAction<ModalState>>;
 }
 
 const defaultModalState = {
   isOpen: false,
   question: 'Are you sure?',
-  okCallback: () => {},
 };
 
-export const ModalContext = React.createContext<ModalContextProps>({
-  modal: { ...defaultModalState },
-  setModal: () => {},
-});
+export const ModalContext = React.createContext<ModalContextProps>({});
 
 export const useModal = () => {
   const [modal, setModal] = useState<ModalState>({ ...defaultModalState });

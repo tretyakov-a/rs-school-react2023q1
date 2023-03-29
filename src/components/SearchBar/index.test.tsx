@@ -1,53 +1,66 @@
+import '@src/__mocks__/font-awesome-icon-mock';
 import SearchBar from '.';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, cleanup } from '@testing-library/react';
+import React from 'react';
 
+const setStorageValueMock = jest.fn();
+const setSearchValueMock = jest.fn();
+const testStoredValue = 'test-stored-value';
+
+jest.mock('@src/hooks/use-local-storage', () => () => [setStorageValueMock, () => testStoredValue]);
+
+jest.mock('@src/hooks/use-state-with-ref', () => (value: string) => [
+  value,
+  setSearchValueMock,
+  React.createRef(),
+]);
+
+const getElements = () => {
+  const textbox = screen.getByRole('textbox');
+  const button = screen.getByRole('button');
+  const searchInputEl = screen.getByRole('textbox') as HTMLInputElement;
+  return { textbox, button, searchInputEl };
+};
 describe('<SearchBar /> test', () => {
-  test('Should render correctly', () => {
+  beforeEach(() => {
+    setStorageValueMock.mockClear();
+    setSearchValueMock.mockClear();
     render(<SearchBar />);
+  });
 
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
-    expect(screen.getByRole('button')).toBeInTheDocument();
+  test('Should render correctly', () => {
+    const { textbox, button } = getElements();
+    expect(textbox).toBeInTheDocument();
+    expect(button).toBeInTheDocument();
   });
 
   test('Should load input value from localStorage on mount', () => {
-    const testValue = 'loadtest';
-    localStorage.setItem(SearchBar.localStorageKey, testValue);
-
-    render(<SearchBar />);
-
-    const searchInputEl = screen.getByRole('textbox') as HTMLInputElement;
-    expect(searchInputEl.value).toBe(testValue);
+    const { searchInputEl } = getElements();
+    expect(searchInputEl.value).toBe(testStoredValue);
   });
 
   test('Should save input value to localStorage on unmount', () => {
-    const testValue = 'savetest';
-
+    cleanup();
+    setStorageValueMock.mockClear();
     const { unmount } = render(<SearchBar />);
 
-    fireEvent.change(screen.getByRole('textbox'), {
-      target: { value: testValue },
+    const { textbox } = getElements();
+    fireEvent.change(textbox, {
+      target: { value: 'savetest' },
     });
-
+    expect(setSearchValueMock).toBeCalledTimes(1);
     unmount();
-
-    const storedValue = localStorage.getItem(SearchBar.localStorageKey);
-    expect(storedValue).toBe(testValue);
+    expect(setStorageValueMock).toBeCalledTimes(1);
   });
 
   test('handleSubmit should fired on button click', () => {
-    const testValue = 'submittest';
-
-    render(<SearchBar />);
-
-    const searchInputEl = screen.getByRole('textbox') as HTMLInputElement;
-    const submitButton = screen.getByRole('button') as HTMLButtonElement;
+    const { searchInputEl, button } = getElements();
 
     fireEvent.change(searchInputEl, {
-      target: { value: testValue },
+      target: { value: 'submittest' },
     });
-    expect(searchInputEl.value).toBe(testValue);
-
-    fireEvent.click(submitButton);
-    expect(searchInputEl.value).toBe('');
+    expect(setSearchValueMock).toBeCalledTimes(1);
+    fireEvent.click(button);
+    expect(setSearchValueMock).toBeCalledTimes(2);
   });
 });

@@ -9,21 +9,20 @@ const Modal = () => {
   const [display, setDisplay] = useState<string>(modal!.isOpen ? 'open' : '');
 
   useEffect(() => {
-    setDisplay(modal.isOpen ? 'open' : '');
-  }, [modal.isOpen]);
+    setDisplay(modal?.isOpen ? 'open' : '');
+  }, [modal?.isOpen]);
 
   const close = () => {
     setDisplay('close');
 
     setTimeout(() => {
-      setModal({ isOpen: false });
+      setModal?.({ isOpen: false });
     }, Modal.animationDuration);
   };
 
   const handleOKClick = () => {
-    const { okCallback } = modal;
-    if (okCallback !== undefined) {
-      okCallback();
+    if (modal?.okCallback !== undefined) {
+      modal.okCallback();
     }
     close();
   };
@@ -44,7 +43,7 @@ const Modal = () => {
           <div className="modal__icon">
             <FontAwesomeIcon icon={faQuestion} />
           </div>
-          <div className="modal__message">{modal.question}</div>
+          <div className="modal__message">{modal?.question}</div>
         </div>
         <div className="modal__buttons">
           <button className="button" onClick={close}>

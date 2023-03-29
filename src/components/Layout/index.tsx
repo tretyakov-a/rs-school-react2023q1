@@ -10,7 +10,7 @@ const Layout = () => {
   const classes = ['scroll-container', modal.isOpen ? 'no-scroll' : ''].join(' ');
 
   return (
-    <div className={classes}>
+    <div className={classes} role="scroll-container">
       <ModalContext.Provider value={{ modal, setModal }}>
         <Modal />
         <Header />

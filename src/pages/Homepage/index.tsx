@@ -1,7 +1,7 @@
 import SearchBar from '@components/SearchBar';
 import CardsList from '@components/CardsList';
-import './style.scss';
 import PageWrap from '@components/PageWrap';
+import './style.scss';
 
 const Homepage = () => {
   return (

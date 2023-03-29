@@ -19,13 +19,14 @@ export default class InputRef {
   setInputValue = (el: HTMLInputElement, field?: FormFieldOptions) => {
     const defaultValue = getDefaultValue(field);
     if (el.type === 'radio' || el.type === 'checkbox') {
-      if (field && field.formFieldType === 'list') el.value = field ? field.name : '';
+      if (field && field.formFieldType === 'list') el.value = field && field.name;
       el.checked = defaultValue !== null ? Boolean(defaultValue) : false;
       el.defaultChecked = defaultValue !== null ? Boolean(defaultValue) : false;
     } else {
-      el.value = defaultValue !== null ? String(defaultValue) : '';
       if (el.type === 'file') {
         el.dispatchEvent(new InputEvent('input', { bubbles: true }));
+      } else {
+        el.value = defaultValue !== null ? String(defaultValue) : '';
       }
     }
   };

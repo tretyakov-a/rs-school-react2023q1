@@ -1,9 +1,9 @@
 import './style.scss';
 import { FormFieldOptions } from '@components/RegistrationForm/form-field';
+import { formFieldsOptions } from '../RegistrationForm/form-field/config';
 
 interface RegistrationListProps {
   data: FormData[];
-  formFields: FormFieldOptions[];
 }
 
 const RegistrationList = (props: RegistrationListProps) => {
@@ -29,7 +29,9 @@ const RegistrationList = (props: RegistrationListProps) => {
 
   const renderListItemContent = (formData: FormData) => {
     const items: JSX.Element[] = [];
-    props.formFields.forEach(({ name, label, type }) => {
+    const keys = Object.keys(formFieldsOptions);
+    keys.forEach((name) => {
+      const { label, type } = formFieldsOptions[name];
       const values = formData.getAll(name);
       if (values.length === 0) return;
       const value = values.length > 1 ? values.join(', ') : values[0];

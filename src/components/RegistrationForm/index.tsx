@@ -1,18 +1,17 @@
 import React, { useContext, useRef, useState } from 'react';
 import './style.scss';
 import { defaultValidationResult, validate, Errors, isErrors } from './validation';
-import { FormField, FormFieldOptions, FormFieldOptionsContext } from './form-field';
+import { FormField, formFields, FormFieldOptionsContext } from './form-field';
 import { ModalContext } from '@components/Modal/context';
 
 interface RegistrationFormProps extends React.PropsWithChildren {
-  formFields: FormFieldOptions[];
   onSubmit: (data: FormData) => void;
 }
 
 const RegistrationForm = (props: RegistrationFormProps) => {
   const { setModal } = useContext(ModalContext);
   const [errors, setErrors] = useState<Errors>(() =>
-    props.formFields
+    formFields
       .map(({ name }) => name)
       .reduce<Errors>((acc, name) => {
         return { ...acc, [name]: { ...defaultValidationResult } };
@@ -22,7 +21,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
 
   const validateForm = (formData: FormData) => {
     const errors: Errors = {};
-    props.formFields.forEach((field) => {
+    formFields.forEach((field) => {
       if (field.validation !== undefined) {
         const values = formData.getAll(field.name);
         const value = values.length > 1 ? values.join('') : values[0] || '';
@@ -33,7 +32,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
   };
 
   const clearForm = () => {
-    props.formFields.forEach((field) => {
+    formFields.forEach((field) => {
       const { inputRef } = field;
       if (inputRef === undefined) return;
       if (Array.isArray(inputRef)) {
@@ -66,7 +65,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
   };
 
   const fillFormWithTestValues = () => {
-    props.formFields.forEach((field) => {
+    formFields.forEach((field) => {
       const { inputRef } = field;
       if (inputRef === undefined) return;
       if (Array.isArray(inputRef)) {
@@ -83,7 +82,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
   return (
     <form className="registration-form" onSubmit={handleSubmit} ref={formRef} noValidate>
       <h3 className="registration-form__title">Registration</h3>
-      {props.formFields.map((field) => (
+      {formFields.map((field) => (
         <FormFieldOptionsContext.Provider value={{ options: field }} key={field.name}>
           <FormField validationResult={errors[field.name]} />
         </FormFieldOptionsContext.Provider>

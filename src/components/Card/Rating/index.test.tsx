@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 describe('<Rating /> test', () => {
   test('Should render correctly with granted data', () => {
-    const value = 4.3;
+    const value = 3.3;
 
     render(<Rating value={value} />);
 
