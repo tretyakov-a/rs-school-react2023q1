@@ -1,21 +1,26 @@
-import { FieldName } from '../form-field';
+import { FormInputs } from '@components/RegistrationForm/form-field';
 
-export type ValidationOptions = {
+export type StandardValidationOptions = {
   required?: boolean;
-  capitalized?: boolean;
-  match?: RegExp;
   minLength?: number;
   maxLength?: number;
+  pattern?: RegExp;
+};
+
+export type NonStandardValidationOptions = {
+  capitalized?: boolean;
   maxFileSize?: number;
   fileType?: string;
   age?: number;
 };
 
-export type Validator<T> = (validationValue: T, inputValue: FormDataEntryValue) => boolean | null;
+export type ValidationOptions = StandardValidationOptions & NonStandardValidationOptions;
 
-export type ValidationResult = {
-  isValid: boolean;
-  errors: string[];
-};
+export type Validator<T> = (
+  validationValue: T
+) => (inputValue: string | FileList | File) => boolean | string | undefined;
 
-export type Errors = Record<FieldName, ValidationResult>;
+export type ExtraMessageKey = 'name' | 'email' | 'default';
+export type Message = (value: unknown) => string;
+export type ExtraMessage = Record<ExtraMessageKey, Message>;
+export type ValidationMessageKey = keyof ValidationOptions | Extract<ExtraMessageKey, 'default'>;

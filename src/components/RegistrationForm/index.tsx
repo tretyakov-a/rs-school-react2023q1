@@ -1,90 +1,62 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import './style.scss';
-import { defaultValidationResult, validate, Errors, isErrors } from './validation';
-import { FormField, formFields, FormFieldOptionsContext } from './form-field';
+import {
+  FormField,
+  formFields,
+  FormFieldOptionsContext,
+  FormInputs,
+  defautFormValues,
+  testFormValues,
+} from './form-field';
 import { ModalContext } from '@components/Modal/context';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 interface RegistrationFormProps extends React.PropsWithChildren {
-  onSubmit: (data: FormData) => void;
+  onSubmit: (data: FormInputs) => void;
 }
 
 const RegistrationForm = (props: RegistrationFormProps) => {
+  const {
+    setValue,
+    register,
+    watch,
+    reset: resetForm,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>({ defaultValues: defautFormValues });
   const { setModal } = useContext(ModalContext);
-  const [errors, setErrors] = useState<Errors>(() =>
-    formFields
-      .map(({ name }) => name)
-      .reduce<Errors>((acc, name) => {
-        return { ...acc, [name]: { ...defaultValidationResult } };
-      }, {} as Errors)
-  );
-  const formRef = useRef<HTMLFormElement>(null);
 
-  const validateForm = (formData: FormData) => {
-    const errors: Errors = {};
-    formFields.forEach((field) => {
-      if (field.validation !== undefined) {
-        const values = formData.getAll(field.name);
-        const value = values.length > 1 ? values.join('') : values[0] || '';
-        errors[field.name] = validate(field, value);
-      }
-    });
-    return errors;
-  };
-
-  const clearForm = () => {
-    formFields.forEach((field) => {
-      const { inputRef } = field;
-      if (inputRef === undefined) return;
-      if (Array.isArray(inputRef)) {
-        inputRef.forEach((item) => item.clearValue());
-      } else {
-        inputRef.clearValue();
-      }
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const form = e.target;
-
-    const formData = new FormData(form as HTMLFormElement);
-    const newErrors = validateForm(formData);
-
-    setErrors((prev) => ({ ...prev, ...newErrors }));
-    if (isErrors(newErrors)) {
-      return;
-    }
-    props.onSubmit(formData);
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    props.onSubmit(data);
     setModal!({
       isOpen: true,
       question: 'Form data has been saved. Do you want to clear form?',
       okCallback: () => {
-        clearForm();
+        resetForm();
       },
     });
   };
 
-  const fillFormWithTestValues = () => {
-    formFields.forEach((field) => {
-      const { inputRef } = field;
-      if (inputRef === undefined) return;
-      if (Array.isArray(inputRef)) {
-        inputRef.forEach((item) => item.setValue(field));
-      } else {
-        inputRef.setValue(field);
-      }
+  const fillFormWithTestValues = useCallback(() => {
+    const keys = Object.keys(testFormValues) as (keyof typeof testFormValues)[];
+    keys.forEach((key) => {
+      setValue(key, testFormValues[key]);
     });
-    const formData = new FormData(formRef.current as HTMLFormElement);
-    const newErrors = validateForm(formData);
-    setErrors((prev) => ({ ...prev, ...newErrors }));
-  };
+  }, [setValue]);
+
+  useEffect(() => {
+    fillFormWithTestValues();
+  }, [fillFormWithTestValues]);
 
   return (
-    <form className="registration-form" onSubmit={handleSubmit} ref={formRef} noValidate>
+    <form className="registration-form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <h3 className="registration-form__title">Registration</h3>
       {formFields.map((field) => (
-        <FormFieldOptionsContext.Provider value={{ options: field }} key={field.name}>
-          <FormField validationResult={errors[field.name]} />
+        <FormFieldOptionsContext.Provider
+          value={{ options: field, register, watch }}
+          key={field.name}
+        >
+          <FormField fieldError={errors[field.name as keyof FormInputs]} />
         </FormFieldOptionsContext.Provider>
       ))}
       <div className="registration-form__buttons">

@@ -1,5 +1,4 @@
 export interface InputProps {
-  inputRef: React.RefObject<HTMLElement> | null;
   value?: string;
   label?: string;
 }

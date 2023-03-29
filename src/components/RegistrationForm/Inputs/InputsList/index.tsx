@@ -2,19 +2,17 @@ import React, { useContext } from 'react';
 import { isRadioInputDataArray } from '@components/RegistrationForm/data';
 import { Input } from '..';
 import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
-import InputRef from '@components/RegistrationForm/input-ref';
 
 const InputsList = () => {
   const { options } = useContext(FormFieldOptionsContext);
 
   const renderItems = () => {
     const { data } = options;
-    const inputRefs = options.inputRef as InputRef[];
 
     if (isRadioInputDataArray(data)) {
-      return data.map(({ label, name }, index) => (
+      return data.map(({ label, name }) => (
         <li key={name}>
-          <Input inputRef={inputRefs[index].ref} value={name} label={label} />
+          <Input value={name} label={label} />
         </li>
       ));
     }

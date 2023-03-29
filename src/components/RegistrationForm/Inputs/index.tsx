@@ -6,25 +6,21 @@ import Select from './Select';
 import Switch from './Switch';
 
 const renderInput = (options: FormFieldOptions) => {
-  const { type, inputRef, formFieldType } = options;
-  const ref = (inputRef !== undefined && !Array.isArray(inputRef) && inputRef.ref) || null;
+  const { type, formFieldType } = options;
+
   switch (type) {
     case 'text':
     case 'password':
     case 'date':
     case 'email':
-      return <Input inputRef={ref} />;
+      return <Input />;
     case 'file':
-      return <FileInput inputRef={ref} />;
+      return <FileInput />;
     case 'select':
-      return <Select inputRef={ref} />;
+      return <Select />;
     case 'radio':
     case 'checkbox':
-      return formFieldType !== undefined && formFieldType === 'list' ? (
-        <InputsList />
-      ) : (
-        <Switch inputRef={ref} />
-      );
+      return formFieldType !== undefined && formFieldType === 'list' ? <InputsList /> : <Switch />;
   }
 };
 

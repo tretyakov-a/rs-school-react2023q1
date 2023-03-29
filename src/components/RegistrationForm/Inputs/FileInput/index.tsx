@@ -1,43 +1,35 @@
 import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { InputAttributes, InputProps } from '../types';
+import { InputProps } from '../types';
+import { FormInputs } from '@components/RegistrationForm/form-field';
+import { getValidators } from '@components/RegistrationForm/validation';
 
 const FileInput = (props: InputProps) => {
-  const { options } = useContext(FormFieldOptionsContext);
-  const [filename, setFilename] = useState<string>('');
+  const { options, register, watch } = useContext(FormFieldOptionsContext);
 
-  const handleFileInputChange = (e: React.SyntheticEvent) => {
-    const el = e.target;
-    if (!(el instanceof HTMLInputElement)) return;
-
-    const filename = el.files !== null && el.files.length > 0 ? el.files[0].name : '';
-
-    setFilename(filename);
-  };
-
-  const { inputRef, value } = props;
+  const { value } = props;
   const { name, type } = options;
   const id = `${value || name}-${type}-input`;
-  const inputPprops: InputAttributes = {
-    ref: inputRef as React.RefObject<HTMLInputElement>,
-    type,
-    name,
-    id,
-  };
-  inputPprops.accept = 'image/*';
 
+  const watchFile = watch?.(name as keyof FormInputs) as FileList;
   return (
     <div className="custom-file-input">
-      <input {...inputPprops} onInput={handleFileInputChange} />
-      <label htmlFor={`${name}-${type}-input`}>
+      <input
+        type={type}
+        id={id}
+        {...register?.(name as keyof FormInputs, {
+          ...getValidators(options),
+        })}
+      />
+      <label htmlFor={id}>
         <span className="custom-file-input__icon">
           <FontAwesomeIcon icon={faDownload} />
         </span>
         <span className="custom-file-input__filename">
-          {filename === '' ? 'Choose file...' : filename}
+          {!watchFile || watchFile.length === 0 ? 'Choose file...' : watchFile[0].name}
         </span>
       </label>
     </div>

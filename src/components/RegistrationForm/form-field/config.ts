@@ -1,23 +1,19 @@
 import { countries } from '../data/countries';
 import { genders } from '../data/genders';
 import { programmingLanguages } from '../data/programming-languages';
-import { default as InputRef } from '../input-ref';
-import { FormFieldBaseOptions, FormFieldOptions } from './types';
+import { FormFieldBaseOptions, FormFieldOptions, FormInputs, FormValues } from './types';
 
-const createRefsArray = (length: number) => Array.from({ length }, () => new InputRef());
-
-export const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
+export const formFieldsOptions: Record<keyof FormInputs, FormFieldBaseOptions> = {
   name: {
     label: 'Name',
     type: 'text',
     validation: {
       required: true,
       capitalized: true,
-      match: /^[\w]+$/,
+      pattern: /^[\w]+$/,
       minLength: 3,
       maxLength: 12,
     },
-    defaultValue: 'Username',
   },
   password: {
     label: 'Password',
@@ -26,16 +22,14 @@ export const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
       required: true,
       minLength: 8,
     },
-    defaultValue: '12345678',
   },
   email: {
     label: 'Email',
     type: 'email',
     validation: {
       required: true,
-      match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
     },
-    defaultValue: 'test@test.ru',
   },
   birthday: {
     label: 'Birthday',
@@ -43,14 +37,15 @@ export const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
     validation: {
       age: 16,
     },
-    defaultValue: '2001-01-01',
   },
   country: {
     label: 'Country',
     type: 'select',
     data: countries,
     defaultSelectOptionValue: 'Choose country',
-    defaultValue: 'China',
+    validation: {
+      required: true,
+    },
   },
   programmingLanguage: {
     label: 'Programming languages',
@@ -75,24 +70,31 @@ export const formFieldsOptions: Record<string, FormFieldBaseOptions> = {
   subscribe: {
     label: 'Subscribe to newsletter',
     type: 'checkbox',
-    defaultValue: true,
   },
+};
+
+export const defautFormValues: FormValues = {
+  name: '',
+  password: '',
+  email: '',
+  birthday: '',
+  country: '',
+  subscribe: '',
+};
+
+export const testFormValues: FormValues = {
+  name: 'Username',
+  password: '12345678',
+  email: 'test@test.ru',
+  birthday: '2001-01-01',
+  country: 'China',
+  subscribe: 'on',
 };
 
 export type FieldName = keyof typeof formFieldsOptions;
 
-export const formFields = Object.keys(formFieldsOptions).reduce<FormFieldOptions[]>(
-  (acc, optionKey) => {
-    const { formFieldType, data } = formFieldsOptions[optionKey];
-    const inputRef =
-      formFieldType && data && formFieldType === 'list'
-        ? createRefsArray(data.length)
-        : new InputRef();
-    acc.push({ ...formFieldsOptions[optionKey], inputRef, name: optionKey });
-    return acc;
-  },
-  [] as FormFieldOptions[]
-);
-
-export const getDefaultValue = (field?: FormFieldOptions) =>
-  field && field.defaultValue !== undefined ? field.defaultValue : null;
+const keys = Object.keys(formFieldsOptions) as (keyof FormInputs)[];
+export const formFields = keys.reduce<FormFieldOptions[]>((acc, optionKey) => {
+  acc.push({ ...formFieldsOptions[optionKey], name: optionKey });
+  return acc;
+}, [] as FormFieldOptions[]);

@@ -1,5 +1,16 @@
-import InputRef from '../input-ref';
 import { ValidationOptions } from '../validation/types';
+
+export type FormInputs = {
+  name: string;
+  password: string;
+  email: string;
+  birthday: string;
+  country: string;
+  programmingLanguage: string;
+  gender: string;
+  avatar: FileList | File;
+  subscribe: string;
+};
 
 export type InputType =
   | 'text'
@@ -27,5 +38,9 @@ export type FormFieldBaseOptions = {
 
 export type FormFieldOptions = FormFieldBaseOptions & {
   name: string;
-  inputRef?: InputRef | InputRef[];
 };
+
+export type FormValues = Record<
+  keyof Omit<FormInputs, 'programmingLanguage' | 'gender' | 'avatar'>,
+  string
+>;

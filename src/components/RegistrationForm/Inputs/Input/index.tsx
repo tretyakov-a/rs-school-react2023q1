@@ -1,29 +1,28 @@
 import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
 import React, { useContext } from 'react';
 import './style.scss';
-import { InputProps, InputAttributes } from '../types';
+import { InputProps } from '../types';
+import { FormInputs } from '@components/RegistrationForm/form-field';
+import { getValidators } from '@components/RegistrationForm/validation';
 
 const Input = (props: InputProps) => {
-  const { options } = useContext(FormFieldOptionsContext);
+  const { options, register } = useContext(FormFieldOptionsContext);
 
-  const { inputRef, value, label } = props;
-  const { name, type, defaultValue } = options;
+  const { value, label } = props;
+  const { name, type, formFieldType } = options;
   const id = `${value || name}-${type}-input`;
-  const inputProps: InputAttributes = {
-    ref: inputRef as React.RefObject<HTMLInputElement>,
-    type,
-    name,
-    id,
-  };
-  if (value !== undefined) inputProps.value = value;
-  if (defaultValue !== undefined) {
-    if (typeof defaultValue === 'string') inputProps.defaultValue = defaultValue;
-    else inputProps.defaultChecked = defaultValue;
-  }
+  const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { type, id };
+  if (value !== undefined && formFieldType === 'list') inputProps.value = value;
+
   return (
     <div className="custom-input">
-      <input {...inputProps} />
-      <label htmlFor={`${value}-${type}-input`}>
+      <input
+        {...inputProps}
+        {...register?.(name as keyof FormInputs, {
+          ...getValidators(options),
+        })}
+      />
+      <label htmlFor={id}>
         <span className="custom-input__check"></span>
         {label && <span>{label}</span>}
       </label>

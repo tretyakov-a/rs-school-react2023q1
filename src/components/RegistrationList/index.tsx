@@ -1,9 +1,9 @@
 import './style.scss';
-import { FormFieldOptions } from '@components/RegistrationForm/form-field';
 import { formFieldsOptions } from '../RegistrationForm/form-field/config';
+import { StoredFormInputs } from '@pages/Registration';
 
 interface RegistrationListProps {
-  data: FormData[];
+  data: StoredFormInputs[];
 }
 
 const RegistrationList = (props: RegistrationListProps) => {
@@ -17,9 +17,12 @@ const RegistrationList = (props: RegistrationListProps) => {
     );
   };
 
-  const renderFieldValue = (value: FormDataEntryValue | string, type: string) => {
+  const renderFieldValue = (value: File | string, type: string) => {
     if (value instanceof File) {
       return renderFile(value);
+    }
+    if (Array.isArray(value)) {
+      return value.join(', ');
     }
     if (type === 'date') {
       return new Date(value).toLocaleDateString();
@@ -27,19 +30,19 @@ const RegistrationList = (props: RegistrationListProps) => {
     return value;
   };
 
-  const renderListItemContent = (formData: FormData) => {
+  const renderListItemContent = (formData: StoredFormInputs) => {
     const items: JSX.Element[] = [];
-    const keys = Object.keys(formFieldsOptions);
+    const keys = Object.keys(formData) as (keyof StoredFormInputs)[];
     keys.forEach((name) => {
-      const { label, type } = formFieldsOptions[name];
-      const values = formData.getAll(name);
-      if (values.length === 0) return;
-      const value = values.length > 1 ? values.join(', ') : values[0];
-      if (value instanceof File && value.size === 0) return;
+      const { type, label } = formFieldsOptions[name];
+      const value = formData[name];
+      if (!Boolean(value) || (value instanceof FileList && value.length === 0)) return;
       items.push(
         <div className="registration-list__item-row" key={name}>
           <span className="registration-list__item-row-label">{label}:</span>
-          <span className="registration-list__item-row-value">{renderFieldValue(value, type)}</span>
+          <span className="registration-list__item-row-value">
+            {renderFieldValue(formData[name], type)}
+          </span>
         </div>
       );
     });

@@ -1,15 +1,9 @@
-import { ValidationOptions } from './types';
-
-export type ExtraMessageKey = 'name' | 'email' | 'default';
-
-export type Message = (value: unknown) => string;
-export type ExtraMessage = Record<ExtraMessageKey, Message>;
-export type ValidationMessageKey = keyof ValidationOptions | Extract<ExtraMessageKey, 'default'>;
+import { ExtraMessage, ExtraMessageKey, Message, ValidationMessageKey } from './types';
 
 export const validationMessages: Record<ValidationMessageKey, Message | ExtraMessage> = {
   required: () => 'field is required',
   capitalized: () => 'should be capitalized',
-  match: {
+  pattern: {
     name: () => `should consist of english letters, numbers and '_'`,
     email: () => `should be valid email address`,
     default: (value) => `should match '${value}' expression`,
@@ -22,9 +16,9 @@ export const validationMessages: Record<ValidationMessageKey, Message | ExtraMes
   default: () => 'invalid value',
 };
 
-export const getMessage = (key: ValidationMessageKey, name?: string) => {
+export const getValidationMessage = (key: ValidationMessageKey, name?: string) => {
   const messageFn =
-    key === 'match'
+    key === 'pattern'
       ? name === undefined
         ? (validationMessages[key] as ExtraMessage)['default']
         : (validationMessages[key] as ExtraMessage)[name as ExtraMessageKey]

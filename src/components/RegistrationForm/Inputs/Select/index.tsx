@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { isOptionsDataArray } from '@components/RegistrationForm/data';
-import { InputProps } from '../types';
-import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field';
+import { FormFieldOptionsContext, FormInputs } from '@components/RegistrationForm/form-field';
+import { getValidators } from '@components/RegistrationForm/validation';
 
-const Select = (props: InputProps) => {
-  const { options } = useContext(FormFieldOptionsContext);
+const Select = () => {
+  const { options, register } = useContext(FormFieldOptionsContext);
 
   const renderOptions = (data: unknown) => {
     if (isOptionsDataArray(data)) {
@@ -16,15 +16,14 @@ const Select = (props: InputProps) => {
     }
   };
 
-  const { inputRef } = props;
-  const { name, type, defaultSelectOptionValue, defaultValue, data } = options;
-  const id = `${name}-${type}`;
+  const { name, type, defaultSelectOptionValue, data } = options;
   return (
     <select
-      ref={inputRef as React.RefObject<HTMLSelectElement>}
       name={name}
-      id={id}
-      defaultValue={defaultValue as string}
+      id={`${name}-${type}`}
+      {...register?.(name as keyof FormInputs, {
+        ...getValidators(options),
+      })}
     >
       <option value="" disabled hidden>
         {defaultSelectOptionValue}
