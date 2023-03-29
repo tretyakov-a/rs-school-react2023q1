@@ -1,7 +1,9 @@
 import '@src/__mocks__/page-wrap-mock';
+import { getEmptyFileListMock, getFileListMock } from '@src/__mocks__/file-instance-mock';
 import Registration from '.';
 import { screen, render, fireEvent } from '@testing-library/react';
-import { FormFieldOptions } from '@components/RegistrationForm/form-field';
+import { FormFieldOptions, FormInputs } from '@components/RegistrationForm/form-field';
+import RegistrationForm from '@components/RegistrationForm';
 
 const testFormFields: FormFieldOptions[] = [
   {
@@ -14,17 +16,35 @@ const testFormFields: FormFieldOptions[] = [
   },
 ];
 
-jest.mock('@components/RegistrationForm', () => (props: { onSubmit: () => void }) => (
-  <div data-testid="form-testid">
-    <button onClick={props.onSubmit}>submit</button>
-  </div>
-));
+type TestFormInputs = Pick<FormInputs, 'avatar'>;
+const formInputsMock: Pick<FormInputs, 'avatar'> = {
+  avatar: getFileListMock(),
+};
+
+const formInputsEmptyFileListMock: Pick<FormInputs, 'avatar'> = {
+  avatar: getEmptyFileListMock(),
+};
+
+jest.mock('@common/helpers', () => ({
+  cloneFile: jest.fn(),
+}));
+
+jest.mock('@components/RegistrationForm');
+(RegistrationForm as jest.Mock).mockImplementation(
+  (props: { onSubmit: (formData: Pick<FormInputs, 'avatar'>) => void }) => (
+    <div data-testid="form-testid">
+      <button onClick={() => props.onSubmit(formInputsMock)}>submit</button>
+    </div>
+  )
+);
+
 jest.mock('@components/RegistrationList', () => () => <div data-testid="list-testid" />);
 jest.mock('@components/RegistrationForm/form-field', () => ({
   getFormFields: () => testFormFields,
 }));
 
-const setValueMock = jest.fn();
+const setValueMock = jest.fn((fn: (prev: TestFormInputs[]) => TestFormInputs[]) => fn([]));
+
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: () => [null, setValueMock],
@@ -32,18 +52,35 @@ jest.mock('react', () => ({
 
 describe('<Registration /> test', () => {
   beforeEach(() => {
-    render(<Registration />);
+    setValueMock.mockClear();
   });
 
   test('Should render correctly', () => {
+    render(<Registration />);
     expect(screen.getByTestId('page-wrap-testid')).toBeInTheDocument();
     expect(screen.getByTestId('form-testid')).toBeInTheDocument();
     expect(screen.getByTestId('list-testid')).toBeInTheDocument();
   });
 
-  test('', () => {
+  test('Should call submit', () => {
+    render(<Registration />);
     const submit = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submit);
     expect(setValueMock).toBeCalledTimes(1);
+  });
+
+  test('Should correctly save data', () => {
+    (RegistrationForm as jest.Mock).mockImplementation(
+      (props: { onSubmit: (formData: Pick<FormInputs, 'avatar'>) => void }) => (
+        <div data-testid="form-testid">
+          <button onClick={() => props.onSubmit(formInputsEmptyFileListMock)}>submit</button>
+        </div>
+      )
+    );
+    render(<Registration />);
+    const submit = screen.getByRole('button', { name: /submit/i });
+    fireEvent.click(submit);
+    expect(setValueMock).toBeCalledTimes(1);
+    expect(setValueMock).toReturnWith([{ avatar: '' }]);
   });
 });

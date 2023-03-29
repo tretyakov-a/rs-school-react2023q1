@@ -1,125 +1,89 @@
-// import { screen, render, fireEvent, waitFor } from '@testing-library/react';
-// import RegistrationForm from '.';
-// import { FormFieldOptions } from '@components/RegistrationForm/form-field';
-// import InputRef from './input-ref';
-// import { ModalContext, useModal } from '@components/Modal/context';
-// import Modal from '@components/Modal';
+import React from 'react';
+import { screen, render, fireEvent } from '@testing-library/react';
+import RegistrationForm from '.';
+import { ModalContext } from '@components/Modal/context';
 
-// const onSubmitMock = jest.fn(() => {});
-// const setValueMock = jest.fn();
-// const clearValueMock = jest.fn();
-// jest.mock('./input-ref', () => {
-//   return jest.fn().mockImplementation(() => {
-//     return {
-//       setValue: setValueMock,
-//       clearValue: clearValueMock,
-//     };
-//   });
-// });
+const onSubmitMock = jest.fn();
+const setModalMock = jest.fn(({ okCallback }) => okCallback());
 
-// beforeEach(() => {
-//   onSubmitMock.mockClear();
-//   setValueMock.mockClear();
-//   clearValueMock.mockClear();
-// });
+jest.mock('react-hook-form', () => ({
+  useForm: jest.fn(() => ({
+    setValue: jest.fn(),
+    register: jest.fn(),
+    watch: jest.fn(),
+    reset: jest.fn(),
+    handleSubmit: jest.fn((fn: () => void) => (e: Event) => {
+      e.preventDefault();
+      fn();
+    }),
+    formState: { errors: {} },
+  })),
+}));
 
-// const formFields: FormFieldOptions[] = [
-//   {
-//     name: 'name',
-//     type: 'text',
-//     validation: {
-//       required: true,
-//     },
-//     defaultValue: 'some value',
-//     inputRef: new InputRef(),
-//   },
-//   {
-//     name: 'radio',
-//     type: 'radio',
-//   },
-//   {
-//     name: 'languages',
-//     label: 'Programming languages',
-//     type: 'checkbox',
-//     formFieldType: 'list',
-//     validation: {
-//       required: true,
-//     },
-//     defaultValue: true,
-//     data: [
-//       { name: 'lang1', label: 'lang1' },
-//       { name: 'lang2', label: 'lang1' },
-//     ],
-//     inputRef: [new InputRef(), new InputRef()],
-//   },
-// ];
+jest.mock('@components/Modal/context', () => ({
+  ModalContext: React.createContext(null),
+}));
 
-// const TestComponent = () => {
-//   const { modal, setModal } = useModal();
-//   return (
-//     <>
-//       <ModalContext.Provider value={{ modal, setModal }}>
-//         <Modal />
-//         <RegistrationForm formFields={formFields} onSubmit={onSubmitMock} />
-//       </ModalContext.Provider>
-//     </>
-//   );
-// };
+jest.mock('./form-field', () => ({
+  FormFieldOptionsContext: React.createContext(null),
+  FormField: () => <div data-testid="form-field-testid"></div>,
+  formFields: [
+    {
+      name: 'name',
+      type: 'text',
+    },
+    {
+      name: 'bithday',
+      type: 'date',
+    },
+    {
+      name: 'programmingLanguage',
+      label: 'Programming languages',
+      type: 'checkbox',
+    },
+  ],
+  defautFormValues: {
+    name: '',
+    birthday: '',
+  },
+  testFormValues: {
+    name: 'test-name',
+    birthday: '2001-01-01',
+  },
+}));
 
-// const getElements = () => {
-//   const submitButton = screen.getByRole('button', { name: /submit/i }) as HTMLButtonElement;
-//   const fillButton = screen.getByRole('button', {
-//     name: /fill with test values/i,
-//   }) as HTMLButtonElement;
-//   const textbox = screen.getByRole('textbox') as HTMLInputElement;
-//   const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
-//   return { submitButton, fillButton, textbox, checkboxes };
-// };
+const getElements = () => {
+  const submitButton = screen.getByRole('button', { name: /submit/i }) as HTMLButtonElement;
+  const fillButton = screen.getByRole('button', {
+    name: /fill with test values/i,
+  }) as HTMLButtonElement;
+  return { submitButton, fillButton };
+};
 
-// describe('<HeaderMenu /> test', () => {
-//   test('Should render correctly', () => {
-//     render(<RegistrationForm formFields={formFields} onSubmit={onSubmitMock} />);
+describe('<RegistrationForm /> test', () => {
+  beforeEach(() => {
+    onSubmitMock.mockClear();
+    setModalMock.mockClear();
+    render(
+      <ModalContext.Provider value={{ setModal: setModalMock }}>
+        <RegistrationForm onSubmit={onSubmitMock} />
+      </ModalContext.Provider>
+    );
+  });
 
-//     const { submitButton, fillButton, textbox } = getElements();
+  test('Should render correctly', () => {
+    const { submitButton, fillButton } = getElements();
+    expect(screen.getAllByTestId('form-field-testid').length).toBe(3);
+    expect(screen.getByRole('heading', { name: /registration/i })).toBeInTheDocument();
+    expect(submitButton).toBeInTheDocument();
+    expect(fillButton).toBeInTheDocument();
+  });
 
-//     expect(screen.getByRole('heading', { name: /registration/i })).toBeInTheDocument();
-//     expect(textbox).toBeInTheDocument();
-//     expect(textbox.value).toBe('some value');
-//     expect(submitButton).toBeInTheDocument();
-//     expect(fillButton).toBeInTheDocument();
-//   });
+  test('Should call clear method after submit and confirmation', async () => {
+    const { submitButton } = getElements();
 
-//   test('Should call clear method after submit and confirmation', async () => {
-//     render(<TestComponent />);
-//     const { submitButton, checkboxes, textbox } = getElements();
-
-//     fireEvent.click(submitButton);
-//     expect(onSubmitMock).toBeCalled();
-//     checkboxes.forEach((el) => (el.checked = true));
-//     textbox.value = 'test';
-
-//     await waitFor(
-//       () => {
-//         expect(clearValueMock).toBeCalled();
-//       },
-//       { timeout: 200 }
-//     );
-//   });
-
-//   test('Should not submit on errors', () => {
-//     render(<TestComponent />);
-//     const { submitButton, textbox } = getElements();
-
-//     textbox.value = '';
-//     fireEvent.click(submitButton);
-//     expect(onSubmitMock).not.toBeCalled();
-//   });
-
-//   test('Should call fill method on fill btn click', () => {
-//     render(<TestComponent />);
-//     const { fillButton } = getElements();
-
-//     fireEvent.click(fillButton);
-//     expect(setValueMock).toBeCalled();
-//   });
-// });
+    fireEvent.click(submitButton);
+    expect(setModalMock).toBeCalledTimes(1);
+    expect(onSubmitMock).toBeCalledTimes(1);
+  });
+});

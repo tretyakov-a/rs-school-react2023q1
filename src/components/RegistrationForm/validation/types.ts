@@ -1,5 +1,3 @@
-import { FormInputs } from '@components/RegistrationForm/form-field';
-
 export type StandardValidationOptions = {
   required?: boolean;
   minLength?: number;

@@ -1,105 +1,78 @@
-// import { validate } from '.';
-// import { FormFieldOptions } from '../form-field';
-// import { textFileMock, imageFileMock } from '../../../__mocks__/file-instance-mock';
+import { getEmptyFileListMock, getFileListMock } from '@src/__mocks__/file-instance-mock';
+import { FormFieldOptions } from '../form-field';
+import { getValidators, nonStandardValidators } from '.';
 
-// describe('Validation tests', () => {
-//   test('validate() on text field works correctly', () => {
-//     const nameFormField: FormFieldOptions = {
-//       name: 'name',
-//       type: 'text',
-//       validation: {
-//         required: true,
-//         capitalized: true,
-//         minLength: 3,
-//         maxLength: 12,
-//         match: /^[\w]+$/,
-//       },
-//     };
-//     expect(validate(nameFormField, textFileMock)).toEqual({
-//       isValid: false,
-//       errors: ['invalid value'],
-//     });
-//     expect(validate(nameFormField, 'ValidName')).toEqual({
-//       isValid: true,
-//       errors: [],
-//     });
-//     expect(validate(nameFormField, '')).toEqual({
-//       isValid: false,
-//       errors: ['field is required'],
-//     });
-//     expect(validate(nameFormField, '@')).toEqual({
-//       isValid: false,
-//       errors: [
-//         'length should be more or equal then 3',
-//         `should consist of english letters, numbers and '_'`,
-//       ],
-//     });
-//     expect(validate(nameFormField, 'veryLongUserName')).toEqual({
-//       isValid: false,
-//       errors: ['should be capitalized', 'length should be less or equal then 12'],
-//     });
-//   });
+const testMessage = 'test message';
+jest.mock('./messages', () => ({
+  getValidationMessage: jest.fn(() => () => 'test message'),
+}));
 
-//   test('validate() on email field works correctly', () => {
-//     const emailFormField: FormFieldOptions = {
-//       name: 'email',
-//       type: 'email',
-//       validation: {
-//         match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-//       },
-//     };
-//     expect(validate(emailFormField, textFileMock)).toEqual({
-//       isValid: false,
-//       errors: ['invalid value'],
-//     });
-//     expect(validate(emailFormField, 'valid@email.ru')).toEqual({
-//       isValid: true,
-//       errors: [],
-//     });
-//     expect(validate(emailFormField, 'invalid email')).toEqual({
-//       isValid: false,
-//       errors: ['should be valid email address'],
-//     });
-//   });
+const nameFormField: FormFieldOptions = {
+  name: 'name',
+  type: 'text',
+  validation: {
+    required: true,
+    capitalized: true,
+    minLength: 3,
+    maxLength: 12,
+    pattern: /^[\w]+$/,
+  },
+};
 
-//   test('validate() on file field works correctly', () => {
-//     const fileFormField: FormFieldOptions = {
-//       name: 'file',
-//       type: 'file',
-//       validation: {
-//         maxFileSize: 100000,
-//         fileType: 'image',
-//       },
-//     };
-//     expect(validate(fileFormField, 'string')).toEqual({
-//       isValid: false,
-//       errors: ['invalid value', 'invalid value'],
-//     });
-//     expect(validate(fileFormField, imageFileMock)).toEqual({
-//       isValid: true,
-//       errors: [],
-//     });
-//     expect(validate(fileFormField, textFileMock)).toEqual({
-//       isValid: false,
-//       errors: ['should be image file'],
-//     });
-//   });
+const noValidationField: FormFieldOptions = {
+  name: 'test',
+  type: 'date',
+};
 
-//   test('validate() on date field works correctly', () => {
-//     const birthdayField: FormFieldOptions = {
-//       name: 'birthday',
-//       type: 'date',
-//       validation: {
-//         age: 16,
-//       },
-//     };
-//     expect(validate(birthdayField, '2005-01-01')).toEqual({
-//       isValid: true,
-//       errors: [],
-//     });
-//     expect(validate(birthdayField, '2020-01-01')).toEqual({
-//       isValid: false,
-//       errors: [`age should be more or equal then ${birthdayField.validation?.age}`],
-//     });
-//   });
-// });
+describe('Validation tests', () => {
+  test('getValidators()', () => {
+    const validators = getValidators(nameFormField);
+    if (!validators) return;
+
+    expect(validators).toHaveProperty('validate');
+    expect(validators).toHaveProperty('required');
+    expect(validators).toHaveProperty('minLength');
+    expect(validators).toHaveProperty('maxLength');
+    expect(validators.validate).toHaveProperty('capitalized');
+    expect(getValidators(noValidationField)).toBeNull();
+  });
+
+  test('capitalizedValidator()', () => {
+    const capitalized = nonStandardValidators.capitalized(true);
+
+    expect(capitalized('Test')).toBe(true);
+    expect(capitalized('test')).toBe(testMessage);
+  });
+
+  test('maxFileSizeValidator()', () => {
+    const maxFileSize100 = nonStandardValidators.maxFileSize(100);
+    const maxFileSize1000 = nonStandardValidators.maxFileSize(1000);
+
+    const fileList = getFileListMock();
+    const emptyFileList = getEmptyFileListMock();
+
+    expect(maxFileSize100(fileList)).toBe(testMessage);
+    expect(maxFileSize1000(fileList)).toBe(true);
+    expect(maxFileSize100(emptyFileList)).toBeUndefined();
+  });
+
+  test('fileType()', () => {
+    const fileType = nonStandardValidators.fileType('image');
+
+    const fileImageList = getFileListMock();
+    const fileTextList = getFileListMock('text');
+    const emptyFileList = getEmptyFileListMock();
+
+    expect(fileType(fileImageList)).toBe(true);
+    expect(fileType(fileTextList)).toBe(testMessage);
+    expect(fileType(emptyFileList)).toBeUndefined();
+  });
+
+  test('ageValidator()', () => {
+    const age = nonStandardValidators.age(16);
+
+    expect(age('2001-01-01')).toBe(true);
+    expect(age('2011-01-01')).toBe(testMessage);
+    expect(age('')).toBeUndefined();
+  });
+});

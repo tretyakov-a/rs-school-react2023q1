@@ -60,7 +60,7 @@ const getNonStandardValidators = (validation: ValidationOptions) => {
       return {
         ...acc,
         validate: {
-          ...(acc.validate as object),
+          ...acc.validate,
           [key]: validator(validationValue),
         },
       };
