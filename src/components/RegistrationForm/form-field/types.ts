@@ -6,7 +6,7 @@ export type FormInputs = {
   email: string;
   birthday: string;
   country: string;
-  programmingLanguage: string;
+  programmingLanguage: string | string[];
   gender: string;
   avatar: FileList | File;
   subscribe: string;

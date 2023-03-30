@@ -14,9 +14,10 @@ export type NonStandardValidationOptions = {
 
 export type ValidationOptions = StandardValidationOptions & NonStandardValidationOptions;
 
+export type ValidatorInputValue = string | string[] | FileList | File;
 export type Validator<T> = (
   validationValue: T
-) => (inputValue: string | FileList | File) => boolean | string | undefined;
+) => (inputValue: ValidatorInputValue) => boolean | string | undefined;
 
 export type ExtraMessageKey = 'name' | 'email' | 'default';
 export type Message = (value: unknown) => string;

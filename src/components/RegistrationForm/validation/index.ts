@@ -1,5 +1,10 @@
 import { getAge } from '@common/helpers';
-import { NonStandardValidationOptions, ValidationOptions, Validator } from './types';
+import {
+  NonStandardValidationOptions,
+  ValidationOptions,
+  Validator,
+  ValidatorInputValue,
+} from './types';
 import { getValidationMessage } from './messages';
 import { FormFieldOptions, FormInputs } from '../form-field';
 import { RegisterOptions, Validate } from 'react-hook-form';
@@ -64,7 +69,7 @@ const getNonStandardValidators = (validation: ValidationOptions) => {
           [key]: validator(validationValue),
         },
       };
-    }, {} as { validate: Record<string, Validate<string | FileList | File, FormInputs>> | undefined });
+    }, {} as { validate: Record<string, Validate<ValidatorInputValue, FormInputs>> | undefined });
 };
 
 export const getValidators = (field: FormFieldOptions) => {

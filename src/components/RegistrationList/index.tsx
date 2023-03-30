@@ -17,7 +17,7 @@ const RegistrationList = (props: RegistrationListProps) => {
     );
   };
 
-  const renderFieldValue = (value: File | string, type: string) => {
+  const renderFieldValue = (value: File | string | string[], type: string) => {
     if (value instanceof File) {
       return renderFile(value);
     }
@@ -36,7 +36,7 @@ const RegistrationList = (props: RegistrationListProps) => {
     keys.forEach((name) => {
       const { type, label } = formFieldsOptions[name];
       const value = formData[name];
-      if (!Boolean(value) || (value instanceof FileList && value.length === 0)) return;
+      if (!Boolean(value)) return;
       items.push(
         <div className="registration-list__item-row" key={name}>
           <span className="registration-list__item-row-label">{label}:</span>
