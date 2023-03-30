@@ -1,6 +1,7 @@
 import React from 'react';
-import { FormFieldOptions, FormInputs } from './types';
+import { FormFieldOptions } from './types';
 import { UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { FormInputs } from '../types';
 
 const defaultValue: FormFieldOptions = {
   name: '',

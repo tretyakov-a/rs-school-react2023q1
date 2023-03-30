@@ -4,7 +4,7 @@ import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { InputProps } from '../types';
-import { FormInputs } from '@components/RegistrationForm/form-field';
+import { FormInputs } from '@components/RegistrationForm/types';
 import { getValidators } from '@components/RegistrationForm/validation';
 
 const FileInput = (props: InputProps) => {

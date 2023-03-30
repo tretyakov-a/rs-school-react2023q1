@@ -2,7 +2,7 @@ import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field
 import React, { useContext } from 'react';
 import './style.scss';
 import { InputProps } from '../types';
-import { FormInputs } from '@components/RegistrationForm/form-field';
+import { FormInputs } from '@components/RegistrationForm/types';
 import { getValidators } from '@components/RegistrationForm/validation';
 
 const Switch = (props: InputProps) => {

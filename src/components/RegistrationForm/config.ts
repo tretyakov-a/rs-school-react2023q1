@@ -1,7 +1,8 @@
-import { countries } from '../data/countries';
-import { genders } from '../data/genders';
-import { programmingLanguages } from '../data/programming-languages';
-import { FormFieldBaseOptions, FormFieldOptions, FormInputs, FormValues } from './types';
+import { countries } from './data/countries';
+import { genders } from './data/genders';
+import { programmingLanguages } from './data/programming-languages';
+import { FormFieldBaseOptions, FormFieldOptions, FormValues } from './form-field/types';
+import { FormInputs } from './types';
 
 export const formFieldsOptions: Record<keyof FormInputs, FormFieldBaseOptions> = {
   name: {

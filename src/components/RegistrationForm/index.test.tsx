@@ -27,6 +27,9 @@ jest.mock('@components/Modal/context', () => ({
 jest.mock('./form-field', () => ({
   FormFieldOptionsContext: React.createContext(null),
   FormField: () => <div data-testid="form-field-testid"></div>,
+}));
+
+jest.mock('./config', () => ({
   formFields: [
     {
       name: 'name',

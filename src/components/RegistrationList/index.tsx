@@ -1,5 +1,5 @@
 import './style.scss';
-import { formFieldsOptions } from '../RegistrationForm/form-field/config';
+import { formFieldsOptions } from '@components/RegistrationForm/config';
 import { StoredFormInputs } from '@pages/Registration';
 
 interface RegistrationListProps {

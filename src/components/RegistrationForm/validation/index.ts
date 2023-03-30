@@ -6,8 +6,9 @@ import {
   ValidatorInputValue,
 } from './types';
 import { getValidationMessage } from './messages';
-import { FormFieldOptions, FormInputs } from '../form-field';
+import { FormFieldOptions } from '../form-field';
 import { RegisterOptions, Validate } from 'react-hook-form';
+import { FormInputs } from '../types';
 
 const capitalizedValidator: Validator<boolean> = (validationValue) => (inputValue) => {
   const firstLetter = (inputValue as string)[0];

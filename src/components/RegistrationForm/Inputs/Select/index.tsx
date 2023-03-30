@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { isOptionsDataArray } from '@components/RegistrationForm/data';
-import { FormFieldOptionsContext, FormInputs } from '@components/RegistrationForm/form-field';
+import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field';
 import { getValidators } from '@components/RegistrationForm/validation';
+import { FormInputs } from '@components/RegistrationForm/types';
 
 const Select = () => {
   const { options, register } = useContext(FormFieldOptionsContext);

@@ -2,8 +2,9 @@ import '@src/__mocks__/page-wrap-mock';
 import { getEmptyFileListMock, getFileListMock } from '@src/__mocks__/file-instance-mock';
 import Registration from '.';
 import { screen, render, fireEvent } from '@testing-library/react';
-import { FormFieldOptions, FormInputs } from '@components/RegistrationForm/form-field';
+import { FormFieldOptions } from '@components/RegistrationForm/form-field';
 import * as RegistrationForm from '@components/RegistrationForm';
+import { FormInputs } from '@components/RegistrationForm/types';
 
 type RegistrationFormMockProps = { onSubmit: (formData: Pick<FormInputs, 'avatar'>) => void };
 const RegistrationFormMock = RegistrationForm as { default: React.FC<RegistrationFormMockProps> };

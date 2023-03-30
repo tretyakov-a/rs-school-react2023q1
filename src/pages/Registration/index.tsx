@@ -3,7 +3,7 @@ import './style.scss';
 import RegistrationForm from '@components/RegistrationForm';
 import RegistrationList from '@components/RegistrationList';
 import PageWrap from '@components/PageWrap';
-import { FormInputs } from '@components/RegistrationForm/form-field';
+import { FormInputs } from '@components/RegistrationForm/types';
 import { cloneFile } from '@common/helpers';
 
 export type StoredFormInputs = Omit<FormInputs, 'avatar'> & {

@@ -1,15 +1,10 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import './style.scss';
-import {
-  FormField,
-  formFields,
-  FormFieldOptionsContext,
-  FormInputs,
-  defautFormValues,
-  testFormValues,
-} from './form-field';
+import { FormField, FormFieldOptionsContext } from './form-field';
 import { ModalContext } from '@components/Modal/context';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { FormInputs } from './types';
+import { defautFormValues, formFields, testFormValues } from './config';
 
 interface RegistrationFormProps extends React.PropsWithChildren {
   onSubmit: (data: FormInputs) => void;
