@@ -1,7 +1,9 @@
 import React from 'react';
 import Layout from '.';
 import { screen, render } from '@testing-library/react';
-import { useModal } from '@components/Modal/context';
+import * as modal from '@components/Modal/context';
+
+const modalMock = modal as { ModalContext: React.Context<unknown>; useModal: () => unknown };
 
 jest.mock('@components/Header', () => () => <div data-testid="header-testid"></div>);
 jest.mock('@components/Footer', () => () => <div data-testid="footer-testid"></div>);
@@ -12,6 +14,7 @@ jest.mock('react-router-dom', () => {
   };
 });
 jest.mock('@components/Modal/context', () => ({
+  __esModule: true,
   ModalContext: React.createContext(null),
   useModal: jest.fn(() => ({
     modal: { isOpen: true },
@@ -34,10 +37,11 @@ describe('<Layout /> test', () => {
     const { rerender } = render(<Layout />);
     expect(screen.getByRole('scroll-container')).toHaveClass('no-scroll');
 
-    (useModal as jest.Mock).mockImplementation(() => ({
+    modalMock.useModal = () => ({
       modal: { isOpen: false },
       setModal: jest.fn(() => {}),
-    }));
+    });
+
     rerender(<Layout />);
     expect(screen.getByRole('scroll-container')).not.toHaveClass('no-scroll');
   });

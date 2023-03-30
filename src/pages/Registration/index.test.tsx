@@ -3,7 +3,10 @@ import { getEmptyFileListMock, getFileListMock } from '@src/__mocks__/file-insta
 import Registration from '.';
 import { screen, render, fireEvent } from '@testing-library/react';
 import { FormFieldOptions, FormInputs } from '@components/RegistrationForm/form-field';
-import RegistrationForm from '@components/RegistrationForm';
+import * as RegistrationForm from '@components/RegistrationForm';
+
+type RegistrationFormMockProps = { onSubmit: (formData: Pick<FormInputs, 'avatar'>) => void };
+const RegistrationFormMock = RegistrationForm as { default: React.FC<RegistrationFormMockProps> };
 
 const testFormFields: FormFieldOptions[] = [
   {
@@ -29,14 +32,14 @@ jest.mock('@common/helpers', () => ({
   cloneFile: jest.fn(),
 }));
 
-jest.mock('@components/RegistrationForm');
-(RegistrationForm as jest.Mock).mockImplementation(
-  (props: { onSubmit: (formData: Pick<FormInputs, 'avatar'>) => void }) => (
+jest.mock('@components/RegistrationForm', () => ({
+  __esModule: true,
+  default: (props: RegistrationFormMockProps) => (
     <div data-testid="form-testid">
       <button onClick={() => props.onSubmit(formInputsMock)}>submit</button>
     </div>
-  )
-);
+  ),
+}));
 
 jest.mock('@components/RegistrationList', () => () => <div data-testid="list-testid" />);
 jest.mock('@components/RegistrationForm/form-field', () => ({
@@ -70,13 +73,12 @@ describe('<Registration /> test', () => {
   });
 
   test('Should correctly save data', () => {
-    (RegistrationForm as jest.Mock).mockImplementation(
-      (props: { onSubmit: (formData: Pick<FormInputs, 'avatar'>) => void }) => (
-        <div data-testid="form-testid">
-          <button onClick={() => props.onSubmit(formInputsEmptyFileListMock)}>submit</button>
-        </div>
-      )
+    RegistrationFormMock.default = (props: RegistrationFormMockProps) => (
+      <div data-testid="form-testid">
+        <button onClick={() => props.onSubmit(formInputsEmptyFileListMock)}>submit</button>
+      </div>
     );
+
     render(<Registration />);
     const submit = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submit);

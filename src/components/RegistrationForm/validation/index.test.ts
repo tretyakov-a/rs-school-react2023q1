@@ -1,6 +1,14 @@
 import { getEmptyFileListMock, getFileListMock } from '@src/__mocks__/file-instance-mock';
 import { FormFieldOptions } from '../form-field';
 import { getValidators, nonStandardValidators } from '.';
+import * as helpers from '@common/helpers';
+
+const helpersMock = helpers as { getAge: (date?: string) => number };
+
+jest.mock('@common/helpers', () => ({
+  __esModule: true,
+  getAge: () => 16,
+}));
 
 const testMessage = 'test message';
 jest.mock('./messages', () => ({
@@ -72,6 +80,7 @@ describe('Validation tests', () => {
     const age = nonStandardValidators.age(16);
 
     expect(age('2001-01-01')).toBe(true);
+    helpersMock.getAge = () => 12;
     expect(age('2011-01-01')).toBe(testMessage);
     expect(age('')).toBeUndefined();
   });
