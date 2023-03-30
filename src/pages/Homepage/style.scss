@@ -4,6 +4,12 @@
     justify-content: flex-end;
     margin-bottom: 1rem;
   }
+
+  &__card-list-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+  }
 }
 
 @media (max-width: 768px) {

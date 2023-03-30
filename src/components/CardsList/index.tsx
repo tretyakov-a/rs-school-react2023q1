@@ -1,11 +1,15 @@
-import cardsData from '@assets/cards.json';
 import Card from '@components/Card';
 import './style.scss';
+import { BooksItem } from '@src/api/books/types';
 
-const CardsList = () => {
+interface CardsListProps {
+  data: BooksItem[];
+}
+
+const CardsList = (props: CardsListProps) => {
   return (
     <ul className="cards-list">
-      {cardsData.map((item) => (
+      {props.data.map((item) => (
         <li className="cards-list__item" key={item.id}>
           <Card data={item} />
         </li>

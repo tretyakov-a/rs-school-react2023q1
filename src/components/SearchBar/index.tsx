@@ -4,7 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import useStateWithRef from '@src/hooks/use-state-with-ref';
 
-const SearchBar = () => {
+type SearchBarProps = {
+  onSubmit: (searchQuery: string) => void;
+};
+
+const SearchBar = (props: SearchBarProps) => {
   const [searchValue, setSearchValue] = useStateWithRef(SearchBar.localStorageKey);
 
   const handleInputChange = (e: React.ChangeEvent) => {
@@ -15,9 +19,9 @@ const SearchBar = () => {
     }
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSearchValue('');
+    props.onSubmit(searchValue);
   };
 
   return (

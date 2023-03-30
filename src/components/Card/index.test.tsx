@@ -1,28 +1,44 @@
 import { render, screen } from '@testing-library/react';
 import Card from '.';
-import cardsData from '@assets/cards.json';
-import { imagesUrl } from '@common/product';
+import { BooksItem } from '@src/api/books/types';
 
-jest.mock('./Rating', () => {
-  return {
-    Rating: () => <div data-testid="rating-testid"></div>,
-  };
-});
+const dataMock: BooksItem = {
+  id: '',
+  selfLink: '',
+  volumeInfo: {
+    title: 'test-title',
+    authors: ['test-author1', 'test-author-2'],
+    publisher: 'test-publisher',
+    publishedDate: '2006-01-01',
+    categories: ['test-category'],
+    language: 'test-language',
+    imageLinks: {
+      thumbnail: 'http://test-link.ru/',
+    },
+  },
+};
 
 describe('<Card /> test', () => {
   test('Should render correctly with granted data', () => {
-    const data = cardsData[0];
-    render(<Card data={data} />);
+    render(<Card data={dataMock} />);
+    const {
+      volumeInfo: { title, authors, publisher, publishedDate, categories, language, imageLinks },
+    } = dataMock;
+    imageLinks &&
+      expect((screen.getByRole('img') as HTMLImageElement).src).toBe(imageLinks.thumbnail);
+    title && expect(screen.getByText(title)).toBeInTheDocument();
+    authors && expect(screen.getByText(authors.join(', '))).toBeInTheDocument();
+    publisher && expect(screen.getByText(publisher)).toBeInTheDocument();
+    publishedDate && expect(screen.getByText('January 1, 2006')).toBeInTheDocument();
+    categories &&
+      expect(screen.getByText(`Categories: ${categories.join(', ')}`)).toBeInTheDocument();
+    language && expect(screen.getByText(`Book language: ${language}`)).toBeInTheDocument();
+  });
 
-    expect(screen.getByAltText(data.brand)).toBeInTheDocument();
-    expect(screen.getByText(data.title)).toBeInTheDocument();
-    expect(screen.getByAltText(data.title)).toBeInTheDocument();
-
-    const images = screen.getAllByRole('img') as HTMLImageElement[];
-    expect(images[0].src).toContain(`${imagesUrl}${data.imgs[0]}`);
-    expect(images[1].src).toContain(`${imagesUrl}${data.brandImage}`);
-
-    expect(screen.getByTestId('rating-testid')).toBeInTheDocument();
-    expect(screen.getByText(`${data.price} ₽`)).toBeInTheDocument();
+  test('Should render placehodler icon if imageLinks is undefined', () => {
+    render(
+      <Card data={{ ...dataMock, volumeInfo: { ...dataMock.volumeInfo, imageLinks: undefined } }} />
+    );
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 });

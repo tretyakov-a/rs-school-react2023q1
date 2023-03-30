@@ -1,30 +1,40 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 import './style.scss';
-import { Product, imagesUrl } from '@common/product';
-import { Rating } from './Rating';
+import { BooksItem } from '@src/api/books/types';
 
 interface CardPropsType {
-  data: Product;
+  data: BooksItem;
 }
 
 const Card = (props: CardPropsType) => {
-  const { brand, brandImage, imgs, price, rating, title } = props.data;
+  const { title, authors, publisher, publishedDate, categories, imageLinks, language } =
+    props.data.volumeInfo;
+
+  const renderDate = (date: string) => {
+    return new Date(date).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
 
   return (
     <div className="card">
       <div className="card__img">
-        <img src={`${imagesUrl}${imgs && Array.isArray(imgs) && imgs[0]}`} alt={title as string} />
-      </div>
-      <div className="card__brand-img">
-        <img src={`${imagesUrl}${brandImage}`} alt={brand as string} />
+        {imageLinks ? (
+          <img src={imageLinks.thumbnail} alt={title as string} />
+        ) : (
+          <FontAwesomeIcon icon={faBook} />
+        )}
       </div>
       <div className="card__info">
-        <div className="card__title">{title}</div>
-        <div className="card__info-row">
-          <div className="card__rating">
-            <Rating value={rating as number} />
-          </div>
-          <div className="card__price">{price}&nbsp;₽</div>
-        </div>
+        {title && <div className="card__title">{title}</div>}
+        {authors && <div className="card__authors">{authors.join(', ')}</div>}
+        {publisher && <div className="card__publisher">{publisher}</div>}
+        {publishedDate && <div className="card__publisher-date">{renderDate(publishedDate)}</div>}
+        {categories && <div className="card__categories">Categories: {categories.join(', ')}</div>}
+        {language && <div className="card__language">Book language: {language}</div>}
       </div>
     </div>
   );
