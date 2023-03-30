@@ -1,19 +1,10 @@
 import '@src/__mocks__/font-awesome-icon-mock';
 import SearchBar from '.';
-import { render, fireEvent, screen, cleanup } from '@testing-library/react';
-import React from 'react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
-const setStorageValueMock = jest.fn();
 const setSearchValueMock = jest.fn();
-const testStoredValue = 'test-stored-value';
 
-jest.mock('@src/hooks/use-local-storage', () => () => [setStorageValueMock, () => testStoredValue]);
-
-jest.mock('@src/hooks/use-state-with-ref', () => (value: string) => [
-  value,
-  setSearchValueMock,
-  React.createRef(),
-]);
+jest.mock('@src/hooks/use-state-with-ref', () => () => ['test-value', setSearchValueMock]);
 
 const getElements = () => {
   const textbox = screen.getByRole('textbox');
@@ -23,7 +14,6 @@ const getElements = () => {
 };
 describe('<SearchBar /> test', () => {
   beforeEach(() => {
-    setStorageValueMock.mockClear();
     setSearchValueMock.mockClear();
     render(<SearchBar />);
   });
@@ -32,25 +22,6 @@ describe('<SearchBar /> test', () => {
     const { textbox, button } = getElements();
     expect(textbox).toBeInTheDocument();
     expect(button).toBeInTheDocument();
-  });
-
-  test('Should load input value from localStorage on mount', () => {
-    const { searchInputEl } = getElements();
-    expect(searchInputEl.value).toBe(testStoredValue);
-  });
-
-  test('Should save input value to localStorage on unmount', () => {
-    cleanup();
-    setStorageValueMock.mockClear();
-    const { unmount } = render(<SearchBar />);
-
-    const { textbox } = getElements();
-    fireEvent.change(textbox, {
-      target: { value: 'savetest' },
-    });
-    expect(setSearchValueMock).toBeCalledTimes(1);
-    unmount();
-    expect(setStorageValueMock).toBeCalledTimes(1);
   });
 
   test('handleSubmit should fired on button click', () => {

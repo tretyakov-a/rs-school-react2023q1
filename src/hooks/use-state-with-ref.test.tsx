@@ -1,22 +1,21 @@
-import { act, renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import useStateWithRef from './use-state-with-ref';
 
+const setStorageValueMock = jest.fn();
+
+const testStoredValue = 'test-stored-value';
+jest.mock('./use-local-storage', () => () => [setStorageValueMock, () => testStoredValue]);
+
 describe('UseStateWithRef test', () => {
-  test('Should work correctly', async () => {
-    const initialValue = 'initial value';
-    const testValue = 'test';
-    const {
-      result: {
-        current: [value, setValue, searchValueRef],
-      },
-    } = renderHook(() => useStateWithRef<string>(initialValue));
+  test('Should load inital value from storage', async () => {
+    const { result } = renderHook(() => useStateWithRef('storageKey'));
 
-    expect(value).toBe(initialValue);
-    expect(searchValueRef.current).toBe(initialValue);
+    expect(result.current[0]).toBe(testStoredValue);
+  });
 
-    act(() => {
-      setValue(testValue);
-    });
-    expect(searchValueRef.current).toBe(testValue);
+  test('Should save to storage on unmount', async () => {
+    const { unmount } = renderHook(() => useStateWithRef('storageKey'));
+    unmount();
+    expect(setStorageValueMock).toBeCalled();
   });
 });

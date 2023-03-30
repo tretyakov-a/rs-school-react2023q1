@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import useLocalStorage from '@src/hooks/use-local-storage';
 import useStateWithRef from '@src/hooks/use-state-with-ref';
 
 const SearchBar = () => {
-  const [storageSet, storageGet] = useLocalStorage(SearchBar.localStorageKey);
-  const [searchValue, setSearchValue, searchValueRef] = useStateWithRef<string>(storageGet());
-
-  useEffect(() => {
-    const valueRef = searchValueRef.current; // this fixes eslint warning
-    return () => {
-      storageSet(valueRef || '');
-    };
-  }, [searchValueRef, storageSet]);
+  const [searchValue, setSearchValue] = useStateWithRef(SearchBar.localStorageKey);
 
   const handleInputChange = (e: React.ChangeEvent) => {
     const el = e.target;
