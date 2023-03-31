@@ -24,6 +24,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     props.onSubmit(data);
     setModal!({
+      type: 'confirm',
       isOpen: true,
       question: 'Form data has been saved. Do you want to clear form?',
       okCallback: () => {

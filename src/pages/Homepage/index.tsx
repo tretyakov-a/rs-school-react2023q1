@@ -4,7 +4,7 @@ import PageWrap from '@components/PageWrap';
 import './style.scss';
 import { BooksItem } from '@src/api/books/types';
 import { useState } from 'react';
-import { getBooks } from '@src/api/books';
+import { findBooks } from '@src/api/books';
 import Loader from '@components/Loader';
 
 const Homepage = () => {
@@ -16,10 +16,9 @@ const Homepage = () => {
     setIsLoading(true);
     setLoadingError(null);
     try {
-      const data = await getBooks(searchQuery);
+      const data = await findBooks(searchQuery);
       if (data !== null) {
         setData(data);
-        console.log(data);
       }
     } catch (error) {
       setLoadingError(error as Error);

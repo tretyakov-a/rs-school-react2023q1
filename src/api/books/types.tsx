@@ -1,24 +1,45 @@
+type ImageLinks = {
+  smallThumbnail?: string;
+  thumbnail?: string;
+};
+
+type VolumeInfo = {
+  title?: string;
+  subtitle?: string;
+  authors?: string[];
+  publisher?: string;
+  publishedDate?: string;
+  description?: string;
+  categories?: string[];
+  imageLinks?: ImageLinks;
+  language?: string;
+};
+
 export type BooksItem = {
   id: string;
   selfLink: string;
-  volumeInfo: {
-    title?: string;
-    subtitle?: string;
-    authors?: string[];
-    publisher?: string;
-    publishedDate?: string;
-    description?: string;
-    categories?: string[];
-    imageLinks?: {
-      smallThumbnail?: string;
-      thumbnail?: string;
+  volumeInfo: VolumeInfo;
+};
+
+export type BooksItemExtra = BooksItem & {
+  volumeInfo: VolumeInfo & {
+    averageRating?: number;
+    ratingsCount?: number;
+    imageLinks: ImageLinks & {
+      small?: string;
+      medium?: string;
+      large?: string;
+      extraLarge?: string;
     };
-    language?: string;
   };
 };
 
-export type BooksResonseResult = {
+export type BooksResponseResult = {
   kind: string;
   totalItems: number;
   items?: BooksItem[];
+};
+
+export type BookResponseResult = BooksItemExtra & {
+  kind: string;
 };
