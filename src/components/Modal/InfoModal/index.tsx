@@ -1,40 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import './style.scss';
-import { getBookById } from '@src/api/books';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Loader from '@components/Loader';
 import Card from '@components/Card';
-import { BooksItem, BooksItemExtra } from '@src/api/books/types';
+import { BooksItem, BooksItemExtra, BooksServiceContext } from '@src/api/books';
 import { ModalProps } from '../context';
+import useDataLoader from '@src/hooks/use-data-loader';
 
 const InfoModal = (props: ModalProps) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingError, setLoadingError] = useState<Error | null>(null);
+  const { booksService } = useContext(BooksServiceContext);
+  const { isLoading, loadingError, loadData } = useDataLoader();
   const [data, setData] = useState<BooksItemExtra | null>(null);
-
-  const loadData = async (id: string, abortSignal: AbortSignal) => {
-    setIsLoading(true);
-    setLoadingError(null);
-    try {
-      const data = await getBookById(id, abortSignal);
-      if (data !== null) {
-        setData(data);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      if (!/abort/.test((error as Error).message)) setLoadingError(error as Error);
-    }
-  };
 
   useEffect(() => {
     const controller = new AbortController();
-    if (props.id !== undefined) loadData(props.id, controller.signal);
+    if (props.id !== undefined && booksService !== undefined)
+      loadData(booksService.getBookById(props.id, controller.signal), setData);
 
     return () => {
       controller.abort();
-      setIsLoading(true);
-      setLoadingError(null);
     };
   }, [props.id]);
 

@@ -1,0 +1,242 @@
+{
+  "kind": "books#volumes",
+  "totalItems": 515,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "vJGlu9t9LNYC",
+      "etag": "M0JcjGzGulo",
+      "selfLink": "https://books.googleapis.com/books/v1/volumes/vJGlu9t9LNYC",
+      "volumeInfo": {
+        "title": "JavaScript",
+        "subtitle": "The Definitive Guide",
+        "authors": ["David Flanagan"],
+        "publisher": "\"O'Reilly Media, Inc.\"",
+        "publishedDate": "2002",
+        "description": "A guide for experienced programmers demonstrates the core JavaScript language, offers examples of common tasks, and contains an extensive reference to JavaScript commands, objects, methods, and properties.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0596000480"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780596000486"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 940,
+        "printType": "BOOK",
+        "categories": ["Electronic books"],
+        "averageRating": 4.5,
+        "ratingsCount": 4,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "4.3.6.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=vJGlu9t9LNYC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=vJGlu9t9LNYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ru/books?id=vJGlu9t9LNYC&pg=PA472&dq=JavaScript&hl=&cd=1&source=gbs_api",
+        "infoLink": "http://books.google.ru/books?id=vJGlu9t9LNYC&dq=JavaScript&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/JavaScript.html?hl=&id=vJGlu9t9LNYC"
+      },
+      "saleInfo": {
+        "country": "RU",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "RU",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=vJGlu9t9LNYC&hl=&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "In client - side <b>JavaScript</b> , a common use of escape ( ) is to encode cookie values , which have restrictions on the punctuation characters they may contain . See the &quot; Document.cookie &quot; reference page in the client - side reference&nbsp;..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "unu2k2kNTDAC",
+      "etag": "HQ64AtVMXoQ",
+      "selfLink": "https://books.googleapis.com/books/v1/volumes/unu2k2kNTDAC",
+      "volumeInfo": {
+        "title": "Pure JavaScript",
+        "authors": ["Jason D. Gilliam", "R. Allen Wyke", "Charlton Ting", "Sean Michaels"],
+        "publisher": "Pearson Education",
+        "publishedDate": "2001-08-15",
+        "description": "Pure JavaScript, Second Edition is a substantial and focused reference for experienced Web developers. This book begins with an accelerated introduction to the newest features of JavaScript so that experienced Web developers can quickly understand the concepts of JavaScript and begin developing their own JavaScript solutions immediately. Pure JavaScript, Second Edition contains concise descriptions of JavaScript forms, cookies, windows, and layers. Beyond the brief descriptions and short syntax snippets found in most references, this book also provides real-life, well-commented JavaScript examples for each documented object, property, method, and event handler. This not only helps the reader's understanding of the syntax, but also provides a contextual aid in determining how and why a specific object or method may be used. It also includes a special reference section dedicated to server-side JavaScript, coverage of JScript and Active Scripting, and a complete reference to browser-supported JavaScript.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780768685527"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0768685524"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 2373,
+        "printType": "BOOK",
+        "categories": ["Computers"],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "1.4.4.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=unu2k2kNTDAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=unu2k2kNTDAC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ru/books?id=unu2k2kNTDAC&pg=PT294&dq=JavaScript&hl=&cd=2&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=unu2k2kNTDAC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=unu2k2kNTDAC"
+      },
+      "saleInfo": {
+        "country": "RU",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 2109.73,
+          "currencyCode": "RUB"
+        },
+        "retailPrice": {
+          "amount": 2109.73,
+          "currencyCode": "RUB"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=unu2k2kNTDAC&rdid=book-unu2k2kNTDAC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 2109730000,
+              "currencyCode": "RUB"
+            },
+            "retailPrice": {
+              "amountInMicros": 2109730000,
+              "currencyCode": "RUB"
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "RU",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=unu2k2kNTDAC&hl=&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "operator Be sure to note that the implementation of the logical AND in <b>JavaScript</b> is more complex than what was just mentioned. The AND operation begins by evaluating the left expression. If the left expression evaluates to false,&nbsp;..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "U69Hzz2jLPUC",
+      "etag": "UIT6KnqdVj8",
+      "selfLink": "https://books.googleapis.com/books/v1/volumes/U69Hzz2jLPUC",
+      "volumeInfo": {
+        "title": "JavaScript, A Beginner's Guide, Third Edition",
+        "authors": ["John Pollock"],
+        "publisher": "McGraw Hill Professional",
+        "publishedDate": "2009-11-19",
+        "description": "Essential Skills--Made Easy! Create dynamic Web pages complete with special effects using today's leading Web development language. JavaScript: A Beginner's Guide, Third Edition gives you step-by-step coverage of the fundamentals, including variables, functions, operators, event handlers, objects, arrays, strings, forms, and frames. You'll also learn about more advanced techniques, including debugging and security. This hands-on guide explains how JavaScript works with XHTML Transitional and covers the new features available in JavaScript. Get started using JavaScript right away with help from this fast-paced tutorial. Designed for Easy Learning: Key Skills & Concepts--Chapter-opening lists of specific skills covered in the chapter Ask the Expert--Q & A sections filled with bonus information and helpful tips Try This--Hands-on exercises that show you how to apply your skills Notes--Extra information related to the topic being covered Tips--Helpful reminders or alternate ways of doing things Self Tests--End-of-chapter reviews to test your knowledge Annotated syntax--Example code with commentary that describes the programming techniques being illustrated",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780071632966"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0071632964"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 512,
+        "printType": "BOOK",
+        "categories": ["Computers"],
+        "averageRating": 5,
+        "ratingsCount": 2,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "0.12.4.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=U69Hzz2jLPUC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=U69Hzz2jLPUC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ru/books?id=U69Hzz2jLPUC&pg=PA17&dq=JavaScript&hl=&cd=3&source=gbs_api",
+        "infoLink": "http://books.google.ru/books?id=U69Hzz2jLPUC&dq=JavaScript&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/JavaScript_A_Beginner_s_Guide_Third_Edit.html?hl=&id=U69Hzz2jLPUC"
+      },
+      "saleInfo": {
+        "country": "RU",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "RU",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ru/books/download/JavaScript_A_Beginner_s_Guide_Third_Edit-sample-epub.acsm?id=U69Hzz2jLPUC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ru/books/download/JavaScript_A_Beginner_s_Guide_Third_Edit-sample-pdf.acsm?id=U69Hzz2jLPUC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=U69Hzz2jLPUC&hl=&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "To be safe, it is a good idea to explicitly identify the language as <b>JavaScript</b>. You do this by adding the type attribute with the value of “text/<b>javascript</b>” to the opening script tag: &lt;script type=&quot;text/<b>javascript</b>&quot;&gt; <b>JavaScript</b> code&nbsp;..."
+      }
+    }
+  ]
+}

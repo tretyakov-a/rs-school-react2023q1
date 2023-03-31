@@ -17,8 +17,8 @@ const CardsList = (props: CardsListProps) => {
 
   return (
     <ul className="cards-list">
-      {props.data.map((item) => (
-        <li className="cards-list__item" key={item.id} onClick={handleClick(item.id)}>
+      {props.data.map((item, index) => (
+        <li className="cards-list__item" key={`${index}-${item.id}`} onClick={handleClick(item.id)}>
           <Card data={item} />
         </li>
       ))}

@@ -43,3 +43,12 @@ export type BooksResponseResult = {
 export type BookResponseResult = BooksItemExtra & {
   kind: string;
 };
+
+export interface BooksService {
+  findBooks: (q: string, abortSignal?: AbortSignal) => Promise<BooksItem[] | null>;
+  getBookById: (id: string, abortSignal?: AbortSignal) => Promise<BooksItemExtra | null>;
+}
+
+export interface BooksContextProps {
+  booksService?: BooksService;
+}

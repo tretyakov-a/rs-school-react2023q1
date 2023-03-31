@@ -2,29 +2,20 @@ import SearchBar from '@components/SearchBar';
 import CardsList from '@components/CardsList';
 import PageWrap from '@components/PageWrap';
 import './style.scss';
-import { BooksItem } from '@src/api/books/types';
-import { useState } from 'react';
-import { findBooks } from '@src/api/books';
+import { useContext, useState } from 'react';
 import Loader from '@components/Loader';
+import { BooksItem, BooksServiceContext } from '@src/api/books';
+import useDataLoader from '@src/hooks/use-data-loader';
 
 const Homepage = () => {
-  const [data, setData] = useState<BooksItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingError, setLoadingError] = useState<Error | null>(null);
+  const { booksService } = useContext(BooksServiceContext);
+  const { isLoading, loadingError, loadData } = useDataLoader(false);
+  const [data, setData] = useState<BooksItem[] | null>(null);
 
   const handleSearchSubmit = async (searchQuery: string) => {
-    setIsLoading(true);
-    setLoadingError(null);
-    try {
-      const data = await findBooks(searchQuery);
-      if (data !== null) {
-        setData(data);
-      }
-    } catch (error) {
-      setLoadingError(error as Error);
-    } finally {
-      setIsLoading(false);
-    }
+    if (booksService === undefined) return;
+
+    await loadData(booksService.findBooks(searchQuery), setData);
   };
 
   const renderError = (error: Error) => {
@@ -41,8 +32,10 @@ const Homepage = () => {
           <Loader />
         ) : loadingError ? (
           renderError(loadingError)
-        ) : (
+        ) : data !== null ? (
           <CardsList data={data} />
+        ) : (
+          <p>Try to find some books using search form</p>
         )}
       </div>
     </PageWrap>

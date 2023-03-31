@@ -29,7 +29,7 @@ const SearchBar = (props: SearchBarProps) => {
       <form className="search-bar__form" onSubmit={handleSubmit}>
         <div className="search-bar__input-container">
           <input
-            placeholder="Search..."
+            placeholder="Search for books..."
             className="search-bar__input"
             type="text"
             name="search"

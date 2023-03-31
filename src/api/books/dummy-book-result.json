@@ -1,0 +1,106 @@
+{
+  "kind": "books#volume",
+  "id": "unu2k2kNTDAC",
+  "etag": "24gIPRSSnf4",
+  "selfLink": "https://books.googleapis.com/books/v1/volumes/unu2k2kNTDAC",
+  "volumeInfo": {
+    "title": "Pure JavaScript",
+    "authors": ["Jason D. Gilliam", "R. Allen Wyke", "Charlton Ting", "Sean Michaels"],
+    "publisher": "Pearson Education",
+    "publishedDate": "2001-08-15",
+    "description": "<p><i>Pure JavaScript, Second Edition</i> is a substantial and focused reference for experienced Web developers. This book begins with an accelerated introduction to the newest features of JavaScript so that experienced Web developers can quickly understand the concepts of JavaScript and begin developing their own JavaScript solutions immediately. <p><i>Pure JavaScript, Second Edition</i> contains concise descriptions of JavaScript forms, cookies, windows, and layers. Beyond the brief descriptions and short syntax snippets found in most references, this book also provides real-life, well-commented JavaScript examples for each documented object, property, method, and event handler. This not only helps the reader's understanding of the syntax, but also provides a contextual aid in determining how and why a specific object or method may be used. It also includes a special reference section dedicated to server-side JavaScript, coverage of JScript and Active Scripting, and a complete reference to browser-supported JavaScript. </p>",
+    "industryIdentifiers": [
+      {
+        "type": "ISBN_10",
+        "identifier": "0768685524"
+      },
+      {
+        "type": "ISBN_13",
+        "identifier": "9780768685527"
+      }
+    ],
+    "readingModes": {
+      "text": true,
+      "image": true
+    },
+    "pageCount": 1608,
+    "printedPageCount": 2373,
+    "dimensions": {
+      "height": "23.00 cm",
+      "width": "15.00 cm",
+      "thickness": "6.20 cm"
+    },
+    "printType": "BOOK",
+    "categories": ["Computers / Web / General", "Computers / Internet / General"],
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "1.4.4.0.preview.3",
+    "panelizationSummary": {
+      "containsEpubBubbles": false,
+      "containsImageBubbles": false
+    },
+    "imageLinks": {
+      "smallThumbnail": "http://books.google.com/books/content?id=unu2k2kNTDAC&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE717g9BnAmXl1Eums6wSRyyt8nzI3bY4WpYYOQvJj3k470FKOJe5MABnnkH1eVYK8DsEVGlbmRM1rnSVJD1ORKl85chhV5e9VZPIcyUGe-VBNPLu5dGfyI0_v4FkYzDe80wOykxV&source=gbs_api",
+      "thumbnail": "http://books.google.com/books/content?id=unu2k2kNTDAC&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE71PVMbGxkvxQShxNkyIiXSBv0PAsqHery7EcKaO46jihKhOSw1GlRmGjtWv784_mog7tVSHLrjdRFWYBZS1L7eNZHOK42FLVoqP_ABLSwuLXCXOVPpIenSbFaG65ldHnm3lS_AA&source=gbs_api",
+      "small": "http://books.google.com/books/content?id=unu2k2kNTDAC&printsec=frontcover&img=1&zoom=2&edge=curl&imgtk=AFLRE71Bd3HNrUhXWDSgz0mcCCQhTPwS7J-vC4wqhwzs5yP3NrN-bFluVcxgIbULl9FSv9xnsV9ow8h0Ek1bkG_Qum1bJ5QJnzjZrBoboehSsQ8jt5diH5Fr33AorvdHjR-6N2lsx5FH&source=gbs_api",
+      "medium": "http://books.google.com/books/content?id=unu2k2kNTDAC&printsec=frontcover&img=1&zoom=3&edge=curl&imgtk=AFLRE73Eb9JczT8DfThGTbMSG_upJ9uM5AYPYSoibyO7Vmcz0HCYmxytCn-tC0EGu_XFSXbhJUsOCSTOopILkuYEBw1Cv5395GBaME1e9nLA5kCUpLERn6hnvzNo1CrofIlO9e0qGxFv&source=gbs_api",
+      "large": "http://books.google.com/books/content?id=unu2k2kNTDAC&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE713gpHUo43-wSCDY0ht-NFXt1k39gda3wBAwP0Jiu3-kNKigItRO_OkWyy-R_Po2w-OiAFyd_mImiooZ1juD4-dEfxDVeY_CeiHl6YU7Aujv7dGS2hc9yImOTUNjuVEkRc_GoZg&source=gbs_api",
+      "extraLarge": "http://books.google.com/books/content?id=unu2k2kNTDAC&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE71r6PWZP1JjfgNwcXr9XUNSkyXU70GXKSX9RMocJe40PRHcfF8507WZqn9s2ef-FsryTkdqmy5ZnAwdfzfppFAu-7_Bf3zAQgGmielFtS2o_z9VhaZESDzhY7sSycrDZLz4_vYx&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.ru/books?id=unu2k2kNTDAC&hl=&source=gbs_api",
+    "infoLink": "https://play.google.com/store/books/details?id=unu2k2kNTDAC&source=gbs_api",
+    "canonicalVolumeLink": "https://play.google.com/store/books/details?id=unu2k2kNTDAC"
+  },
+  "layerInfo": {
+    "layers": [
+      {
+        "layerId": "geo",
+        "volumeAnnotationsVersion": "5"
+      }
+    ]
+  },
+  "saleInfo": {
+    "country": "RU",
+    "saleability": "FOR_SALE",
+    "isEbook": true,
+    "listPrice": {
+      "amount": 2109.73,
+      "currencyCode": "RUB"
+    },
+    "retailPrice": {
+      "amount": 2109.73,
+      "currencyCode": "RUB"
+    },
+    "buyLink": "https://play.google.com/store/books/details?id=unu2k2kNTDAC&rdid=book-unu2k2kNTDAC&rdot=1&source=gbs_api",
+    "offers": [
+      {
+        "finskyOfferType": 1,
+        "listPrice": {
+          "amountInMicros": 2109730000,
+          "currencyCode": "RUB"
+        },
+        "retailPrice": {
+          "amountInMicros": 2109730000,
+          "currencyCode": "RUB"
+        }
+      }
+    ]
+  },
+  "accessInfo": {
+    "country": "RU",
+    "viewability": "PARTIAL",
+    "embeddable": true,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+    "epub": {
+      "isAvailable": false
+    },
+    "pdf": {
+      "isAvailable": false
+    },
+    "webReaderLink": "http://play.google.com/books/reader?id=unu2k2kNTDAC&hl=&source=gbs_api",
+    "accessViewStatus": "SAMPLE",
+    "quoteSharingAllowed": false
+  }
+}
