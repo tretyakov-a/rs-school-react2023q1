@@ -25,7 +25,7 @@ export class Rating extends React.Component<RatingPropsType> {
         return colorStop < 0 ? 0 : colorStop;
       });
     return starColorStops.map((colorStop, index) => (
-      <span className="product-rating__star" key={index}>
+      <span className="product-rating__star" key={index} role="star">
         <span className="product-rating__star-inner" style={this.getStarStyle(colorStop)}></span>
       </span>
     ));

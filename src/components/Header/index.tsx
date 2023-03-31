@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import { HeaderMenu } from '@components/HeaderMenu';
+import HeaderMenu from '@components/HeaderMenu';
 import { getLink } from '@components/HeaderMenu/links';
 
 interface HeaderState {
@@ -27,7 +27,7 @@ export default class Header extends React.Component<unknown, HeaderState> {
     return (
       <header className="header">
         <div className="container header__container">
-          <h2>{this.state.pageName}</h2>
+          <h1>{this.state.pageName}</h1>
           <nav className="header__menu-container">
             <HeaderMenu onChange={this.handleMenuLinkChange} />
           </nav>

@@ -7,7 +7,7 @@ interface HeaderMenuProps {
   onChange: (pageName: string) => void;
 }
 
-export class HeaderMenu extends React.Component<HeaderMenuProps> {
+export default class HeaderMenu extends React.Component<HeaderMenuProps> {
   private menuRef: React.RefObject<HTMLUListElement>;
   constructor(props: HeaderMenuProps) {
     super(props);

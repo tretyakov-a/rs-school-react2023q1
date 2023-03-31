@@ -1,0 +1,3 @@
+@mixin flexBasisColumns($columnsNumber, $gap) {
+  flex-basis: calc((100% - $gap * ($columnsNumber - 1)) / $columnsNumber);
+}
