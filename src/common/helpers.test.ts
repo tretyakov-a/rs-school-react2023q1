@@ -1,6 +1,6 @@
 import { imageFileMock } from '@src/__mocks__/file-instance-mock';
 
-import { getAge, cloneFile } from './helpers';
+import { getAge, cloneFile, renderDate } from './helpers';
 
 describe('Helpers tests', () => {
   test('getAge()', () => {
@@ -13,5 +13,10 @@ describe('Helpers tests', () => {
     expect(file.size).toBe(imageFileMock.size);
     expect(file.type).toBe(imageFileMock.type);
     expect(file.name).toBe(imageFileMock.name);
+  });
+
+  test('renderDate()', () => {
+    expect(renderDate('2012-01-01')).toBe('January 1, 2012');
+    expect(renderDate('2012-01-01', 'ru-RU')).toBe('1 января 2012 г.');
   });
 });

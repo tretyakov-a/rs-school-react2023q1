@@ -11,11 +11,11 @@ const useDataLoader = (isLoadingInitial: boolean = true) => {
       const data = await request;
       if (data !== null) {
         callback(data);
-        setIsLoading(false);
       }
     } catch (error) {
       if (!/abort/.test((error as Error).message)) setLoadingError(error as Error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {

@@ -11,3 +11,11 @@ export const cloneFile = (original: File): File => {
     lastModified: original.lastModified,
   });
 };
+
+export const renderDate = (date: string, locales: string = 'en-US') => {
+  return new Date(date).toLocaleString(locales, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};

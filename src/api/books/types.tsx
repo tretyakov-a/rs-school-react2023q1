@@ -13,6 +13,8 @@ type VolumeInfo = {
   categories?: string[];
   imageLinks?: ImageLinks;
   language?: string;
+  averageRating?: number;
+  ratingsCount?: number;
 };
 
 export type BooksItem = {
@@ -23,8 +25,6 @@ export type BooksItem = {
 
 export type BooksItemExtra = BooksItem & {
   volumeInfo: VolumeInfo & {
-    averageRating?: number;
-    ratingsCount?: number;
     imageLinks: ImageLinks & {
       small?: string;
       medium?: string;

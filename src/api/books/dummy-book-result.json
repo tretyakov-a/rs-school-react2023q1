@@ -32,6 +32,8 @@
     },
     "printType": "BOOK",
     "categories": ["Computers / Web / General", "Computers / Internet / General"],
+    "averageRating": 4.5,
+    "ratingsCount": 4,
     "maturityRating": "NOT_MATURE",
     "allowAnonLogging": false,
     "contentVersion": "1.4.4.0.preview.3",

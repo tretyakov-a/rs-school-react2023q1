@@ -4,7 +4,7 @@ import './style.scss';
 import { useContext, useEffect, useState } from 'react';
 import Loader from '@components/Loader';
 import Card from '@components/Card';
-import { BooksItem, BooksItemExtra, BooksServiceContext } from '@src/api/books';
+import { BooksItemExtra, BooksServiceContext } from '@src/api/books';
 import { ModalProps } from '../context';
 import useDataLoader from '@src/hooks/use-data-loader';
 
@@ -38,7 +38,7 @@ const InfoModal = (props: ModalProps) => {
         ) : loadingError ? (
           renderError(loadingError)
         ) : (
-          <Card data={data as BooksItem} />
+          <Card data={data} displayMode="full" />
         )}
       </div>
     </div>

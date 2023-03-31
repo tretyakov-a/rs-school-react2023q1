@@ -12,7 +12,7 @@ import {
 } from '@src/api/books';
 
 const Layout = () => {
-  const { booksService } = useBooksService(DummyBooksService);
+  const { booksService } = useBooksService(GoogleBooksService);
   const { modal, setModal } = useModal();
   const classes = ['scroll-container', modal.isOpen ? 'no-scroll' : ''].join(' ');
 

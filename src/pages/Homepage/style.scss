@@ -2,13 +2,12 @@
   &__search-bar-container {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   &__card-list-container {
     display: flex;
     justify-content: center;
-    padding-top: 2rem;
     color: var(--color-text-l);
   }
 }

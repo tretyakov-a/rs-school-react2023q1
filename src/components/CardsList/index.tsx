@@ -1,6 +1,6 @@
 import Card from '@components/Card';
 import './style.scss';
-import { BooksItem } from '@src/api/books/types';
+import { BooksItem, BooksItemExtra } from '@src/api/books/types';
 import { ModalContext } from '@components/Modal/context';
 import { useContext } from 'react';
 
@@ -18,8 +18,8 @@ const CardsList = (props: CardsListProps) => {
   return (
     <ul className="cards-list">
       {props.data.map((item, index) => (
-        <li className="cards-list__item" key={`${index}-${item.id}`} onClick={handleClick(item.id)}>
-          <Card data={item} />
+        <li className="cards-list__item" key={`${index}-${item.id}`}>
+          <Card data={item} onClick={handleClick(item.id)} />
         </li>
       ))}
     </ul>
