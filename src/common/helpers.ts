@@ -12,7 +12,7 @@ export const cloneFile = (original: File): File => {
   });
 };
 
-export const renderDate = (date: string, locales: string = 'en-US') => {
+export const renderDate = (date: string, locales = 'en-US') => {
   return new Date(date).toLocaleString(locales, {
     year: 'numeric',
     month: 'long',

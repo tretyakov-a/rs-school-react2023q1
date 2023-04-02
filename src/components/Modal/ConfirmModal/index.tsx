@@ -4,11 +4,13 @@ import { ModalProps } from '@components/Modal/context';
 import './style.scss';
 
 const ConfirmModal = (props: ModalProps) => {
+  const { question, okCallback, onClose } = props;
+
   const handleOKClick = () => {
-    if (props?.okCallback !== undefined) {
-      props.okCallback();
+    if (okCallback !== undefined) {
+      okCallback();
     }
-    props.onClose();
+    onClose();
   };
 
   return (
@@ -17,10 +19,10 @@ const ConfirmModal = (props: ModalProps) => {
         <div className="confirm-modal__icon">
           <FontAwesomeIcon icon={faQuestion} />
         </div>
-        <div className="confirm-modal__message">{props?.question}</div>
+        <div className="confirm-modal__message">{question}</div>
       </div>
       <div className="confirm-modal__buttons">
-        <button className="button" onClick={props.onClose}>
+        <button className="button" onClick={onClose}>
           Cancel
         </button>
         <button className="button" onClick={handleOKClick}>

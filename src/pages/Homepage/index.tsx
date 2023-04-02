@@ -16,9 +16,7 @@ const Homepage = () => {
   const [data, setData] = useState<BooksItem[] | null>(null);
 
   const handleSearchSubmit = async (searchQuery: string) => {
-    if (booksService === undefined) return;
-
-    await loadData(booksService.findBooks(searchQuery), setData);
+    await loadData(booksService!.findBooks.bind(null, searchQuery), setData);
   };
 
   const renderError = (error: Error) => {

@@ -4,19 +4,17 @@ import { ModalContext, getModalComponent } from '@components/Modal/context';
 
 const Modal = () => {
   const { modal, setModal } = useContext(ModalContext);
-  const [display, setDisplay] = useState<string>(modal!.isOpen ? 'open' : '');
+  const [display, setDisplay] = useState<string>(modal.isOpen ? 'open' : '');
 
   useEffect(() => {
-    setDisplay(modal?.isOpen ? 'open' : '');
-  }, [modal?.isOpen]);
-
-  if (modal === undefined) return null;
+    setDisplay(modal.isOpen ? 'open' : '');
+  }, [modal.isOpen]);
 
   const close = () => {
     setDisplay('close');
 
     setTimeout(() => {
-      setModal?.({ isOpen: false });
+      setModal({ isOpen: false });
     }, Modal.animationDuration);
   };
 

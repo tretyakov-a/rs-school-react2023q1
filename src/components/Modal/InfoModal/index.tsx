@@ -17,13 +17,9 @@ const InfoModal = (props: ModalProps) => {
   const [data, setData] = useState<BooksItemExtra | null>(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-    if (props.id !== undefined && booksService !== undefined)
-      loadData(booksService.getBookById(props.id, controller.signal), setData);
-
-    return () => {
-      controller.abort();
-    };
+    if (props.id !== undefined && booksService !== undefined) {
+      loadData(booksService.getBookById.bind(null, props.id), setData);
+    }
   }, [props.id, loadData, booksService]);
 
   const renderError = (error: Error) => {
@@ -36,12 +32,14 @@ const InfoModal = (props: ModalProps) => {
         <FontAwesomeIcon icon={faXmark} />
       </button>
       <div className="info-modal__content">
-        {loading === Loading.PENDING || data === null ? (
+        {loading === Loading.PENDING ? (
           <Loader />
         ) : error ? (
           renderError(error)
-        ) : (
+        ) : data !== null ? (
           <Card data={data} displayMode="full" />
+        ) : (
+          'No data loaded'
         )}
       </div>
     </div>

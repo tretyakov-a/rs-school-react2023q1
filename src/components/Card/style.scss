@@ -29,8 +29,9 @@
   &__title {
     color: var(--color-text-xl);
     font-size: 1rem;
-    line-height: 100%;
+    line-height: 120%;
     font-weight: 700;
+    word-break: break-word;
   }
 
   &__info,
@@ -82,6 +83,7 @@
 
       .card__row-content {
         display: block;
+        word-break: break-word;
       }
 
       p {
@@ -99,6 +101,8 @@
       font-size: 1.5rem;
       margin-bottom: 0.2rem;
       padding-right: 1.2rem;
+      word-break: normal;
+      line-height: 100%;
     }
 
     &__left {

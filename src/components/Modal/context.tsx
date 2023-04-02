@@ -17,8 +17,8 @@ export interface ModalProps extends ModalState {
 }
 
 export interface ModalContextProps {
-  modal?: ModalState;
-  setModal?: React.Dispatch<React.SetStateAction<ModalState>>;
+  modal: ModalState;
+  setModal: React.Dispatch<React.SetStateAction<ModalState>>;
 }
 
 const defaultModalState: ModalState = {
@@ -26,7 +26,10 @@ const defaultModalState: ModalState = {
   question: 'Are you sure?',
 };
 
-export const ModalContext = React.createContext<ModalContextProps>({});
+export const ModalContext = React.createContext<ModalContextProps>({
+  modal: defaultModalState,
+  setModal: () => {},
+});
 
 export const useModal = () => {
   const [modal, setModal] = useState<ModalState>({ ...defaultModalState });

@@ -1,6 +1,6 @@
 import Card from '@components/Card';
 import './style.scss';
-import { BooksItem, BooksItemExtra } from '@src/api/books/types';
+import { BooksItem } from '@src/api/books/types';
 import { ModalContext } from '@components/Modal/context';
 import { useContext } from 'react';
 
@@ -12,7 +12,7 @@ const CardsList = (props: CardsListProps) => {
   const { setModal } = useContext(ModalContext);
 
   const handleClick = (id: string) => () => {
-    setModal!({ isOpen: true, id, type: 'info' });
+    setModal({ isOpen: true, id, type: 'info' });
   };
 
   return (
