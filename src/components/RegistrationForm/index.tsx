@@ -36,7 +36,8 @@ const RegistrationForm = (props: RegistrationFormProps) => {
   const fillFormWithTestValues = useCallback(() => {
     const keys = Object.keys(testFormValues) as (keyof typeof testFormValues)[];
     keys.forEach((key) => {
-      setValue(key, testFormValues[key]);
+      const value = testFormValues[key];
+      if (value !== undefined) setValue(key, value);
     });
   }, [setValue]);
 

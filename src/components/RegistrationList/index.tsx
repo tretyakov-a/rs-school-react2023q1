@@ -1,5 +1,6 @@
 import './style.scss';
 import { formFieldsOptions } from '@components/RegistrationForm/config';
+import { FormInputsTypes } from '@components/RegistrationForm/types';
 import { StoredFormInputs } from '@pages/Registration';
 
 interface RegistrationListProps {
@@ -17,14 +18,15 @@ const RegistrationList = (props: RegistrationListProps) => {
     );
   };
 
-  const renderFieldValue = (value: File | string | string[], type: string) => {
+  const renderFieldValue = (value: Exclude<FormInputsTypes, FileList>, type: string) => {
+    if (typeof value === 'boolean') return 'on';
     if (value instanceof File) {
       return renderFile(value);
     }
     if (Array.isArray(value)) {
       return value.join(', ');
     }
-    if (type === 'date') {
+    if (type === 'date' && typeof value === 'string') {
       return new Date(value).toLocaleDateString();
     }
     return value;
@@ -40,9 +42,7 @@ const RegistrationList = (props: RegistrationListProps) => {
       items.push(
         <div className="registration-list__item-row" key={name}>
           <span className="registration-list__item-row-label">{label}:</span>
-          <span className="registration-list__item-row-value">
-            {renderFieldValue(formData[name], type)}
-          </span>
+          <span className="registration-list__item-row-value">{renderFieldValue(value, type)}</span>
         </div>
       );
     });
