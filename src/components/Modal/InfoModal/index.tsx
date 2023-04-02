@@ -6,11 +6,14 @@ import Loader from '@components/Loader';
 import Card from '@components/Card';
 import { BooksItemExtra, BooksServiceContext } from '@src/api/books';
 import { ModalProps } from '../context';
-import useDataLoader from '@src/hooks/use-data-loader';
+import { useDataLoader, Loading } from '@src/hooks/use-data-loader';
 
 const InfoModal = (props: ModalProps) => {
   const { booksService } = useContext(BooksServiceContext);
-  const { isLoading, loadingError, loadData } = useDataLoader();
+  const {
+    loadingState: { loading, error },
+    loadData,
+  } = useDataLoader();
   const [data, setData] = useState<BooksItemExtra | null>(null);
 
   useEffect(() => {
@@ -21,7 +24,7 @@ const InfoModal = (props: ModalProps) => {
     return () => {
       controller.abort();
     };
-  }, [props.id]);
+  }, [props.id, loadData, booksService]);
 
   const renderError = (error: Error) => {
     return <div>{error.message}</div>;
@@ -33,10 +36,10 @@ const InfoModal = (props: ModalProps) => {
         <FontAwesomeIcon icon={faXmark} />
       </button>
       <div className="info-modal__content">
-        {isLoading || data === null ? (
+        {loading === Loading.PENDING || data === null ? (
           <Loader />
-        ) : loadingError ? (
-          renderError(loadingError)
+        ) : error ? (
+          renderError(error)
         ) : (
           <Card data={data} displayMode="full" />
         )}

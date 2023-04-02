@@ -5,11 +5,14 @@ import './style.scss';
 import { useContext, useState } from 'react';
 import Loader from '@components/Loader';
 import { BooksItem, BooksServiceContext } from '@src/api/books';
-import useDataLoader from '@src/hooks/use-data-loader';
+import { useDataLoader, Loading } from '@src/hooks/use-data-loader';
 
 const Homepage = () => {
   const { booksService } = useContext(BooksServiceContext);
-  const { isLoading, loadingError, loadData } = useDataLoader(false);
+  const {
+    loadingState: { loading, error },
+    loadData,
+  } = useDataLoader();
   const [data, setData] = useState<BooksItem[] | null>(null);
 
   const handleSearchSubmit = async (searchQuery: string) => {
@@ -28,10 +31,10 @@ const Homepage = () => {
         <SearchBar onSubmit={handleSearchSubmit} />
       </div>
       <div className="homepage__card-list-container">
-        {isLoading ? (
+        {loading === Loading.PENDING ? (
           <Loader />
-        ) : loadingError ? (
-          renderError(loadingError)
+        ) : error ? (
+          renderError(error)
         ) : data !== null ? (
           <CardsList data={data} />
         ) : (
