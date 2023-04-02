@@ -28,7 +28,7 @@ const nameFormField: FormFieldOptions = {
 };
 
 const noValidationField: FormFieldOptions = {
-  name: 'test',
+  name: 'birthday',
   type: 'date',
 };
 

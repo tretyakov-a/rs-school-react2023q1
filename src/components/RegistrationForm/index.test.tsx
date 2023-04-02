@@ -6,6 +6,10 @@ import { ModalContext } from '@components/Modal/context';
 const onSubmitMock = jest.fn();
 const setModalMock = jest.fn(({ okCallback }) => okCallback());
 
+jest.mock('./Inputs', () => ({
+  registerInput: jest.fn(),
+}));
+
 jest.mock('react-hook-form', () => ({
   useForm: jest.fn(() => ({
     setValue: jest.fn(),

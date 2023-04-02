@@ -15,7 +15,7 @@ export type FormFieldBaseOptions = {
 };
 
 export type FormFieldOptions = FormFieldBaseOptions & {
-  name: string;
+  name: keyof FormInputs;
 };
 
 export type FormValues = Record<

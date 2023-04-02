@@ -4,13 +4,13 @@ import { UseFormRegister, UseFormWatch } from 'react-hook-form';
 import { FormInputs } from '../types';
 
 const defaultValue: FormFieldOptions = {
-  name: '',
+  name: 'name',
   type: '',
 };
 
 interface withFormFieldOptionsProps {
   options: FormFieldOptions;
-  register: UseFormRegister<FormInputs> | null;
+  register: ((options: FormFieldOptions) => ReturnType<UseFormRegister<FormInputs>>) | null;
   watch: UseFormWatch<FormInputs> | null;
 }
 

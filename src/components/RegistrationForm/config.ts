@@ -80,7 +80,7 @@ export const defautFormValues: FormValues = {
   email: '',
   birthday: '',
   country: '',
-  subscribe: '',
+  subscribe: 'on',
 };
 
 export const testFormValues: FormValues = {

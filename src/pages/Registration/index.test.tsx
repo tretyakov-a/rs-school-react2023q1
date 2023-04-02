@@ -11,11 +11,11 @@ const RegistrationFormMock = RegistrationForm as { default: React.FC<Registratio
 
 const testFormFields: FormFieldOptions[] = [
   {
-    name: 'text',
+    name: 'name',
     type: 'text',
   },
   {
-    name: 'radio',
+    name: 'programmingLanguage',
     type: 'radio',
   },
 ];

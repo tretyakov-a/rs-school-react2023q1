@@ -3,27 +3,18 @@ import React, { useContext } from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { InputProps } from '../types';
 import { FormInputs } from '@components/RegistrationForm/types';
-import { getValidators } from '@components/RegistrationForm/validation';
+import { CustomInputProps } from '../types';
 
-const FileInput = (props: InputProps) => {
-  const { options, register, watch } = useContext(FormFieldOptionsContext);
-
-  const { value } = props;
-  const { name, type } = options;
-  const id = `${value || name}-${type}-input`;
+const FileInput = (props: CustomInputProps) => {
+  const { options, watch } = useContext(FormFieldOptionsContext);
+  const { id, children } = props;
+  const { name } = options;
 
   const watchFile = watch?.(name as keyof FormInputs) as FileList;
   return (
     <div className="custom-file-input">
-      <input
-        type={type}
-        id={id}
-        {...register?.(name as keyof FormInputs, {
-          ...getValidators(options),
-        })}
-      />
+      {children}
       <label htmlFor={id}>
         <span className="custom-file-input__icon">
           <FontAwesomeIcon icon={faDownload} />
