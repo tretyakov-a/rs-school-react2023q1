@@ -14,8 +14,11 @@ const defaultModalState = {
   okCallback: () => {},
 };
 
+const TestModal = () => <div data-testid="test-modal-testid"></div>;
+
 jest.mock('@components/Modal/context', () => ({
   ModalContext: React.createContext(null),
+  getModalComponent: jest.fn(() => TestModal),
 }));
 
 const TestComponent = (props: { modal: ModalState }) => (
@@ -32,9 +35,7 @@ const TestComponent = (props: { modal: ModalState }) => (
 const getElements = () => {
   const modal = screen.getByRole('modal');
   const modalWindow = screen.getByRole('modal-window');
-  const okButton = screen.getByRole('button', { name: /ok/i }) as HTMLButtonElement;
-  const cancelButton = screen.getByRole('button', { name: /cancel/i }) as HTMLButtonElement;
-  return { modal, modalWindow, okButton, cancelButton };
+  return { modal, modalWindow };
 };
 
 describe('<Modal /> test', () => {
@@ -45,16 +46,14 @@ describe('<Modal /> test', () => {
 
   test('Should render correctly', () => {
     render(<TestComponent modal={defaultModalState} />);
-    const { modal, modalWindow, okButton, cancelButton } = getElements();
+    const { modal, modalWindow } = getElements();
 
     expect(modal).toBeInTheDocument();
     expect(modalWindow).toBeInTheDocument();
-    expect(okButton).toBeInTheDocument();
-    expect(cancelButton).toBeInTheDocument();
-    expect(screen.getByText(defaultModalState.question)).toBeInTheDocument();
+    expect(screen.getByTestId('test-modal-testid')).toBeInTheDocument();
   });
 
-  test('Should have correct class when opened or closed', async () => {
+  test('Should have correct class when opened or closed', () => {
     const { rerender } = render(<TestComponent modal={defaultModalState} />);
     const { modal } = getElements();
     expect(modal).not.toHaveClass('open');
@@ -63,29 +62,22 @@ describe('<Modal /> test', () => {
     expect(modal).toHaveClass('open');
   });
 
-  test('Should close on properly clicked area (outside modal window or buttons)', async () => {
+  test('Should close on properly clicked area (outside modal window or buttons)', () => {
     const { rerender } = render(<TestComponent modal={{ ...defaultModalState, isOpen: true }} />);
-    const { modal, modalWindow, cancelButton, okButton } = getElements();
+    const { modal, modalWindow } = getElements();
     fireEvent.click(modalWindow);
     expect(modal).toHaveClass('open');
-    fireEvent.click(cancelButton);
-    expect(modal).toHaveClass('close');
 
     rerender(<TestComponent modal={{ ...defaultModalState, isOpen: true }} />);
     fireEvent.click(modal);
     expect(modal).toHaveClass('close');
-
-    rerender(<TestComponent modal={{ ...defaultModalState, isOpen: true }} />);
-    fireEvent.click(okButton);
-    expect(modal).toHaveClass('close');
   });
 
-  test('Should close correctly with timeout', async () => {
+  test('Should close correctly with timeout', () => {
     render(<TestComponent modal={{ ...defaultModalState, isOpen: true }} />);
-    const { okButton } = getElements();
-    fireEvent.click(okButton);
+    const { modal } = getElements();
+    fireEvent.click(modal);
 
-    expect(setTimeout).toHaveBeenCalled();
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), Modal.animationDuration);
 
     jest.runAllTimers();

@@ -72,7 +72,7 @@ describe('<RegistrationForm /> test', () => {
     onSubmitMock.mockClear();
     setModalMock.mockClear();
     render(
-      <ModalContext.Provider value={{ setModal: setModalMock }}>
+      <ModalContext.Provider value={{ setModal: setModalMock, modal: { isOpen: false } }}>
         <RegistrationForm onSubmit={onSubmitMock} />
       </ModalContext.Provider>
     );

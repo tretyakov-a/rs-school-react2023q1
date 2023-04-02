@@ -5,6 +5,12 @@ import * as modal from '@components/Modal/context';
 
 const modalMock = modal as { ModalContext: React.Context<unknown>; useModal: () => unknown };
 
+jest.mock('@src/api/books', () => ({
+  __esModule: true,
+  useBooksService: jest.fn(() => ({ bookService: null })),
+  BooksServiceContext: React.createContext(null),
+}));
+
 jest.mock('@components/Header', () => () => <div data-testid="header-testid"></div>);
 jest.mock('@components/Footer', () => () => <div data-testid="footer-testid"></div>);
 jest.mock('@components/Modal', () => () => <div data-testid="modal-testid"></div>);

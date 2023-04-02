@@ -1,16 +1,35 @@
+import React from 'react';
 import CardsList from '.';
-import { screen, render } from '@testing-library/react';
-import cardsData from '@assets/cards.json';
+import { screen, render, fireEvent } from '@testing-library/react';
+import data from '@src/api/books/dummy-result.json';
+import { ModalContext } from '@components/Modal/context';
 
-jest.mock('@components/Card', () => () => <div data-testid="card-testid"></div>);
+const cardsDataMock = data.items;
+const setModalMock = jest.fn();
+
+jest.mock('@components/Card', () => ({ onClick }: { onClick: () => void }) => (
+  <div data-testid="card-testid" onClick={onClick}></div>
+));
+
+jest.mock('@components/Modal/context', () => ({
+  ModalContext: React.createContext(null),
+}));
 
 describe('<CardsList /> test', () => {
   test('Should render correctly', () => {
-    render(<CardsList />);
+    render(
+      <ModalContext.Provider value={{ setModal: setModalMock, modal: { isOpen: false } }}>
+        <CardsList data={cardsDataMock} />
+      </ModalContext.Provider>
+    );
 
     expect(screen.getByRole('list')).toBeInTheDocument();
+    expect(screen.getAllByRole('listitem').length).toEqual(cardsDataMock.length);
 
-    expect(screen.getAllByRole('listitem').length).toEqual(cardsData.length);
-    expect(screen.getAllByTestId('card-testid').length).toBe(cardsData.length);
+    const cards = screen.getAllByTestId('card-testid');
+    expect(cards.length).toBe(cardsDataMock.length);
+
+    fireEvent.click(cards[0]);
+    expect(setModalMock).toHaveBeenCalledTimes(1);
   });
 });

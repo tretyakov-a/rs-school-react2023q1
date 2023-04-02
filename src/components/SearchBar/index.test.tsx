@@ -3,6 +3,7 @@ import SearchBar from '.';
 import { render, fireEvent, screen } from '@testing-library/react';
 
 const setSearchValueMock = jest.fn();
+const onSubmitMock = jest.fn();
 
 jest.mock('@src/hooks/use-state-with-ref', () => () => ['test-value', setSearchValueMock]);
 
@@ -14,8 +15,8 @@ const getElements = () => {
 };
 describe('<SearchBar /> test', () => {
   beforeEach(() => {
-    setSearchValueMock.mockClear();
-    render(<SearchBar />);
+    jest.clearAllMocks();
+    render(<SearchBar onSubmit={onSubmitMock} />);
   });
 
   test('Should render correctly', () => {
@@ -32,6 +33,6 @@ describe('<SearchBar /> test', () => {
     });
     expect(setSearchValueMock).toBeCalledTimes(1);
     fireEvent.click(button);
-    expect(setSearchValueMock).toBeCalledTimes(2);
+    expect(onSubmitMock).toBeCalledTimes(1);
   });
 });
