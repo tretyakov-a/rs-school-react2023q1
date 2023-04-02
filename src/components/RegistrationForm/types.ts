@@ -7,8 +7,10 @@ export type FormInputs = {
   programmingLanguage: string | string[];
   gender: string;
   avatar: FileList | File;
-  subscribe: string;
+  subscribe: boolean;
 };
+
+export type FormInputsTypes = FormInputs[keyof FormInputs];
 
 export type InputType =
   | 'text'

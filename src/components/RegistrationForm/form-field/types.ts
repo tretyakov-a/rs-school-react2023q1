@@ -15,10 +15,7 @@ export type FormFieldBaseOptions = {
 };
 
 export type FormFieldOptions = FormFieldBaseOptions & {
-  name: string;
+  name: keyof FormInputs;
 };
 
-export type FormValues = Record<
-  keyof Omit<FormInputs, 'programmingLanguage' | 'gender' | 'avatar'>,
-  string
->;
+export type FormValues = Partial<FormInputs>;

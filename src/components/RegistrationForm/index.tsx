@@ -5,6 +5,7 @@ import { ModalContext } from '@components/Modal/context';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FormInputs } from './types';
 import { defautFormValues, formFields, testFormValues } from './config';
+import { registerInput } from './Inputs';
 
 interface RegistrationFormProps extends React.PropsWithChildren {
   onSubmit: (data: FormInputs) => void;
@@ -36,7 +37,8 @@ const RegistrationForm = (props: RegistrationFormProps) => {
   const fillFormWithTestValues = useCallback(() => {
     const keys = Object.keys(testFormValues) as (keyof typeof testFormValues)[];
     keys.forEach((key) => {
-      setValue(key, testFormValues[key]);
+      const value = testFormValues[key];
+      if (value !== undefined) setValue(key, value);
     });
   }, [setValue]);
 
@@ -49,7 +51,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
       <h3 className="registration-form__title">Registration</h3>
       {formFields.map((field) => (
         <FormFieldOptionsContext.Provider
-          value={{ options: field, register, watch }}
+          value={{ options: field, register: registerInput(register), watch }}
           key={field.name}
         >
           <FormField fieldError={errors[field.name as keyof FormInputs]} />

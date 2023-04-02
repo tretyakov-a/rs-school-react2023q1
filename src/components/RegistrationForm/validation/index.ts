@@ -1,14 +1,9 @@
 import { getAge } from '@common/helpers';
-import {
-  NonStandardValidationOptions,
-  ValidationOptions,
-  Validator,
-  ValidatorInputValue,
-} from './types';
+import { NonStandardValidationOptions, ValidationOptions, Validator } from './types';
 import { getValidationMessage } from './messages';
 import { FormFieldOptions } from '../form-field';
 import { RegisterOptions, Validate } from 'react-hook-form';
-import { FormInputs } from '../types';
+import { FormInputs, FormInputsTypes } from '../types';
 
 const capitalizedValidator: Validator<boolean> = (validationValue) => (inputValue) => {
   const firstLetter = (inputValue as string)[0];
@@ -19,7 +14,7 @@ const capitalizedValidator: Validator<boolean> = (validationValue) => (inputValu
 };
 
 const maxFileSizeValidator: Validator<number> = (validationValue) => (fileList) => {
-  if (fileList === undefined || fileList.length === 0) return;
+  if (fileList === undefined || !(fileList instanceof FileList) || fileList.length === 0) return;
   return (
     validationValue >= (fileList as FileList)[0].size ||
     getValidationMessage('maxFileSize')(validationValue)
@@ -35,7 +30,7 @@ const ageValidator: Validator<number> = (validationValue) => (inputValue) => {
 };
 
 const fileTypeValidator: Validator<string> = (validationValue) => (fileList) => {
-  if (fileList === undefined || fileList.length === 0) return;
+  if (fileList === undefined || !(fileList instanceof FileList) || fileList.length === 0) return;
   return (
     (fileList as FileList)[0].type.split('/')[0] === validationValue ||
     getValidationMessage('fileType')(validationValue)
@@ -70,7 +65,7 @@ const getNonStandardValidators = (validation: ValidationOptions) => {
           [key]: validator(validationValue),
         },
       };
-    }, {} as { validate: Record<string, Validate<ValidatorInputValue, FormInputs>> | undefined });
+    }, {} as { validate: Record<string, Validate<FormInputsTypes, FormInputs>> | undefined });
 };
 
 export const getValidators = (field: FormFieldOptions) => {

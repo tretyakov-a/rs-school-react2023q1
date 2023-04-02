@@ -44,9 +44,6 @@ export const formFieldsOptions: Record<keyof FormInputs, FormFieldBaseOptions> =
     type: 'select',
     data: countries,
     defaultSelectOptionValue: 'Choose country',
-    validation: {
-      required: true,
-    },
   },
   programmingLanguage: {
     label: 'Programming languages',
@@ -80,7 +77,7 @@ export const defautFormValues: FormValues = {
   email: '',
   birthday: '',
   country: '',
-  subscribe: '',
+  subscribe: false,
 };
 
 export const testFormValues: FormValues = {
@@ -89,7 +86,7 @@ export const testFormValues: FormValues = {
   email: 'test@test.ru',
   birthday: '2001-01-01',
   country: 'China',
-  subscribe: 'on',
+  subscribe: true,
 };
 
 export type FieldName = keyof typeof formFieldsOptions;

@@ -23,7 +23,7 @@ const dataItemMock = {
   email: 'test@test.ru',
   birthday: '2001-01-01',
   country: 'test-country',
-  subscribe: 'on',
+  subscribe: true,
   programmingLanguage: ['test-language1', 'test-language2'],
   gender: 'test-gender',
   avatar: imageFileMock,

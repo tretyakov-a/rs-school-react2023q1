@@ -1,3 +1,5 @@
+import { FormInputsTypes } from '../types';
+
 export type StandardValidationOptions = {
   required?: boolean;
   minLength?: number;
@@ -14,10 +16,9 @@ export type NonStandardValidationOptions = {
 
 export type ValidationOptions = StandardValidationOptions & NonStandardValidationOptions;
 
-export type ValidatorInputValue = string | string[] | FileList | File;
 export type Validator<T> = (
   validationValue: T
-) => (inputValue: ValidatorInputValue) => boolean | string | undefined;
+) => (inputValue: FormInputsTypes) => boolean | string | undefined;
 
 export type ExtraMessageKey = 'name' | 'email' | 'default';
 export type Message = (value: unknown) => string;

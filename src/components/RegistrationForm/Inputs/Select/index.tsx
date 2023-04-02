@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import { isOptionsDataArray } from '@components/RegistrationForm/data';
 import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field';
-import { getValidators } from '@components/RegistrationForm/validation';
-import { FormInputs } from '@components/RegistrationForm/types';
 
 const Select = () => {
   const { options, register } = useContext(FormFieldOptionsContext);
@@ -19,13 +17,7 @@ const Select = () => {
 
   const { name, type, defaultSelectOptionValue, data } = options;
   return (
-    <select
-      name={name}
-      id={`${name}-${type}`}
-      {...register?.(name as keyof FormInputs, {
-        ...getValidators(options),
-      })}
-    >
+    <select name={name} id={`${name}-${type}`} {...register?.(options)}>
       <option value="" disabled hidden>
         {defaultSelectOptionValue}
       </option>
