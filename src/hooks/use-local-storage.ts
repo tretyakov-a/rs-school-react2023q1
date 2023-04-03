@@ -1,7 +1,12 @@
+import { useCallback } from 'react';
+
 const useLocalStorage = (key: string): [typeof set, typeof get] => {
-  const set = (value: string) => {
-    localStorage.setItem(key, value);
-  };
+  const set = useCallback(
+    (value: string) => {
+      localStorage.setItem(key, value);
+    },
+    [key]
+  );
 
   const get = () => {
     return localStorage.getItem(key) || '';

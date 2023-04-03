@@ -7,11 +7,11 @@ const useStateWithRef = (storageKey: string): [string, typeof setValue, typeof s
   const [value, setValue] = useState<string>(storageGet());
 
   useEffect(() => {
-    const valueRef = searchValueRef.current; // this fixes eslint warning
     return () => {
-      storageSet(valueRef || '');
+      const { current } = searchValueRef;
+      if (current) storageSet(current);
     };
-  }, [searchValueRef, storageSet]);
+  }, [storageSet]);
 
   useEffect(() => {
     searchValueRef.current = value;
