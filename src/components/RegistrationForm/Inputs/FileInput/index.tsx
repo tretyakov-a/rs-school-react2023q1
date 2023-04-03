@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { FormInputs } from '@components/RegistrationForm/types';
 import { CustomInputProps } from '../types';
 
 const FileInput = (props: CustomInputProps) => {
@@ -11,7 +10,11 @@ const FileInput = (props: CustomInputProps) => {
   const { id, children } = props;
   const { name } = options;
 
-  const watchFile = watch?.(name as keyof FormInputs) as FileList;
+  const watchFile = watch?.(name);
+  const fileName =
+    watchFile !== undefined && watchFile instanceof FileList && watchFile.length !== 0
+      ? watchFile[0].name
+      : 'Choose file...';
   return (
     <div className="custom-file-input">
       {children}
@@ -19,9 +22,7 @@ const FileInput = (props: CustomInputProps) => {
         <span className="custom-file-input__icon">
           <FontAwesomeIcon icon={faDownload} />
         </span>
-        <span className="custom-file-input__filename">
-          {!watchFile || watchFile.length === 0 ? 'Choose file...' : watchFile[0].name}
-        </span>
+        <span className="custom-file-input__filename">{fileName}</span>
       </label>
     </div>
   );

@@ -64,7 +64,7 @@ const Card = (props: CardPropsType) => {
         <div className="card__left">
           <div className="card__img">
             {imageLinks ? (
-              <img src={imageLinks.thumbnail} alt={title as string} />
+              <img src={imageLinks.thumbnail} alt={title} />
             ) : (
               <FontAwesomeIcon icon={faBook} />
             )}

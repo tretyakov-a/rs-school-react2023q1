@@ -1,4 +1,10 @@
-import { ExtraMessage, ExtraMessageKey, Message, ValidationMessageKey } from './types';
+import {
+  ExtraMessage,
+  ExtraMessageKey,
+  Message,
+  ValidationMessageKey,
+  isExtraMessage,
+} from './types';
 
 export const validationMessages: Record<ValidationMessageKey, Message | ExtraMessage> = {
   required: () => 'field is required',
@@ -17,11 +23,9 @@ export const validationMessages: Record<ValidationMessageKey, Message | ExtraMes
 };
 
 export const getValidationMessage = (key: ValidationMessageKey, name?: string) => {
-  const messageFn =
-    key === 'pattern'
-      ? name === undefined
-        ? (validationMessages[key] as ExtraMessage)['default']
-        : (validationMessages[key] as ExtraMessage)[name as ExtraMessageKey]
-      : validationMessages[key];
-  return messageFn as Message;
+  const msg = validationMessages[key];
+  if (isExtraMessage(msg)) {
+    return key === 'pattern' && name === undefined ? msg['default'] : msg[name as ExtraMessageKey];
+  }
+  return msg;
 };

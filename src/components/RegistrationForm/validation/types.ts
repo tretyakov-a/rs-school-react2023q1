@@ -1,5 +1,3 @@
-import { FormInputsTypes } from '../types';
-
 export type StandardValidationOptions = {
   required?: boolean;
   minLength?: number;
@@ -16,11 +14,15 @@ export type NonStandardValidationOptions = {
 
 export type ValidationOptions = StandardValidationOptions & NonStandardValidationOptions;
 
-export type Validator<T> = (
+export type Validator<T, R> = (
   validationValue: T
-) => (inputValue: FormInputsTypes) => boolean | string | undefined;
+) => (inputValue: R) => boolean | string | undefined;
 
 export type ExtraMessageKey = 'name' | 'email' | 'default';
 export type Message = (value: unknown) => string;
 export type ExtraMessage = Record<ExtraMessageKey, Message>;
 export type ValidationMessageKey = keyof ValidationOptions | Extract<ExtraMessageKey, 'default'>;
+
+export const isExtraMessage = (msg: object): msg is ExtraMessage => {
+  return 'name' in msg && 'email' in msg && 'default' in msg;
+};

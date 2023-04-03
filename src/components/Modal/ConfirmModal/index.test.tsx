@@ -3,6 +3,7 @@ import ConfirmModal from '.';
 
 const onCloseMock = jest.fn();
 const okCallbackMock = jest.fn();
+const testQuestion = 'test-question';
 
 const getElements = () => {
   const okButton = screen.getByRole('button', { name: /ok/i }) as HTMLButtonElement;
@@ -13,7 +14,14 @@ const getElements = () => {
 describe('ConfirmModal test', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    render(<ConfirmModal onClose={onCloseMock} isOpen={true} okCallback={okCallbackMock} />);
+    render(
+      <ConfirmModal
+        onClose={onCloseMock}
+        question={testQuestion}
+        isOpen={true}
+        okCallback={okCallbackMock}
+      />
+    );
   });
 
   test('Should render correctly', () => {
@@ -21,6 +29,7 @@ describe('ConfirmModal test', () => {
 
     expect(okButton).toBeInTheDocument();
     expect(cancelButton).toBeInTheDocument();
+    expect(screen.getByText(testQuestion)).toBeInTheDocument();
   });
 
   test('Ok button should work correctly', () => {

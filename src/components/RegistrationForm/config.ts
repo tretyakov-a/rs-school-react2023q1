@@ -95,4 +95,4 @@ const keys = Object.keys(formFieldsOptions) as (keyof FormInputs)[];
 export const formFields = keys.reduce<FormFieldOptions[]>((acc, optionKey) => {
   acc.push({ ...formFieldsOptions[optionKey], name: optionKey });
   return acc;
-}, [] as FormFieldOptions[]);
+}, []);

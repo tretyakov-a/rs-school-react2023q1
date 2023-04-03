@@ -55,8 +55,8 @@ export const useDataLoader = () => {
         }
         dispatch({ type: Loading.SUCCESS, payload: null });
       } catch (error) {
-        if (!/abort/.test((error as Error).message)) {
-          dispatch({ type: Loading.ERROR, payload: error as Error });
+        if (error instanceof Error && !/abort/.test(error.message)) {
+          dispatch({ type: Loading.ERROR, payload: error });
         }
       } finally {
         controller.current = null;

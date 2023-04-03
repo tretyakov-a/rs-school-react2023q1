@@ -54,7 +54,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
           value={{ options: field, register: registerInput(register), watch }}
           key={field.name}
         >
-          <FormField fieldError={errors[field.name as keyof FormInputs]} />
+          <FormField fieldError={errors[field.name]} />
         </FormFieldOptionsContext.Provider>
       ))}
       <div className="registration-form__buttons">
