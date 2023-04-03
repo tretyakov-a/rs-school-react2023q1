@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import useStateWithRef from './use-state-with-ref';
 
 const setStorageValueMock = jest.fn();
@@ -13,9 +13,20 @@ describe('UseStateWithRef test', () => {
     expect(result.current[0]).toBe(testStoredValue);
   });
 
-  test('Should save to storage on unmount', async () => {
-    const { unmount } = renderHook(() => useStateWithRef('storageKey'));
+  test('Should save to storage on unmount', () => {
+    const { unmount, result } = renderHook(() => useStateWithRef('storageKey'));
+
+    // const [value, setValue] = result.current;
+    // code below works only if use methods directly from result.current
+    // and doesnt work with destructured ones
+    const newValue = 'new-value';
+    act(() => {
+      result.current[1](newValue);
+    });
+
+    expect(result.current[0]).toBe(newValue);
+
     unmount();
-    expect(setStorageValueMock).toBeCalled();
+    expect(setStorageValueMock).toHaveBeenCalledWith(newValue);
   });
 });

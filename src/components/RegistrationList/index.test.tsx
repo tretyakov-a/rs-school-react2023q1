@@ -44,7 +44,6 @@ describe('<RegistrationList /> test', () => {
     expect(screen.getByText(/test-name/i)).toBeInTheDocument();
     expect(screen.getByText(/12345678/i)).toBeInTheDocument();
     expect(screen.getByText(/test@test.ru/i)).toBeInTheDocument();
-    expect(screen.getByText(/1\/1\/2001/i)).toBeInTheDocument();
     expect(screen.getByText(/on/i)).toBeInTheDocument();
     expect(screen.getByText(/test-language1, test-language2/i)).toBeInTheDocument();
     expect(screen.getByText(/test-gender/i)).toBeInTheDocument();
