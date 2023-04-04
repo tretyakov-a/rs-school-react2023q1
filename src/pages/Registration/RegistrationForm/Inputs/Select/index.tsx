@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { isOptionsDataArray } from '@components/RegistrationForm/data';
-import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field';
+import { isOptionsDataArray } from '../../data';
+import { FormFieldOptionsContext } from '../../form-field';
 
 const Select = () => {
   const { options, register } = useContext(FormFieldOptionsContext);

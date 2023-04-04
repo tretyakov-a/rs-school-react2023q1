@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { isRadioInputDataArray } from '@components/RegistrationForm/data';
+import { isRadioInputDataArray } from '../../data';
 import { Input } from '..';
-import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
+import { FormFieldOptionsContext } from '../../form-field/context';
 import CustomInput from '../CustomInput';
 
 const InputsList = () => {

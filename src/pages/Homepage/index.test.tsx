@@ -26,13 +26,13 @@ const setDataLoaderMock = (state: { loading: Loading; error: Error | null }) => 
   }));
 };
 
-jest.mock('@components/SearchBar', () => ({ onSubmit }: { onSubmit: () => void }) => (
+jest.mock('./SearchBar', () => ({ onSubmit }: { onSubmit: () => void }) => (
   <div data-testid="search-bar-testid">
     <button onClick={onSubmit}>Submit</button>
   </div>
 ));
 
-jest.mock('@components/CardsList', () => () => <div data-testid="cards-list-testid" />);
+jest.mock('./CardsList', () => () => <div data-testid="cards-list-testid" />);
 
 describe('<Homepage /> test', () => {
   test('Should render correctly', () => {

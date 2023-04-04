@@ -2,9 +2,9 @@ import '@src/__mocks__/page-wrap-mock';
 import { getEmptyFileListMock, getFileListMock } from '@src/__mocks__/file-instance-mock';
 import Registration from '.';
 import { screen, render, fireEvent } from '@testing-library/react';
-import { FormFieldOptions } from '@components/RegistrationForm/form-field';
-import * as RegistrationForm from '@components/RegistrationForm';
-import { FormInputs } from '@components/RegistrationForm/types';
+import { FormFieldOptions } from './RegistrationForm/form-field';
+import * as RegistrationForm from './RegistrationForm';
+import { FormInputs } from './RegistrationForm/types';
 
 type RegistrationFormMockProps = { onSubmit: (formData: Pick<FormInputs, 'avatar'>) => void };
 const RegistrationFormMock = RegistrationForm as { default: React.FC<RegistrationFormMockProps> };
@@ -33,7 +33,7 @@ jest.mock('@common/helpers', () => ({
   cloneFile: jest.fn(),
 }));
 
-jest.mock('@components/RegistrationForm', () => ({
+jest.mock('./RegistrationForm', () => ({
   __esModule: true,
   default: (props: RegistrationFormMockProps) => (
     <div data-testid="form-testid">
@@ -42,8 +42,8 @@ jest.mock('@components/RegistrationForm', () => ({
   ),
 }));
 
-jest.mock('@components/RegistrationList', () => () => <div data-testid="list-testid" />);
-jest.mock('@components/RegistrationForm/form-field', () => ({
+jest.mock('./RegistrationList', () => () => <div data-testid="list-testid" />);
+jest.mock('./RegistrationForm/form-field', () => ({
   getFormFields: () => testFormFields,
 }));
 

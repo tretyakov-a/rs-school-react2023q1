@@ -1,6 +1,6 @@
 import './style.scss';
-import HeaderMenu from '@components/HeaderMenu';
-import { getLabel } from '@components/HeaderMenu/links';
+import HeaderMenu from './HeaderMenu';
+import { getLabel } from './HeaderMenu/links';
 import { useLocation } from 'react-router-dom';
 
 const Header = () => {

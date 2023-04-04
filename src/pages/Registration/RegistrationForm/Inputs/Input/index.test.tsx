@@ -2,10 +2,10 @@ import React from 'react';
 import Input from '.';
 import { screen, render } from '@testing-library/react';
 
-import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
-import { FormFieldOptions } from '@components/RegistrationForm/form-field';
+import { FormFieldOptionsContext } from '../../form-field/context';
+import { FormFieldOptions } from '../../form-field';
 
-jest.mock('@components/RegistrationForm/form-field/context', () => ({
+jest.mock('../../form-field/context', () => ({
   FormFieldOptionsContext: React.createContext({
     options: {
       name: 'name',

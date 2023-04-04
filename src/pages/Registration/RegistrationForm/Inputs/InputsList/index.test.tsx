@@ -1,9 +1,9 @@
 import React from 'react';
 import InputsList from '.';
 import { screen, render } from '@testing-library/react';
-import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
+import { FormFieldOptionsContext } from '../../form-field/context';
 
-jest.mock('@components/RegistrationForm/data', () => ({
+jest.mock('../../data', () => ({
   isRadioInputDataArray: jest.fn(() => true),
 }));
 
@@ -20,7 +20,7 @@ jest.mock('..', () => ({
   ),
 }));
 
-jest.mock('@components/RegistrationForm/form-field/context', () => ({
+jest.mock('../../form-field/context', () => ({
   FormFieldOptionsContext: React.createContext(null),
 }));
 

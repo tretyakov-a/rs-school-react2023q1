@@ -1,8 +1,8 @@
 import { screen, render } from '@testing-library/react';
 import Header from '.';
 
-jest.mock('@components/HeaderMenu', () => () => <div data-testid="header-menu-testid"></div>);
-jest.mock('@components/HeaderMenu/links', () => {
+jest.mock('./HeaderMenu', () => () => <div data-testid="header-menu-testid"></div>);
+jest.mock('./HeaderMenu/links', () => {
   return {
     getLabel: jest.fn(() => 'test-label'),
   };

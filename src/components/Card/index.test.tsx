@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import Card from '.';
-import dataMock from '@src/api/books/dummy-book-result.json';
+import dataMock from '@src/api/books/data/dummy-book-result.json';
 
 jest.mock('./Rating', () => ({
   Rating: (props: { value: number }) => <div data-testid="rating-testid">{props.value}</div>,

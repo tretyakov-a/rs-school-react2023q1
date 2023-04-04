@@ -3,7 +3,7 @@ import RegistrationList from '.';
 import { screen, render } from '@testing-library/react';
 import { StoredFormInputs } from '@pages/Registration';
 
-jest.mock('@components/RegistrationForm/config', () => ({
+jest.mock('../RegistrationForm/config', () => ({
   formFieldsOptions: {
     name: { type: 'text', label: 'name' },
     password: { type: 'password', label: 'password' },

@@ -1,7 +1,7 @@
 import React from 'react';
 import CardsList from '.';
 import { screen, render, fireEvent } from '@testing-library/react';
-import data from '@src/api/books/dummy-result.json';
+import data from '@src/api/books/data/dummy-result.json';
 import { ModalContext } from '@components/Modal/context';
 
 const cardsDataMock = data.items;

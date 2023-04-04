@@ -11,8 +11,8 @@ jest.mock('@src/api/books', () => ({
   BooksServiceContext: React.createContext(null),
 }));
 
-jest.mock('@components/Header', () => () => <div data-testid="header-testid"></div>);
-jest.mock('@components/Footer', () => () => <div data-testid="footer-testid"></div>);
+jest.mock('./Header', () => () => <div data-testid="header-testid"></div>);
+jest.mock('./Footer', () => () => <div data-testid="footer-testid"></div>);
 jest.mock('@components/Modal', () => () => <div data-testid="modal-testid"></div>);
 jest.mock('react-router-dom', () => {
   return {

@@ -1,5 +1,5 @@
-import SearchBar from '@components/SearchBar';
-import CardsList from '@components/CardsList';
+import SearchBar from './SearchBar';
+import CardsList from './CardsList';
 import PageWrap from '@components/PageWrap';
 import './style.scss';
 import { useContext, useState } from 'react';

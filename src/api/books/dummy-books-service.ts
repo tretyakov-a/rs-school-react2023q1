@@ -1,6 +1,6 @@
 import { BooksItem, BooksItemExtra, BooksService } from './types';
-import dummyResponseResult from './dummy-result.json';
-import dummyBookResponseResult from './dummy-book-result.json';
+import dummyResponseResult from './data/dummy-result.json';
+import dummyBookResponseResult from './data/dummy-book-result.json';
 
 class DummyBooksService implements BooksService {
   findBooks = async (q: string, abortSignal?: AbortSignal): Promise<BooksItem[] | null> => {

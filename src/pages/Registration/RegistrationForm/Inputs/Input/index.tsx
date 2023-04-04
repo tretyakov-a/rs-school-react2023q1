@@ -1,4 +1,4 @@
-import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
+import { FormFieldOptionsContext } from '../../form-field/context';
 import React, { useContext } from 'react';
 import { InputProps } from '../types';
 
