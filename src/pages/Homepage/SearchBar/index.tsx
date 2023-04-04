@@ -3,12 +3,14 @@ import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import useStateWithRef from '@src/hooks/use-state-with-ref';
+import { Loading } from '@src/hooks/use-data-loader/types';
 
 type SearchBarProps = {
   onSubmit: (searchQuery: string) => void;
+  loading: Loading;
 };
 
-const SearchBar = (props: SearchBarProps) => {
+const SearchBar = ({ onSubmit, loading }: SearchBarProps) => {
   const [searchValue, setSearchValue] = useStateWithRef(SearchBar.localStorageKey);
 
   const handleInputChange = (e: React.ChangeEvent) => {
@@ -21,9 +23,10 @@ const SearchBar = (props: SearchBarProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    props.onSubmit(searchValue);
+    onSubmit(searchValue);
   };
 
+  const loadingClass = loading === Loading.PENDING ? 'loading' : '';
   return (
     <div className="search-bar">
       <form className="search-bar__form" onSubmit={handleSubmit}>
@@ -38,7 +41,7 @@ const SearchBar = (props: SearchBarProps) => {
             onChange={handleInputChange}
           />
         </div>
-        <button className="search-bar__submit" type="submit">
+        <button className={`search-bar__submit ${loadingClass}`} type="submit">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
       </form>

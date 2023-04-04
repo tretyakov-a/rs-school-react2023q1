@@ -5,7 +5,8 @@ import './style.scss';
 import { useContext, useState } from 'react';
 import Loader from '@components/Loader';
 import { BooksItem, BooksServiceContext } from '@src/api/books';
-import { useDataLoader, Loading } from '@src/hooks/use-data-loader';
+import { useDataLoader } from '@src/hooks/use-data-loader';
+import { Loading } from '@src/hooks/use-data-loader/types';
 
 const Homepage = () => {
   const { booksService } = useContext(BooksServiceContext);
@@ -26,7 +27,7 @@ const Homepage = () => {
   return (
     <PageWrap className="homepage">
       <div className="homepage__search-bar-container">
-        <SearchBar onSubmit={handleSearchSubmit} />
+        <SearchBar onSubmit={handleSearchSubmit} loading={loading} />
       </div>
       <div className="homepage__card-list-container">
         {loading === Loading.PENDING ? (

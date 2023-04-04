@@ -41,5 +41,11 @@
     &:active {
       background-color: var(--color-primary-alpha50);
     }
+
+    &.loading {
+      pointer-events: none;
+      color: var(--color-text-m);
+      background-color: var(--color-text-s);
+    }
   }
 }
