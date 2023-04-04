@@ -2,11 +2,11 @@ import '@src/__mocks__/loader-mock';
 import '@src/__mocks__/books-service-context-mock';
 import { screen, render, fireEvent } from '@testing-library/react';
 import InfoModal from '.';
-import { Loading } from '@src/hooks/use-data-loader';
+import { Loading } from '@src/hooks/use-data-loader/types';
 import * as dataLoader from '@src/hooks/use-data-loader';
 import * as react from 'react';
 
-const dataLoaderMock = dataLoader as { Loading: object; useDataLoader: () => void };
+const dataLoaderMock = dataLoader as { useDataLoader: () => void };
 const reactMock = react as { useState: () => void };
 
 jest.mock('react', () => ({
@@ -24,7 +24,6 @@ const loadDataMock = jest.fn((fetchData: () => void, setData: () => void) => {
 
 jest.mock('@src/hooks/use-data-loader', () => ({
   __esModule: true,
-  Loading: { IDLE: 0, PENDING: 1, SUCCESS: 2, ERROR: 3 },
   useDataLoader: jest.fn(),
 }));
 

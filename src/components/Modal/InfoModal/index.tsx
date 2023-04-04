@@ -6,7 +6,8 @@ import Loader from '@components/Loader';
 import Card from '@components/Card';
 import { BooksItemExtra, BooksServiceContext } from '@src/api/books';
 import { ModalProps } from '../context';
-import { useDataLoader, Loading } from '@src/hooks/use-data-loader';
+import { useDataLoader } from '@src/hooks/use-data-loader';
+import { Loading } from '@src/hooks/use-data-loader/types';
 
 const InfoModal = (props: ModalProps) => {
   const { booksService } = useContext(BooksServiceContext);

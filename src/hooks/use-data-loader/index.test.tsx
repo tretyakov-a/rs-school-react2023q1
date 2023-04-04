@@ -1,5 +1,6 @@
 import { render, waitFor, screen } from '@testing-library/react';
-import { Loading, useDataLoader } from './use-data-loader';
+import { useDataLoader } from '.';
+import { Loading } from './types';
 import { useEffect } from 'react';
 
 const mockFetchData =

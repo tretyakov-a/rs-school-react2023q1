@@ -1,21 +1,5 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
-
-export enum Loading {
-  IDLE,
-  PENDING,
-  SUCCESS,
-  ERROR,
-}
-
-interface LoadingAction {
-  type: Loading;
-  payload: Error | null;
-}
-
-interface LoadingState {
-  loading: Loading;
-  error: Error | null;
-}
+import { Loading, LoadingAction, LoadingState } from './types';
 
 const loadingReducer = (state: LoadingState, action: LoadingAction) => {
   const { type, payload: error } = action;
