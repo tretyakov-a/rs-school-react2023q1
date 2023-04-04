@@ -36,6 +36,7 @@ export const formFieldsOptions: Record<keyof FormInputs, FormFieldBaseOptions> =
     label: 'Birthday',
     type: 'date',
     validation: {
+      required: true,
       age: 16,
     },
   },
@@ -44,18 +45,27 @@ export const formFieldsOptions: Record<keyof FormInputs, FormFieldBaseOptions> =
     type: 'select',
     data: countries,
     defaultSelectOptionValue: 'Choose country',
+    validation: {
+      required: true,
+    },
   },
   programmingLanguage: {
     label: 'Programming languages',
     type: 'checkbox',
     formFieldType: 'list',
     data: programmingLanguages,
+    validation: {
+      required: true,
+    },
   },
   gender: {
     label: 'Gender',
     type: 'radio',
     formFieldType: 'list',
     data: genders,
+    validation: {
+      required: true,
+    },
   },
   avatar: {
     label: 'Avatar',
@@ -63,11 +73,15 @@ export const formFieldsOptions: Record<keyof FormInputs, FormFieldBaseOptions> =
     validation: {
       maxFileSize: 100000,
       fileType: 'image',
+      required: true,
     },
   },
   subscribe: {
     label: 'Subscribe to newsletter',
     type: 'checkbox',
+    validation: {
+      required: true,
+    },
   },
 };
 
