@@ -1,9 +1,9 @@
 import '@src/__mocks__/local-storage-mock';
-import { renderHook, waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import useLocalStorage from './use-local-storage';
 
 describe('useLocalStorage test', () => {
-  test('Should work correctly', async () => {
+  test('Should work correctly', () => {
     const testValue = 'test-value';
     const testKey = 'test-key';
     const {
@@ -12,10 +12,7 @@ describe('useLocalStorage test', () => {
       },
     } = renderHook(() => useLocalStorage(testKey));
 
-    await waitFor(() => {
-      set(testValue);
-    });
-
+    set(testValue);
     expect(get()).toBe(testValue);
     localStorage.removeItem(testKey);
     expect(get()).toBe('');

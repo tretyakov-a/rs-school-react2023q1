@@ -1,4 +1,3 @@
-import '@src/__mocks__/loader-mock';
 import '@src/__mocks__/books-service-context-mock';
 import { screen, render, fireEvent } from '@testing-library/react';
 import InfoModal from '.';
@@ -16,6 +15,9 @@ jest.mock('react', () => ({
 }));
 
 jest.mock('@components/Card', () => () => <div data-testid="card-testid"></div>);
+jest.mock('@components/LoadingResult', () => ({ children }: React.PropsWithChildren) => (
+  <div data-testid="loading-result-testid">{children}</div>
+));
 
 const loadDataMock = jest.fn((fetchData: () => void, setData: () => void) => {
   fetchData();
@@ -61,12 +63,6 @@ describe('InfoModal test', () => {
     expect(loadDataMock).toHaveBeenCalledTimes(1);
   });
 
-  test('Should render loader correctly', () => {
-    setDataLoaderMock({ loading: Loading.PENDING, error: null });
-    renderInfoModal();
-    expect(screen.getByTestId('loader-testid')).toBeInTheDocument();
-  });
-
   test('Should render data correctly', () => {
     setDataLoaderMock({ loading: Loading.SUCCESS, error: null });
     const { rerender } = renderInfoModal();
@@ -77,12 +73,5 @@ describe('InfoModal test', () => {
     rerender(<InfoModal onClose={onCloseMock} isOpen={true} id={'test-id'} />);
 
     expect(screen.getByText('No data loaded')).toBeInTheDocument();
-  });
-
-  test('Should render errors correctly', () => {
-    setDataLoaderMock({ loading: Loading.ERROR, error: new Error('test-error') });
-    renderInfoModal();
-
-    expect(screen.getByText('test-error')).toBeInTheDocument();
   });
 });

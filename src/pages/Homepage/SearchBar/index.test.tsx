@@ -6,7 +6,8 @@ import { Loading } from '@src/hooks/use-data-loader/types';
 const setSearchValueMock = jest.fn();
 const onSubmitMock = jest.fn();
 
-jest.mock('@src/hooks/use-state-with-ref', () => () => ['test-value', setSearchValueMock]);
+const testValue = 'test-value';
+jest.mock('@src/hooks/use-state-with-ref', () => () => [testValue, setSearchValueMock]);
 
 const getElements = () => {
   const textbox = screen.getByRole('textbox');
@@ -37,15 +38,21 @@ describe('<SearchBar /> test', () => {
     expect(button).toHaveClass('loading');
   });
 
-  test('handleSubmit should fired on button click', () => {
+  test('handleInputChange should be fired on input change', () => {
     renderSearchBar();
-    const { searchInputEl, button } = getElements();
+    const { searchInputEl } = getElements();
 
     fireEvent.change(searchInputEl, {
-      target: { value: 'submittest' },
+      target: { value: 'new value' },
     });
     expect(setSearchValueMock).toBeCalledTimes(1);
+  });
+
+  test('handleSubmit should be fired on button click', () => {
+    renderSearchBar();
+    const { button } = getElements();
+
     fireEvent.click(button);
-    expect(onSubmitMock).toBeCalledTimes(1);
+    expect(onSubmitMock).toBeCalledWith(testValue);
   });
 });

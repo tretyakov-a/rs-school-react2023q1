@@ -59,13 +59,4 @@ describe('useDataLoader test', () => {
       expect(screen.getByTestId('error-test-id')).toBeInTheDocument();
     });
   });
-
-  test('Should work correctly with null data recived', async () => {
-    render(<TestComponent fetchData={mockFetchData(false, null)} />);
-
-    expect(screen.getByTestId('loader-test-id')).toBeInTheDocument();
-    await waitFor(() => {
-      expect(screen.getByTestId('error-test-id')).toHaveTextContent(/No data found/i);
-    });
-  });
 });
