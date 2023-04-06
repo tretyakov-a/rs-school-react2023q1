@@ -11,18 +11,16 @@ type SearchBarProps = {
 };
 
 const SearchBar = ({ onSubmit, loading }: SearchBarProps) => {
-  const [searchValue, setSearchValue] = useStateWithRef(SearchBar.localStorageKey);
+  const [searchValue, setSearchValue, storageSet] = useStateWithRef(SearchBar.localStorageKey);
 
-  const handleInputChange = (e: React.ChangeEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const el = e.target;
-
-    if (el instanceof HTMLInputElement) {
-      setSearchValue(el.value);
-    }
+    setSearchValue(el.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    storageSet(searchValue);
     onSubmit(searchValue);
   };
 
