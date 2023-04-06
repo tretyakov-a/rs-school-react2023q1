@@ -4,7 +4,7 @@ import useStateWithRef from './use-state-with-ref';
 const setStorageValueMock = jest.fn();
 
 const testStoredValue = 'test-stored-value';
-jest.mock('./use-local-storage', () => () => [setStorageValueMock, () => testStoredValue]);
+jest.mock('@src/hooks/use-local-storage', () => () => [setStorageValueMock, () => testStoredValue]);
 
 describe('UseStateWithRef test', () => {
   test('Should load inital value from storage', async () => {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import useLocalStorage from './use-local-storage';
+import useLocalStorage from '@src/hooks/use-local-storage';
 
 const useStateWithRef = (storageKey: string): [string, typeof setValue, typeof storageSet] => {
   const searchValueRef = useRef<string>();

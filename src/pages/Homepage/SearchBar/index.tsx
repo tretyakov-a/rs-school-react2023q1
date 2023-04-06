@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import useStateWithRef from '@src/hooks/use-state-with-ref';
+import useStateWithRef from './hooks/use-state-with-ref';
 import { Loading } from '@src/hooks/use-data-loader/types';
 
 type SearchBarProps = {

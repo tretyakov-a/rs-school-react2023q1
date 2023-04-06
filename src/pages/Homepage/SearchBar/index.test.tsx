@@ -7,7 +7,7 @@ const setSearchValueMock = jest.fn();
 const onSubmitMock = jest.fn();
 
 const testValue = 'test-value';
-jest.mock('@src/hooks/use-state-with-ref', () => () => [testValue, setSearchValueMock]);
+jest.mock('./hooks/use-state-with-ref', () => () => [testValue, setSearchValueMock]);
 
 const getElements = () => {
   const textbox = screen.getByRole('textbox');
