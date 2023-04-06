@@ -1,14 +1,11 @@
-import React from 'react';
 import './style.scss';
 
-export interface RatingPropsType {
+interface RatingPropsType {
   value: number;
 }
 
-export class Rating extends React.Component<RatingPropsType> {
-  static NumOfStars = 5;
-
-  private getStarStyle(colorStop: number) {
+const Rating = (props: RatingPropsType) => {
+  function getStarStyle(colorStop: number) {
     if (colorStop === 100) return {};
     const colorStopOut = `${colorStop}%`;
     return {
@@ -16,7 +13,7 @@ export class Rating extends React.Component<RatingPropsType> {
     };
   }
 
-  private renderStars(rating: number) {
+  function renderStars(rating: number) {
     const starColorStops = Array(Rating.NumOfStars)
       .fill(0)
       .map((_, i) => {
@@ -26,19 +23,21 @@ export class Rating extends React.Component<RatingPropsType> {
       });
     return starColorStops.map((colorStop, index) => (
       <span className="product-rating__star" key={index} role="star">
-        <span className="product-rating__star-inner" style={this.getStarStyle(colorStop)}></span>
+        <span className="product-rating__star-inner" style={getStarStyle(colorStop)}></span>
       </span>
     ));
   }
 
-  render() {
-    const { value } = this.props;
-    return (
-      <div className="product-rating">
-        <span className="product-rating__stars" title={`rating ${String(value)}`}>
-          {this.renderStars(value)}
-        </span>
-      </div>
-    );
-  }
-}
+  const { value } = props;
+  return (
+    <div className="product-rating">
+      <span className="product-rating__stars" title={`rating ${String(value)}`}>
+        {renderStars(value)}
+      </span>
+    </div>
+  );
+};
+
+Rating.NumOfStars = 5;
+
+export { Rating, type RatingPropsType };

@@ -1,16 +1,5 @@
-import InputRef from '../input-ref';
+import { FormInputs, InputType } from '../types';
 import { ValidationOptions } from '../validation/types';
-
-export type InputType =
-  | 'text'
-  | 'password'
-  | 'date'
-  | 'email'
-  | 'select'
-  | 'radio'
-  | 'checkbox'
-  | 'file'
-  | '';
 
 export type FormFieldType = 'list' | '';
 
@@ -26,6 +15,7 @@ export type FormFieldBaseOptions = {
 };
 
 export type FormFieldOptions = FormFieldBaseOptions & {
-  name: string;
-  inputRef?: InputRef | InputRef[];
+  name: keyof FormInputs;
 };
+
+export type FormValues = Partial<FormInputs>;

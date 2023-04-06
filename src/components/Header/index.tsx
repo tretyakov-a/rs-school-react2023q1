@@ -1,38 +1,21 @@
-import React from 'react';
 import './style.scss';
 import HeaderMenu from '@components/HeaderMenu';
-import { getLink } from '@components/HeaderMenu/links';
+import { getLabel } from '@components/HeaderMenu/links';
+import { useLocation } from 'react-router-dom';
 
-interface HeaderState {
-  pageName: string;
-}
+const Header = () => {
+  const location = useLocation();
 
-export default class Header extends React.Component<unknown, HeaderState> {
-  constructor(props: React.PropsWithChildren) {
-    super(props);
-    this.state = {
-      pageName: 'Home',
-    };
-  }
+  return (
+    <header className="header">
+      <div className="container header__container">
+        <h1>{getLabel(location.pathname)}</h1>
+        <nav className="header__menu-container">
+          <HeaderMenu />
+        </nav>
+      </div>
+    </header>
+  );
+};
 
-  componentDidMount(): void {
-    this.handleMenuLinkChange(getLink().label);
-  }
-
-  handleMenuLinkChange = (pageName: string) => {
-    this.setState({ pageName });
-  };
-
-  render() {
-    return (
-      <header className="header">
-        <div className="container header__container">
-          <h1>{this.state.pageName}</h1>
-          <nav className="header__menu-container">
-            <HeaderMenu onChange={this.handleMenuLinkChange} />
-          </nav>
-        </div>
-      </header>
-    );
-  }
-}
+export default Header;

@@ -10,7 +10,7 @@ $gap: 1rem;
   column-gap: $gap;
   margin-top: 2rem;
   font-size: 0.8rem;
-  
+
   @include sm-breakpoint {
     justify-content: center;
   }

@@ -1,22 +1,28 @@
 import { render, screen } from '@testing-library/react';
-import { Card } from '.';
-import data from '@assets/cards.json';
+import Card from '.';
+import cardsData from '@assets/cards.json';
 import { imagesUrl } from '@common/product';
+
+jest.mock('./Rating', () => {
+  return {
+    Rating: () => <div data-testid="rating-testid"></div>,
+  };
+});
 
 describe('<Card /> test', () => {
   test('Should render correctly with granted data', () => {
-    const cardData = data[0];
-    render(<Card data={cardData} />);
+    const data = cardsData[0];
+    render(<Card data={data} />);
 
-    expect(screen.getByAltText(cardData.brand)).toBeInTheDocument();
-    expect(screen.getByText(cardData.title)).toBeInTheDocument();
-    expect(screen.getByAltText(cardData.title)).toBeInTheDocument();
+    expect(screen.getByAltText(data.brand)).toBeInTheDocument();
+    expect(screen.getByText(data.title)).toBeInTheDocument();
+    expect(screen.getByAltText(data.title)).toBeInTheDocument();
 
     const images = screen.getAllByRole('img') as HTMLImageElement[];
-    expect(images[0].src).toContain(`${imagesUrl}${cardData.imgs[0]}`);
-    expect(images[1].src).toContain(`${imagesUrl}${cardData.brandImage}`);
+    expect(images[0].src).toContain(`${imagesUrl}${data.imgs[0]}`);
+    expect(images[1].src).toContain(`${imagesUrl}${data.brandImage}`);
 
-    expect(screen.getByTitle(`rating ${cardData.rating}`)).toBeInTheDocument();
-    expect(screen.getByText(`${cardData.price} ₽`)).toBeInTheDocument();
+    expect(screen.getByTestId('rating-testid')).toBeInTheDocument();
+    expect(screen.getByText(`${data.price} ₽`)).toBeInTheDocument();
   });
 });

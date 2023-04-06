@@ -1,19 +1,25 @@
-import React from 'react';
-import Modal from '.';
+import React, { useState } from 'react';
 
-interface withModalProps {
-  modalRef: React.RefObject<Modal> | null;
+export interface ModalState {
+  isOpen: boolean;
+  question?: string;
+  okCallback?: () => void;
 }
 
-export const ModalContext = React.createContext<withModalProps>({
-  modalRef: null,
-});
+export interface ModalContextProps {
+  modal?: ModalState;
+  setModal?: React.Dispatch<React.SetStateAction<ModalState>>;
+}
 
-export const withModal =
-  <P extends object>(Wrapped: React.ComponentType<P>): React.FC<Omit<P, keyof withModalProps>> =>
-  (props) =>
-    (
-      <ModalContext.Consumer>
-        {({ modalRef }) => <Wrapped {...(props as P)} modalRef={modalRef} />}
-      </ModalContext.Consumer>
-    );
+const defaultModalState = {
+  isOpen: false,
+  question: 'Are you sure?',
+};
+
+export const ModalContext = React.createContext<ModalContextProps>({});
+
+export const useModal = () => {
+  const [modal, setModal] = useState<ModalState>({ ...defaultModalState });
+
+  return { modal, setModal };
+};

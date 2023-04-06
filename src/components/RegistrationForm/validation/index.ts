@@ -1,103 +1,89 @@
 import { getAge } from '@common/helpers';
+import { NonStandardValidationOptions, ValidationOptions, Validator } from './types';
+import { getValidationMessage } from './messages';
 import { FormFieldOptions } from '../form-field';
-import { ValidationOptions, ValidationResult, Validator } from './types';
-import { getMessage } from './messages';
+import { RegisterOptions, Validate } from 'react-hook-form';
+import { FormInputs, FormInputsTypes } from '../types';
 
-const withStringCheck =
-  <T>(fn: Validator<T>) =>
-  (...args: Parameters<Validator<T>>) => {
-    if (typeof args[1] !== 'string') return null;
-    return fn(...args);
-  };
-
-const withFileCheck =
-  <T>(fn: Validator<T>) =>
-  (...args: Parameters<Validator<T>>) => {
-    if (!(args[1] instanceof File)) return null;
-    if (args[1].size === 0) return false;
-    return fn(...args);
-  };
-
-const validateRequired: Validator<boolean> = withStringCheck((validationValue, inputValue) => {
-  return validationValue && inputValue === '';
-});
-
-const capitalizedValidator: Validator<boolean> = withStringCheck((validationValue, inputValue) => {
+const capitalizedValidator: Validator<boolean> = (validationValue) => (inputValue) => {
   const firstLetter = (inputValue as string)[0];
-  return validationValue && firstLetter !== firstLetter.toUpperCase();
-});
+  return (
+    (validationValue && firstLetter === firstLetter.toUpperCase()) ||
+    getValidationMessage('capitalized')(validationValue)
+  );
+};
 
-const minLengthValidator: Validator<number> = withStringCheck((validationValue, inputValue) => {
-  return inputValue.length < validationValue;
-});
+const maxFileSizeValidator: Validator<number> = (validationValue) => (fileList) => {
+  if (fileList === undefined || !(fileList instanceof FileList) || fileList.length === 0) return;
+  return (
+    validationValue >= (fileList as FileList)[0].size ||
+    getValidationMessage('maxFileSize')(validationValue)
+  );
+};
 
-const maxLengthValidator: Validator<number> = withStringCheck((validationValue, inputValue) => {
-  return inputValue.length > validationValue;
-});
+const ageValidator: Validator<number> = (validationValue) => (inputValue) => {
+  const date = new Date(inputValue as string);
+  if (date.toString() === 'Invalid Date') return;
+  return (
+    getAge(inputValue as string) >= validationValue || getValidationMessage('age')(validationValue)
+  );
+};
 
-const matchValidator: Validator<RegExp> = withStringCheck((regexp, inputValue) => {
-  return !regexp.test(inputValue as string);
-});
+const fileTypeValidator: Validator<string> = (validationValue) => (fileList) => {
+  if (fileList === undefined || !(fileList instanceof FileList) || fileList.length === 0) return;
+  return (
+    (fileList as FileList)[0].type.split('/')[0] === validationValue ||
+    getValidationMessage('fileType')(validationValue)
+  );
+};
 
-const maxFileSizeValidator: Validator<number> = withFileCheck((validationValue, file) => {
-  return validationValue < (file as File).size;
-});
-
-const ageValidator: Validator<number> = withStringCheck((validationValue, inputValue) => {
-  return getAge(inputValue as string) < validationValue;
-});
-
-const fileTypeValidator: Validator<string> = withFileCheck((validationValue, file) => {
-  return (file as File).type.split('/')[0] !== validationValue;
-});
-
-const validators = {
-  required: validateRequired,
-  capitalized: capitalizedValidator,
-  match: matchValidator,
-  minLength: minLengthValidator,
-  maxFileSize: maxFileSizeValidator,
-  maxLength: maxLengthValidator,
-  email: matchValidator,
-  age: ageValidator,
+export const nonStandardValidators = {
   fileType: fileTypeValidator,
+  maxFileSize: maxFileSizeValidator,
+  age: ageValidator,
+  capitalized: capitalizedValidator,
 };
 
-export const defaultValidationResult: ValidationResult = {
-  isValid: true,
-  errors: [],
+export const isStandardValidation = (key: keyof ValidationOptions) => {
+  const standard = ['required', 'minLength', 'maxLength', 'pattern'] as (keyof ValidationOptions)[];
+  return standard.includes(key);
 };
 
-export const validate = (field: FormFieldOptions, value: FormDataEntryValue): ValidationResult => {
+const getNonStandardValidators = (validation: ValidationOptions) => {
+  const keys = Object.keys(validation) as (keyof ValidationOptions)[];
+  return keys
+    .filter((key) => !isStandardValidation(key))
+    .reduce((acc, key) => {
+      const validationValue = validation[key];
+      const validator = nonStandardValidators[
+        key as keyof NonStandardValidationOptions
+      ] as Validator<typeof validationValue>;
+      return {
+        ...acc,
+        validate: {
+          ...acc.validate,
+          [key]: validator(validationValue),
+        },
+      };
+    }, {} as { validate: Record<string, Validate<FormInputsTypes, FormInputs>> | undefined });
+};
+
+export const getValidators = (field: FormFieldOptions) => {
   const { validation, name } = field;
-  const result: ValidationResult = { ...defaultValidationResult };
-  if (validation !== undefined) {
-    if (validation.required !== undefined) {
-      const validationResult = validateRequired(validation.required, value);
-      if (validationResult === null || validationResult === true) {
-        const errorMsg =
-          validationResult === null ? getMessage('default')(value) : getMessage('required')(value);
-        return { ...result, isValid: false, errors: [errorMsg] };
-      }
-    }
-    const keys = Object.keys(validation) as (keyof ValidationOptions)[];
-    const errors = keys
-      .map((key): string => {
-        const validationValue = validation[key];
-        if (validationValue === undefined) return '';
-        const validator = validators[key] as Validator<typeof validationValue>;
-        const validationResult = validator(validationValue, value);
-        if (validationResult === null) return getMessage('default')(validationValue);
-        return validationResult ? getMessage(key, name)(validationValue) : '';
-      })
-      .filter((error) => error !== '');
+  if (validation === undefined) return null;
+  const keys = Object.keys(validation) as (keyof ValidationOptions)[];
+  const standardValidators = keys.filter(isStandardValidation).reduce((acc, key) => {
+    const validationValue = validation[key];
+    return {
+      ...acc,
+      [key]: {
+        value: validationValue,
+        message: getValidationMessage(key, name)(validationValue),
+      },
+    };
+  }, {} as RegisterOptions);
 
-    if (errors.length !== 0) {
-      result.isValid = false;
-      result.errors = errors;
-    }
-  }
-  return result;
+  return { ...standardValidators, ...getNonStandardValidators(validation) };
 };
 
-export type { ValidationOptions, ValidationResult, Validator };
+export type { ValidationOptions, Validator };

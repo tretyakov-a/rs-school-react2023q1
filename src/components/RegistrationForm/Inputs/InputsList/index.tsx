@@ -1,32 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { isRadioInputDataArray } from '@components/RegistrationForm/data';
 import { Input } from '..';
-import { FormFieldOptions } from '@components/RegistrationForm/form-field';
-import { withFormFieldOptions } from '@components/RegistrationForm/form-field/context';
-import InputRef from '@components/RegistrationForm/input-ref';
+import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field/context';
+import CustomInput from '../CustomInput';
 
-interface InputsListProps {
-  options: FormFieldOptions;
-}
+const InputsList = () => {
+  const { options } = useContext(FormFieldOptionsContext);
 
-class InputsList extends React.Component<InputsListProps> {
-  renderItems = () => {
-    const { options } = this.props;
-    const { data } = options;
-    const inputRefs = options.inputRef as InputRef[];
-
+  const renderItems = () => {
+    const { data, type } = options;
     if (isRadioInputDataArray(data)) {
-      return data.map(({ label, name }, index) => (
+      return data.map(({ label, name }) => (
         <li key={name}>
-          <Input inputRef={inputRefs[index].ref} value={name} label={label} />
+          <CustomInput id={`${name}-${type}-input`} label={label}>
+            <Input value={name} />
+          </CustomInput>
         </li>
       ));
     }
   };
 
-  render() {
-    return <ul className="registration-form__inputs-list">{this.renderItems()}</ul>;
-  }
-}
+  return <ul className="registration-form__inputs-list">{renderItems()}</ul>;
+};
 
-export default withFormFieldOptions(InputsList);
+export default InputsList;

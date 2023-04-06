@@ -1,36 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 import RegistrationForm from '@components/RegistrationForm';
-import { getFormFields } from '@components/RegistrationForm/form-field';
 import RegistrationList from '@components/RegistrationList';
 import PageWrap from '@components/PageWrap';
+import { FormInputs } from '@components/RegistrationForm/types';
+import { cloneFile } from '@common/helpers';
 
-interface RegistrationState {
-  data: FormData[];
-}
+export type StoredFormInputs = Omit<FormInputs, 'avatar'> & {
+  avatar: File | string;
+};
 
-export default class Registration extends React.Component<unknown, RegistrationState> {
-  constructor(props: React.PropsWithChildren) {
-    super(props);
-    this.state = {
-      data: [],
-    };
-  }
+const Registration = () => {
+  const [listData, setListData] = useState<StoredFormInputs[]>([]);
 
-  handleRegistrationFormSubmit = (formData: FormData) => {
-    this.setState((prevState) => ({
-      data: [...prevState.data, formData],
-    }));
+  const handleRegistrationFormSubmit = (formData: FormInputs) => {
+    const avatar =
+      formData.avatar instanceof FileList && formData.avatar.length > 0
+        ? cloneFile(formData.avatar[0])
+        : '';
+    setListData((prevState) => [...prevState, { ...formData, avatar }]);
   };
 
-  render() {
-    const formFields = getFormFields();
+  return (
+    <PageWrap className="registration">
+      <RegistrationForm onSubmit={handleRegistrationFormSubmit} />
+      <RegistrationList data={listData} />
+    </PageWrap>
+  );
+};
 
-    return (
-      <PageWrap className="registration">
-        <RegistrationForm formFields={formFields} onSubmit={this.handleRegistrationFormSubmit} />
-        <RegistrationList formFields={formFields} data={this.state.data} />
-      </PageWrap>
-    );
-  }
-}
+export default Registration;

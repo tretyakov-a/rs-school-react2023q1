@@ -1,14 +1,14 @@
-import React from 'react';
 import './style.scss';
-import { FormFieldOptions } from '@components/RegistrationForm/form-field';
+import { formFieldsOptions } from '@components/RegistrationForm/config';
+import { FormInputsTypes } from '@components/RegistrationForm/types';
+import { StoredFormInputs } from '@pages/Registration';
 
 interface RegistrationListProps {
-  data: FormData[];
-  formFields: FormFieldOptions[];
+  data: StoredFormInputs[];
 }
 
-export default class RegistrationList extends React.Component<RegistrationListProps> {
-  renderFile = (file: File) => {
+const RegistrationList = (props: RegistrationListProps) => {
+  const renderFile = (file: File) => {
     const img = <img src={URL.createObjectURL(file)} alt={file.name} width={100} />;
     return (
       <>
@@ -18,44 +18,46 @@ export default class RegistrationList extends React.Component<RegistrationListPr
     );
   };
 
-  renderFieldValue = (value: FormDataEntryValue | string, type: string) => {
+  const renderFieldValue = (value: Exclude<FormInputsTypes, FileList>, type: string) => {
+    if (typeof value === 'boolean') return 'on';
     if (value instanceof File) {
-      return this.renderFile(value);
+      return renderFile(value);
     }
-    if (type === 'date') {
+    if (Array.isArray(value)) {
+      return value.join(', ');
+    }
+    if (type === 'date' && typeof value === 'string') {
       return new Date(value).toLocaleDateString();
     }
     return value;
   };
 
-  renderListItemContent = (formData: FormData) => {
+  const renderListItemContent = (formData: StoredFormInputs) => {
     const items: JSX.Element[] = [];
-    this.props.formFields.forEach(({ name, label, type }) => {
-      const values = formData.getAll(name);
-      if (values.length === 0) return;
-      const value = values.length > 1 ? values.join(', ') : values[0];
-      if (value instanceof File && value.size === 0) return;
+    const keys = Object.keys(formData) as (keyof StoredFormInputs)[];
+    keys.forEach((name) => {
+      const { type, label } = formFieldsOptions[name];
+      const value = formData[name];
+      if (!Boolean(value)) return;
       items.push(
         <div className="registration-list__item-row" key={name}>
           <span className="registration-list__item-row-label">{label}:</span>
-          <span className="registration-list__item-row-value">
-            {this.renderFieldValue(value, type)}
-          </span>
+          <span className="registration-list__item-row-value">{renderFieldValue(value, type)}</span>
         </div>
       );
     });
     return items;
   };
 
-  render() {
-    return (
-      <ul className="registration-list">
-        {this.props.data.map((formData, index) => (
-          <li className="registration-list__item" key={index}>
-            <div className="registration-list__card">{this.renderListItemContent(formData)}</div>
-          </li>
-        ))}
-      </ul>
-    );
-  }
-}
+  return (
+    <ul className="registration-list">
+      {props.data.map((formData, index) => (
+        <li className="registration-list__item" key={index}>
+          <div className="registration-list__card">{renderListItemContent(formData)}</div>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default RegistrationList;

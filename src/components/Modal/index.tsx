@@ -1,72 +1,62 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './style.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { ModalContext } from '@components/Modal/context';
 
-interface ModalState {
-  question: string;
-  display: string;
-  okCallback?: () => void;
-}
+const Modal = () => {
+  const { modal, setModal } = useContext(ModalContext);
+  const [display, setDisplay] = useState<string>(modal!.isOpen ? 'open' : '');
 
-interface ModalProps {
-  onScrollStateChange?: (isScroll: boolean) => void;
-}
+  useEffect(() => {
+    setDisplay(modal?.isOpen ? 'open' : '');
+  }, [modal?.isOpen]);
 
-export default class Modal extends React.Component<ModalProps, ModalState> {
-  static animationDuration = 400;
+  const close = () => {
+    setDisplay('close');
 
-  constructor(props: ModalProps) {
-    super(props);
-    this.state = {
-      question: 'Are you sure?',
-      display: '',
-    };
-  }
-
-  open = (okCallback: () => void, question: string) => {
-    this.setState({ display: 'open', question, okCallback });
-    this.props.onScrollStateChange?.(false);
-  };
-
-  close = () => {
-    this.setState({ display: 'close' });
     setTimeout(() => {
-      this.setState({ display: '' });
-      this.props.onScrollStateChange?.(true);
+      setModal?.({ isOpen: false });
     }, Modal.animationDuration);
   };
 
-  handleOKClick = () => {
-    const { okCallback } = this.state;
-    if (okCallback !== undefined) {
-      okCallback();
+  const handleOKClick = () => {
+    if (modal?.okCallback !== undefined) {
+      modal.okCallback();
     }
-    this.close();
+    close();
   };
 
-  render() {
-    const classes = ['modal', this.state.display].join(' ');
+  const classes = ['modal', display].join(' ');
 
-    return (
-      <div
-        role="modal"
-        className={classes}
-        onClick={this.close}
-        style={{
-          animationDuration: `${Modal.animationDuration}ms`,
-        }}
-      >
-        <div role="modal-window" className="modal__window" onClick={(e) => e.stopPropagation()}>
-          <div className="modal__content">{this.state.question}</div>
-          <div className="modal__buttons">
-            <button className="button" onClick={this.close}>
-              Cancel
-            </button>
-            <button className="button" onClick={this.handleOKClick}>
-              OK
-            </button>
+  return (
+    <div
+      role="modal"
+      className={classes}
+      onClick={close}
+      style={{
+        animationDuration: `${Modal.animationDuration}ms`,
+      }}
+    >
+      <div role="modal-window" className="modal__window" onClick={(e) => e.stopPropagation()}>
+        <div className="modal__content">
+          <div className="modal__icon">
+            <FontAwesomeIcon icon={faQuestion} />
           </div>
+          <div className="modal__message">{modal?.question}</div>
+        </div>
+        <div className="modal__buttons">
+          <button className="button" onClick={close}>
+            Cancel
+          </button>
+          <button className="button" onClick={handleOKClick}>
+            OK
+          </button>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+Modal.animationDuration = 400;
+export default Modal;

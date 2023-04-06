@@ -1,10 +1,11 @@
-import React from 'react';
-import { InputProps } from '../Input';
+import React, { useContext } from 'react';
 import { isOptionsDataArray } from '@components/RegistrationForm/data';
-import { withFormFieldOptions } from '@components/RegistrationForm/form-field/context';
+import { FormFieldOptionsContext } from '@components/RegistrationForm/form-field';
 
-class Select extends React.Component<InputProps> {
-  renderOptions = (data: unknown) => {
+const Select = () => {
+  const { options, register } = useContext(FormFieldOptionsContext);
+
+  const renderOptions = (data: unknown) => {
     if (isOptionsDataArray(data)) {
       return data.map(({ name }) => (
         <option key={name} value={name}>
@@ -14,26 +15,15 @@ class Select extends React.Component<InputProps> {
     }
   };
 
-  render() {
-    const {
-      options: { name, type, defaultSelectOptionValue, defaultValue, data },
-      inputRef,
-    } = this.props;
-    const id = `${name}-${type}`;
-    return (
-      <select
-        ref={inputRef as React.RefObject<HTMLSelectElement>}
-        name={name}
-        id={id}
-        defaultValue={defaultValue as string}
-      >
-        <option value="" disabled hidden>
-          {defaultSelectOptionValue}
-        </option>
-        {this.renderOptions(data)}
-      </select>
-    );
-  }
-}
+  const { name, type, defaultSelectOptionValue, data } = options;
+  return (
+    <select name={name} id={`${name}-${type}`} {...register?.(options)}>
+      <option value="" disabled hidden>
+        {defaultSelectOptionValue}
+      </option>
+      {renderOptions(data)}
+    </select>
+  );
+};
 
-export default withFormFieldOptions(Select);
+export default Select;

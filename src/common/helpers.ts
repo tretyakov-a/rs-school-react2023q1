@@ -4,3 +4,10 @@ export const getAge = (birthday: string): number => {
   const ageInYears = Math.abs(ageDate.getUTCFullYear() - 1970);
   return ageInYears;
 };
+
+export const cloneFile = (original: File): File => {
+  return new File([original], original.name, {
+    type: original.type,
+    lastModified: original.lastModified,
+  });
+};

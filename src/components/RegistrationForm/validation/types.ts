@@ -1,17 +1,26 @@
-export type ValidationOptions = {
+import { FormInputsTypes } from '../types';
+
+export type StandardValidationOptions = {
   required?: boolean;
-  capitalized?: boolean;
-  match?: RegExp;
   minLength?: number;
   maxLength?: number;
+  pattern?: RegExp;
+};
+
+export type NonStandardValidationOptions = {
+  capitalized?: boolean;
   maxFileSize?: number;
   fileType?: string;
   age?: number;
 };
 
-export type Validator<T> = (validationValue: T, inputValue: FormDataEntryValue) => boolean | null;
+export type ValidationOptions = StandardValidationOptions & NonStandardValidationOptions;
 
-export type ValidationResult = {
-  isValid: boolean;
-  errors: string[];
-};
+export type Validator<T> = (
+  validationValue: T
+) => (inputValue: FormInputsTypes) => boolean | string | undefined;
+
+export type ExtraMessageKey = 'name' | 'email' | 'default';
+export type Message = (value: unknown) => string;
+export type ExtraMessage = Record<ExtraMessageKey, Message>;
+export type ValidationMessageKey = keyof ValidationOptions | Extract<ExtraMessageKey, 'default'>;

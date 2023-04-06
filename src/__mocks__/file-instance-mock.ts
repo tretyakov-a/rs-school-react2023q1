@@ -15,4 +15,35 @@ const arrayBuffer = Uint8Array.from(window.atob(dataBase64), (c) => c.charCodeAt
 const textFileMock = new File([arrayBuffer], 'testfile.jpg', { type: 'text/txt' });
 const imageFileMock = new File([arrayBuffer], 'testfile.jpg', { type: 'image/jpg' });
 
-export { textFileMock, imageFileMock };
+const getFileListMock = (type = 'image') => {
+  const fileList: FileList = {
+    0: type === 'image' ? imageFileMock : textFileMock,
+    length: 1,
+    item: (index: number) => fileList[index],
+
+    *[Symbol.iterator]() {
+      for (const i of this) {
+        yield i;
+      }
+    },
+  };
+  Object.setPrototypeOf(fileList, FileList.prototype);
+  return fileList;
+};
+
+const getEmptyFileListMock = () => {
+  const fileList: FileList = {
+    length: 0,
+    item: (index: number) => fileList[index],
+
+    *[Symbol.iterator]() {
+      for (const i of this) {
+        yield i;
+      }
+    },
+  };
+  Object.setPrototypeOf(fileList, FileList.prototype);
+  return fileList;
+};
+
+export { textFileMock, imageFileMock, getFileListMock, getEmptyFileListMock };
