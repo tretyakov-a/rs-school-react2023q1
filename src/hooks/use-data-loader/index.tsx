@@ -34,9 +34,6 @@ export const useDataLoader = () => {
       try {
         const data = await fetchData(controller.current.signal);
         callback(data);
-        if (data === null) {
-          throw new Error('No data found');
-        }
         dispatch({ type: Loading.SUCCESS, payload: null });
       } catch (error) {
         if (error instanceof Error && !/abort/.test(error.message)) {

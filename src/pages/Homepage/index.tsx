@@ -2,19 +2,28 @@ import SearchBar from './SearchBar';
 import CardsList from './CardsList';
 import PageWrap from '@components/PageWrap';
 import './style.scss';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BooksItem, BooksServiceContext } from '@src/api/books';
 import { useDataLoader } from '@src/hooks/use-data-loader';
 import LoadingResult from '@components/LoadingResult';
+import useLocalStorage from '@src/hooks/use-local-storage';
 
 const Homepage = () => {
+  const [setStorage, getStorage] = useLocalStorage(SearchBar.localStorageKey);
   const { booksService } = useContext(BooksServiceContext);
   const { loadingState, loadData } = useDataLoader();
   const [data, setData] = useState<BooksItem[] | null>(null);
 
   const handleSearchSubmit = (searchQuery: string) => {
     loadData(booksService!.findBooks.bind(null, searchQuery), setData);
+    setStorage(searchQuery);
   };
+
+  useEffect(() => {
+    const storedSearchValue = getStorage();
+    if (storedSearchValue === '') return;
+    loadData(booksService!.findBooks.bind(null, storedSearchValue), setData);
+  }, [loadData, booksService, getStorage]);
 
   return (
     <PageWrap className="homepage">
