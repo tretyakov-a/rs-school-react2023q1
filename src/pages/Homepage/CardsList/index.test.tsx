@@ -1,10 +1,10 @@
 import React from 'react';
 import CardsList from '.';
 import { screen, render, fireEvent } from '@testing-library/react';
-import data from '@src/api/books/data/dummy-result.json';
+import data from '@src/api/images/data/dummy-image-search.json';
 import { ModalContext } from '@components/Modal/context';
 
-const cardsDataMock = data.items;
+const cardsDataMock = data.photos.photo;
 const setModalMock = jest.fn();
 
 jest.mock('@components/Card', () => ({ onClick }: { onClick: () => void }) => (

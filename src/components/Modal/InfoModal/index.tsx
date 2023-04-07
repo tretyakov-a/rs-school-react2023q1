@@ -6,8 +6,7 @@ import CardFull from '@components/CardFull';
 import { ModalProps } from '../context';
 import { useDataLoader } from '@src/hooks/use-data-loader';
 import LoadingResult from '@components/LoadingResult';
-import { PhotoInfo } from '@src/api/images/types';
-import { ImagesServiceContext } from '@src/api/images/hooks/use-images-service';
+import { ImagesServiceContext, PhotoInfo } from '@src/api/images';
 
 const InfoModal = (props: ModalProps) => {
   const { imagesService } = useContext(ImagesServiceContext);

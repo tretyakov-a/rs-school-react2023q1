@@ -1,4 +1,4 @@
-import '@src/__mocks__/books-service-context-mock';
+import '@src/__mocks__/images-service-context-mock';
 import { screen, render, fireEvent } from '@testing-library/react';
 import InfoModal from '.';
 import { Loading } from '@src/hooks/use-data-loader/types';
@@ -14,7 +14,7 @@ jest.mock('react', () => ({
   useState: jest.fn(() => [{}, jest.fn()]),
 }));
 
-jest.mock('@components/Card', () => () => <div data-testid="card-testid"></div>);
+jest.mock('@components/CardFull', () => () => <div data-testid="card-testid"></div>);
 jest.mock('@components/LoadingResult', () => ({ children }: React.PropsWithChildren) => (
   <div data-testid="loading-result-testid">{children}</div>
 ));

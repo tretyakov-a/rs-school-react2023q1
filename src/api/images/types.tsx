@@ -40,9 +40,9 @@ export type Photo = PhotoBase & {
   ispublic: number;
   isfriend: number;
   isfamily: number;
-  url_q: string;
-  height_q: number;
-  width_q: number;
+  url_q?: string;
+  height_q?: number;
+  width_q?: number;
   url_c?: string;
   height_c?: number;
   width_c?: number;

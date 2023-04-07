@@ -66,7 +66,6 @@ class FlickrService implements ImagesService {
       { method: 'flickr.photos.getInfo', ...baseQueryParams, photo_id: id },
       abortSignal
     );
-    console.log(data);
     return {
       ...data.photo,
       imageUrl: this.getImageUrl(data.photo),

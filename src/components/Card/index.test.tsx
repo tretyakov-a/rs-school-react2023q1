@@ -1,10 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import Card from '.';
-import dataMock from '@src/api/books/data/dummy-book-result.json';
+import imageSearchDataMock from '@src/api/images/data/dummy-image-search.json';
 
-jest.mock('./Rating', () => ({
-  Rating: (props: { value: number }) => <div data-testid="rating-testid">{props.value}</div>,
-}));
+const imageDataMock = imageSearchDataMock.photos.photo[0];
 
 jest.mock('@common/helpers', () => ({
   renderDate: () => 'January 1, 2006',
@@ -12,42 +10,37 @@ jest.mock('@common/helpers', () => ({
 
 describe('<Card /> test', () => {
   test('Should render short card correctly with granted data', () => {
-    render(<Card data={dataMock} />);
-    const {
-      volumeInfo: { title, authors, imageLinks },
-    } = dataMock;
+    render(<Card data={imageDataMock} />);
+    const { title, url_q, ownername } = imageDataMock;
 
-    imageLinks &&
-      expect((screen.getByRole('img') as HTMLImageElement).src).toBe(imageLinks.thumbnail);
-    title && expect(screen.getByText(title)).toBeInTheDocument();
-    authors && expect(screen.getByText(authors.join(', '))).toBeInTheDocument();
-  });
-
-  test('Should render full card correctly with granted data', () => {
-    render(<Card data={dataMock} displayMode="full" />);
-    const {
-      volumeInfo: { publisher, publishedDate, categories, language, averageRating, description },
-    } = dataMock;
-
-    publisher && expect(screen.getByText(publisher)).toBeInTheDocument();
-    publishedDate && expect(screen.getByText('- January 1, 2006')).toBeInTheDocument();
-    categories && expect(screen.getByText(`${categories.join(', ')}`)).toBeInTheDocument();
-    language && expect(screen.getByText(`${language}`)).toBeInTheDocument();
-    averageRating && expect(screen.getByTestId('rating-testid')).toBeInTheDocument();
-    description && expect(screen.getByText('Book description:')).toBeInTheDocument();
+    expect((screen.getByRole('img') as HTMLImageElement).src).toBe(url_q);
+    expect(screen.getByText(title)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(ownername))).toBeInTheDocument();
   });
 
   test('Should render placehodler icon if imageLinks is undefined', () => {
-    render(
-      <Card data={{ ...dataMock, volumeInfo: { ...dataMock.volumeInfo, imageLinks: undefined } }} />
-    );
+    render(<Card data={{ ...imageDataMock, url_q: undefined }} />);
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  });
+
+  test('Should crop log titles', () => {
+    render(
+      <Card
+        data={{
+          ...imageDataMock,
+          title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+        }}
+      />
+    );
+    expect(
+      screen.getByText('Lorem Ipsum is simply dummy text of the printing and typesetting...')
+    ).toBeInTheDocument();
   });
 
   test('Should call onClick on card click', () => {
     const onClickMock = jest.fn();
 
-    const { container } = render(<Card data={dataMock} onClick={onClickMock} />);
+    const { container } = render(<Card data={imageDataMock} onClick={onClickMock} />);
 
     fireEvent.click(container.firstChild!);
     expect(onClickMock).toHaveBeenCalledTimes(1);

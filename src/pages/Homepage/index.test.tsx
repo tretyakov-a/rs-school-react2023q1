@@ -1,6 +1,6 @@
 import React from 'react';
 import '@src/__mocks__/page-wrap-mock';
-import '@src/__mocks__/books-service-context-mock';
+import '@src/__mocks__/images-service-context-mock';
 import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import Homepage from '.';
 import { Loading } from '@src/hooks/use-data-loader/types';
@@ -19,9 +19,9 @@ jest.mock('@src/hooks/use-local-storage', () => ({
 }));
 
 const loadDataMock = jest.fn(
-  async (fetchData: () => Promise<unknown>, setData: (data: unknown[]) => void) => {
+  async (fetchData: () => Promise<unknown>, setData: (data: { photo: unknown[] }) => void) => {
     await fetchData();
-    setData([]);
+    setData({ photo: ['test1'] });
   }
 );
 
@@ -54,7 +54,7 @@ describe('<Homepage /> test', () => {
 
     expect(screen.getByTestId('search-bar-testid')).toBeInTheDocument();
     expect(screen.getByTestId('page-wrap-testid')).toBeInTheDocument();
-    expect(screen.getByText('Try to find some books using search form')).toBeInTheDocument();
+    expect(screen.getByText('Try to find some images using search form')).toBeInTheDocument();
   });
 
   test('Should call loadData on submit ', async () => {
@@ -71,9 +71,8 @@ describe('<Homepage /> test', () => {
   });
 
   test('Should call loadData on mount, if storage has saved search value ', async () => {
-    const testStoredValue = 'test-stored-value';
     setDataLoaderMock({ loading: Loading.IDLE, error: null });
-    mockUseLocalStorage.default = () => [setStorageValueMock, () => testStoredValue];
+    mockUseLocalStorage.default = () => [setStorageValueMock, () => 'test-stored-value'];
 
     render(<Homepage />);
     expect(loadDataMock).toBeCalled();

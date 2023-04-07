@@ -14,16 +14,14 @@ const CardFull = (props: CardPropsType) => {
   const { title, owner, dates, views, tags, description, comments, imageUrl, ownerIconUrl } =
     props.data;
 
-  const cardInfo: JSX.Element[] = [];
-  cardInfo.push(
-    <div className="card__title">{typeof title === 'string' ? title : title._content}</div>
-  );
   const viewsWithCommas = views.length > 3 ? addCommasToString(views) : views;
 
   const renderTags = (tags: Tag[]) => (
     <ul className="card__tags">
       {tags.map(({ raw }) => (
-        <li className="card__tags-item">{raw}</li>
+        <li key={raw} className="card__tags-item">
+          {raw}
+        </li>
       ))}
     </ul>
   );

@@ -6,8 +6,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDataLoader } from '@src/hooks/use-data-loader';
 import LoadingResult from '@components/LoadingResult';
 import useLocalStorage from '@src/hooks/use-local-storage';
-import { ImagesServiceContext } from '@src/api/images/hooks/use-images-service';
-import { Photo, Photos } from '@src/api/images/types';
+import { ImagesServiceContext, Photo, Photos } from '@src/api/images';
 
 export type PaginationData = {
   totalItems: number;
@@ -25,7 +24,7 @@ const Homepage = () => {
 
   const setData = useCallback((data: Photos) => {
     const { photo } = data;
-    if (photo.length > 0) setImages(photo);
+    setImages(photo);
   }, []);
 
   const handleSearchSubmit = (searchQuery: string) => {
