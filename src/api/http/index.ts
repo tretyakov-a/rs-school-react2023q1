@@ -1,12 +1,12 @@
-export type QueryParams = Record<string, string | number>;
+import { QueryParams } from './types';
 
-export const getQueryParams = (queryParams: QueryParams) => {
+const getQueryParams = (queryParams: QueryParams) => {
   return Object.entries(queryParams)
     .map((item) => item.join('='))
     .join('&');
 };
 
-export const handleErrors = (res: Response): Response => {
+const handleErrors = (res: Response): Response => {
   if (!res.ok) {
     throw new Error(`Loading error occured (code: ${res.status})`);
   }

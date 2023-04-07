@@ -12,7 +12,7 @@ jest.mock('@common/helpers', () => ({
 }));
 
 describe('<Card /> test', () => {
-  test('Should render short card correctly with granted data', () => {
+  test('Should render correctly with granted data', () => {
     render(<CardFull data={imageDataMock as PhotoInfo} />);
     const { title, owner, tags, description, comments } = imageDataMock as PhotoInfo;
 
@@ -29,5 +29,12 @@ describe('<Card /> test', () => {
     tags.tag.forEach(({ raw }, i) => {
       expect(tagItems[i].textContent).toBe(raw);
     });
+  });
+
+  test('Should render correctly with views.length <= 3', () => {
+    (imageDataMock as PhotoInfo).views = '999';
+
+    render(<CardFull data={imageDataMock as PhotoInfo} />);
+    expect(screen.getByText('999')).toBeInTheDocument();
   });
 });

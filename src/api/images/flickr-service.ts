@@ -6,8 +6,9 @@ import {
   FlickrResponse,
   Owner,
 } from './types';
-import { QueryParams, fetchData } from '../http';
+import { fetchData } from '../http';
 import { PhotoInfo } from '@src/api/images/types';
+import { QueryParams } from '../http/types';
 
 const baseUrl = 'https://api.flickr.com/services/rest/';
 const imageBaseUrl = 'https://live.staticflickr.com/';
