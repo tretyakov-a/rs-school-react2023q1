@@ -26,7 +26,7 @@ export const addCommasToString = (str: string) => {
   for (let i = str.length - 1; i >= 0; i -= 1) {
     result = str[i] + (counter === 3 ? ',' : '') + result;
     counter += 1;
-    if (counter > 3) counter = 0;
+    if (counter > 3) counter = 1;
   }
   return result;
 };

@@ -1,6 +1,6 @@
 import { imageFileMock } from '@src/__mocks__/file-instance-mock';
 
-import { getAge, cloneFile, renderDate } from './helpers';
+import { getAge, cloneFile, renderDate, addCommasToString } from './helpers';
 
 describe('Helpers tests', () => {
   test('getAge()', () => {
@@ -18,5 +18,11 @@ describe('Helpers tests', () => {
   test('renderDate()', () => {
     expect(renderDate('2012-01-01')).toBe('January 1, 2012');
     expect(renderDate('2012-01-01', 'ru-RU')).toBe('1 января 2012 г.');
+  });
+
+  test('addCommasToString()', () => {
+    expect(addCommasToString('111')).toBe('111');
+    expect(addCommasToString('1111')).toBe('1,111');
+    expect(addCommasToString('1111111')).toBe('1,111,111');
   });
 });
