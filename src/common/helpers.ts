@@ -19,3 +19,14 @@ export const renderDate = (date: string, locales = 'en-US') => {
     day: 'numeric',
   });
 };
+
+export const addCommasToString = (str: string) => {
+  let result = '';
+  let counter = 0;
+  for (let i = str.length - 1; i >= 0; i -= 1) {
+    result = str[i] + (counter === 3 ? ',' : '') + result;
+    counter += 1;
+    if (counter > 3) counter = 0;
+  }
+  return result;
+};

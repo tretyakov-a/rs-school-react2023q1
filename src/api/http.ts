@@ -1,4 +1,4 @@
-type QueryParams = Record<string, string | number>;
+export type QueryParams = Record<string, string | number>;
 
 export const getQueryParams = (queryParams: QueryParams) => {
   return Object.entries(queryParams)

@@ -1,12 +1,20 @@
 .card {
   position: relative;
-  box-shadow: 0px 0px 4px -2px var(--color-text);
-  border: 1px solid transparent;
+  box-shadow: 0px 0px 15px -10px var(--color-text);
   background-color: var(--color-bg);
   border-radius: 5px;
   overflow: hidden;
   transition: 0.25s;
   cursor: pointer;
+
+  &__views-icon {
+    margin-right: 0.5rem;
+  }
+
+  &__author {
+    word-break: break-all;
+    color: var(--color-text-l);
+  }
 
   &__img {
     overflow: hidden;
@@ -15,7 +23,8 @@
     align-items: center;
     font-size: 10rem;
     color: var(--color-text-xs);
-    min-height: 250px;
+    min-height: 150px;
+
     img {
       transition: 0.25s;
       width: 100%;
@@ -61,69 +70,9 @@
   }
 }
 
-.card_full {
-  box-shadow: none;
-  background: none;
-  border: none;
-
-  .card__top {
-    display: flex;
-    align-items: flex-start;
-    column-gap: 1rem;
-  }
-
-  .card {
-    &__info {
-      padding: 0;
-    }
-
-    &__description {
-      display: flex;
-      flex-direction: column;
-
-      .card__row-content {
-        display: block;
-        word-break: break-word;
-      }
-
-      p {
-        margin-top: 0.5rem;
-      }
-    }
-
-    &__row-title {
-      display: inline;
-      font-weight: 700;
-      margin-right: 0.2rem;
-    }
-
-    &__title {
-      font-size: 1.5rem;
-      margin-bottom: 0.2rem;
-      padding-right: 1.2rem;
-      word-break: normal;
-      line-height: 100%;
-    }
-
-    &__left {
-      flex-shrink: 0;
-      max-height: 300px;
-    }
-
-    &__img {
-      align-items: flex-start;
-      margin-bottom: 0.5rem;
-      min-height: auto;
-
-      img {
-        width: 100%;
-      }
-    }
-  }
-}
-
 @media (hover: hover) {
   .card:not(.card_full):hover {
-    border: 1px solid silver;
+    box-shadow: none;
+    transform: translateY(2px);
   }
 }

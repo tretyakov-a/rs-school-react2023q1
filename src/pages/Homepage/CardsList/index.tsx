@@ -1,11 +1,11 @@
 import Card from '@components/Card';
 import './style.scss';
-import { BooksItem } from '@src/api/books/types';
 import { ModalContext } from '@components/Modal/context';
 import { useContext } from 'react';
+import { Photo } from '@src/api/images/types';
 
 interface CardsListProps {
-  data: BooksItem[];
+  data: Photo[];
 }
 
 const CardsList = (props: CardsListProps) => {

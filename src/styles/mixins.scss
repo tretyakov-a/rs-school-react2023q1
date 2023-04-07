@@ -1,3 +1,19 @@
 @mixin flexBasisColumns($columnsNumber, $gap) {
   flex-basis: calc((100% - $gap * ($columnsNumber - 1)) / $columnsNumber);
 }
+
+@mixin customScroll {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--color-text-s);
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-text-m);
+    border-radius: 2px;
+  }
+}
