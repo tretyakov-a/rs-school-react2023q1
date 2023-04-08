@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ConfirmModal from './ConfirmModal';
 import InfoModal from './InfoModal';
+import { Photo } from '@src/api/images';
 
 export type ModalType = 'confirm' | 'info';
 
@@ -9,7 +10,7 @@ export interface ModalState {
   question?: string;
   okCallback?: () => void;
   type?: ModalType;
-  id?: string;
+  photo?: Photo;
 }
 
 export interface ModalProps extends ModalState {

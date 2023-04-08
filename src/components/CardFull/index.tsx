@@ -7,6 +7,7 @@ import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 interface CardPropsType {
   data: PhotoInfo;
+  imageRatio: number;
   onClick?: () => void;
 }
 
@@ -26,11 +27,14 @@ const CardFull = (props: CardPropsType) => {
     </ul>
   );
 
+  const { imageRatio } = props;
+  const height = imageRatio > 1 ? '100%' : 'auto';
+  const paddingTop = imageRatio > 1 ? '100%' : `${imageRatio * 100}%`;
   return (
     <div className="card card_full" onClick={props.onClick}>
       <div className="card__top">
-        <div className="card__img">
-          <img src={imageUrl} alt={title._content} />
+        <div className="card__img" style={{ paddingTop }}>
+          <img src={imageUrl} alt={title._content} style={{ height }} />
         </div>
       </div>
       <div className="card__info">

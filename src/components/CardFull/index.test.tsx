@@ -13,7 +13,7 @@ jest.mock('@common/helpers', () => ({
 
 describe('<Card /> test', () => {
   test('Should render correctly with granted data', () => {
-    render(<CardFull data={imageDataMock as PhotoInfo} />);
+    render(<CardFull data={imageDataMock as PhotoInfo} imageRatio={1} />);
     const { title, owner, tags, description, comments } = imageDataMock as PhotoInfo;
 
     expect(screen.getByAltText(title._content)).toBeInTheDocument();
@@ -34,7 +34,21 @@ describe('<Card /> test', () => {
   test('Should render correctly with views.length <= 3', () => {
     (imageDataMock as PhotoInfo).views = '999';
 
-    render(<CardFull data={imageDataMock as PhotoInfo} />);
+    render(<CardFull data={imageDataMock as PhotoInfo} imageRatio={1} />);
     expect(screen.getByText('999')).toBeInTheDocument();
+  });
+
+  test('Should generate image ratio based styles correctly', () => {
+    const { title } = imageDataMock as PhotoInfo;
+    const { rerender } = render(<CardFull data={imageDataMock as PhotoInfo} imageRatio={1.2} />);
+
+    let img = screen.getByAltText(title._content);
+    expect(img).toHaveStyle('height: 100%');
+    expect(img.parentElement).toHaveStyle('padding-top: 100%');
+
+    rerender(<CardFull data={imageDataMock as PhotoInfo} imageRatio={0.8} />);
+    img = screen.getByAltText(title._content);
+    expect(img).toHaveStyle('height: auto');
+    expect(img.parentElement).toHaveStyle('padding-top: 80%');
   });
 });

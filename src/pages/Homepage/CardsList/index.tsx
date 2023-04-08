@@ -11,15 +11,15 @@ interface CardsListProps {
 const CardsList = (props: CardsListProps) => {
   const { setModal } = useContext(ModalContext);
 
-  const handleClick = (id: string) => () => {
-    setModal({ isOpen: true, id, type: 'info' });
+  const handleClick = (photo: Photo) => () => {
+    setModal({ isOpen: true, photo, type: 'info' });
   };
 
   return (
     <ul className="cards-list">
       {props.data.map((item, index) => (
         <li className="cards-list__item" key={`${index}-${item.id}`}>
-          <Card data={item} onClick={handleClick(item.id)} />
+          <Card data={item} onClick={handleClick(item)} />
         </li>
       ))}
     </ul>
