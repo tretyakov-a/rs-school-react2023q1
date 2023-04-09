@@ -13,30 +13,33 @@ export type PaginationData = {
   currentPage: number;
 };
 
-const paginationDefault = { totalItems: 0, currentPage: 0 };
-
 const Homepage = () => {
   const [setStorage, getStorage] = useLocalStorage(SearchBar.localStorageKey);
   const { imagesService } = useContext(ImagesServiceContext);
   const { loadingState, loadData } = useDataLoader();
   const [images, setImages] = useState<Photo[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>(getStorage());
 
-  const setData = useCallback((data: Photos) => {
+  const setData = useCallback(async (data: Photos) => {
     const { photo } = data;
     setImages(photo);
   }, []);
 
+  const loadImages = useCallback(
+    (text: string) => {
+      loadData(imagesService!.findImages.bind(null, { text }), setData);
+    },
+    [imagesService, loadData, setData]
+  );
+
   const handleSearchSubmit = (searchQuery: string) => {
-    loadData(imagesService!.findImages.bind(null, { text: searchQuery }), setData);
-    setSearchQuery(searchQuery);
+    loadImages(searchQuery);
     setStorage(searchQuery);
   };
 
   useEffect(() => {
-    if (searchQuery === '') return;
-    loadData(imagesService!.findImages.bind(null, { text: searchQuery }), setData);
-  }, [loadData, imagesService, getStorage, searchQuery, setData]);
+    const searchQuery = getStorage();
+    if (searchQuery !== '') loadImages(searchQuery);
+  }, [loadImages, getStorage]);
 
   return (
     <PageWrap className="homepage">

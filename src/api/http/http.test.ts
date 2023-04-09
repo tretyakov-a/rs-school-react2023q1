@@ -15,18 +15,18 @@ global.fetch = jest.fn(() => Promise.resolve(responseInit as Response));
 
 describe('Http module test', () => {
   test('fetchData() works correctly', async () => {
-    let res = await fetchData('test-url', { id: 'test-id' });
+    const res = await fetchData('test-url', { id: 'test-id' });
     expect(res).toBe(testData);
   });
 
-  test('fetchData() handle errors correctly', () => {
+  test('fetchData() handle errors correctly', async () => {
     (global.fetch as jest.Mock).mockImplementationOnce(() =>
       Promise.resolve({ ...responseInit, ok: false } as Response)
     );
 
-    expect(async () => {
-      await fetchData('test-url', { id: 'test-id' });
-    }).rejects.toThrow('Loading error occured (code: 200)');
+    await expect(fetchData('test-url', { id: 'test-id' })).rejects.toThrow(
+      'Loading error occured (code: 200)'
+    );
 
     (global.fetch as jest.Mock).mockImplementationOnce(() =>
       Promise.resolve({
@@ -36,8 +36,9 @@ describe('Http module test', () => {
         }),
       } as Response)
     );
-    expect(async () => {
-      await fetchData('test-url', { id: 'test-id' });
-    }).rejects.toThrow('Invalid content-type in response');
+
+    await expect(fetchData('test-url', { id: 'test-id' })).rejects.toThrow(
+      'Invalid content-type in response'
+    );
   });
 });
