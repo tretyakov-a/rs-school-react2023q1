@@ -22,7 +22,7 @@ const baseQueryParams: SearchQueryParams = {
 const searchQueryParams: SearchQueryParams = {
   ...baseQueryParams,
   page: 1,
-  per_page: 10,
+  per_page: 15,
   extras: 'url_q,url_c,views,owner_name',
   sort: 'relevance',
   privacy_filter: 1, // public only
