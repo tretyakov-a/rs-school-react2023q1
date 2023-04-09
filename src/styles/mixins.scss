@@ -8,12 +8,12 @@
   }
 
   &::-webkit-scrollbar-track {
-    background-color: var(--color-text-s);
+    background-color: var(--color-text-m);
     border-radius: 2px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--color-text-m);
+    background-color: var(--color-primary);
     border-radius: 2px;
   }
 }

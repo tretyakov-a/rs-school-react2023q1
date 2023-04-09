@@ -1,5 +1,8 @@
 @import "@styles/breakpoints";
 
+$landscapeWidth: calc(#{$smBreakpoint} - var(--content-padding) * 2);
+$portraitWidth: calc(#{$landscapeWidth} - 100px);
+
 .info-modal {
   position: relative;
   min-height: 200px;
@@ -10,12 +13,11 @@
   row-gap: 1rem;
 
   &.portrait {
-    min-width: 600px;
+    width: $portraitWidth;
   }
 
   &.landscape {
-    min-width: 750px;
-    max-width: 750px;
+    width: $landscapeWidth;
   }
 
   &__content {
@@ -26,6 +28,8 @@
     &.portrait,
     &.landscape {
       min-width: auto;
+      max-width: 100%;
+      width: 100%;
     }
     min-width: auto;
   }
