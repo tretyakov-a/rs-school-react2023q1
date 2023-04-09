@@ -1,14 +1,21 @@
 import '@src/__mocks__/images-service-context-mock';
 import mockImagesSearch from '@src/api/images/data/dummy-image-search.json';
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import InfoModal from '.';
 import { Loading } from '@src/hooks/use-data-loader/types';
 import * as dataLoader from '@src/hooks/use-data-loader';
 import * as react from 'react';
+import * as helpers from '@common/helpers';
 
+const mockHelpers = helpers as { loadImage: (url?: string) => Promise<unknown> };
 const mockPhoto = mockImagesSearch.photos.photo[0];
 const dataLoaderMock = dataLoader as { useDataLoader: () => void };
 const reactMock = react as { useState: () => void };
+
+jest.mock('@common/helpers', () => ({
+  __esModule: true,
+  loadImage: jest.fn(() => Promise.resolve({ width: 50, height: 100 })),
+}));
 
 jest.mock('react', () => ({
   __esModule: true,
@@ -23,20 +30,24 @@ jest.mock('@components/LoadingResult', () => ({ children }: React.PropsWithChild
   <div data-testid="loading-result-testid">{children}</div>
 ));
 
-const loadDataMock = jest.fn((fetchData: () => void, setData: () => void) => {
-  fetchData();
-  setData();
-});
+const loadDataMock = (data: { imgUrl: string } | null = { imgUrl: '' }) =>
+  jest.fn((fetchData: () => void, setData: (setData: typeof data) => void) => {
+    fetchData();
+    setData(data);
+  });
 
 jest.mock('@src/hooks/use-data-loader', () => ({
   __esModule: true,
   useDataLoader: jest.fn(),
 }));
 
-const setDataLoaderMock = (state: { loading: Loading; error: Error | null }) => {
+const setDataLoaderMock = (
+  state: { loading: Loading; error: Error | null },
+  loadData = loadDataMock()
+) => {
   dataLoaderMock.useDataLoader = jest.fn(() => ({
     loadingState: state,
-    loadData: loadDataMock,
+    loadData,
   }));
 };
 
@@ -53,47 +64,73 @@ describe('InfoModal test', () => {
   test('Close button should work correctly', () => {
     setDataLoaderMock({ loading: Loading.PENDING, error: null });
     renderInfoModal();
+    waitFor(() => {
+      const closeButton = screen.getByRole('button') as HTMLButtonElement;
+      expect(closeButton).toBeInTheDocument();
 
-    const closeButton = screen.getByRole('button') as HTMLButtonElement;
-    expect(closeButton).toBeInTheDocument();
-
-    fireEvent.click(closeButton);
-    expect(onCloseMock).toHaveBeenCalledTimes(1);
+      fireEvent.click(closeButton);
+      expect(onCloseMock).toHaveBeenCalledTimes(1);
+    });
   });
 
-  test('Should call loadData() after mount', () => {
-    setDataLoaderMock({ loading: Loading.PENDING, error: null });
-    renderInfoModal();
-    expect(loadDataMock).toHaveBeenCalledTimes(1);
+  test('Should handle data load correctly', () => {
+    const mockLoadData = loadDataMock();
+    setDataLoaderMock({ loading: Loading.PENDING, error: null }, mockLoadData);
+
+    const { rerender } = renderInfoModal();
+    expect(mockLoadData).toHaveBeenCalledTimes(1);
+
+    setDataLoaderMock({ loading: Loading.PENDING, error: null }, loadDataMock(null));
+    reactMock.useState = jest.fn(() => [{}, jest.fn()]);
+    rerender(<InfoModal onClose={onCloseMock} isOpen={true} photo={mockPhoto} />);
+    expect(reactMock.useState).toBeCalledWith(null);
   });
 
   test('Should calculate image ratio correctly', () => {
     setDataLoaderMock({ loading: Loading.SUCCESS, error: null });
-    const { rerender, container } = renderInfoModal();
-    expect(screen.getByText('ratio=1')).toBeInTheDocument();
-    expect(container.firstChild).toHaveClass('landscape');
 
-    mockPhoto.height_c = 800;
-    mockPhoto.width_c = 400;
-    const r = rerender(<InfoModal onClose={onCloseMock} isOpen={true} photo={mockPhoto} />);
-    expect(screen.getByText('ratio=2')).toBeInTheDocument();
-    expect(container.firstChild).toHaveClass('portrait');
+    mockHelpers.loadImage = () => Promise.resolve({ width: 100, height: 50 });
+    const { rerender } = renderInfoModal();
+    waitFor(() => {
+      expect(screen.getByText('ratio=0.5')).toBeInTheDocument();
+    });
 
-    mockPhoto.height_c = NaN;
-    mockPhoto.width_c = NaN;
+    mockHelpers.loadImage = () => Promise.resolve({ width: 50, height: 100 });
     rerender(<InfoModal onClose={onCloseMock} isOpen={true} photo={mockPhoto} />);
-    expect(screen.getByText('ratio=1')).toBeInTheDocument();
+    waitFor(() => {
+      expect(screen.getByText('ratio=2')).toBeInTheDocument();
+    });
   });
 
-  test('Should render data correctly', () => {
+  test('Should calculate minWidthClass correctly', () => {
     setDataLoaderMock({ loading: Loading.SUCCESS, error: null });
-    const { rerender } = renderInfoModal();
 
-    expect(screen.getByTestId('card-testid')).toBeInTheDocument();
+    reactMock.useState = jest.fn(() => [{ imgUrl: '', imageRatio: 0.5 }, jest.fn()]);
+    const { rerender, container } = renderInfoModal();
+    expect(container.firstChild).toHaveClass('landscape');
+
+    reactMock.useState = jest.fn(() => [{ imgUrl: '', imageRatio: 1.5 }, jest.fn()]);
+    rerender(<InfoModal onClose={onCloseMock} isOpen={true} photo={mockPhoto} />);
+    expect(container.firstChild).toHaveClass('portrait');
 
     reactMock.useState = jest.fn(() => [null, jest.fn()]);
     rerender(<InfoModal onClose={onCloseMock} isOpen={true} photo={mockPhoto} />);
+    expect(container.firstChild).not.toHaveClass('portrait');
+    expect(container.firstChild).not.toHaveClass('landscape');
+  });
 
-    expect(screen.getByText('No data loaded')).toBeInTheDocument();
+  test('Should render data correctly', () => {
+    reactMock.useState = jest.fn(() => [{ imgUrl: '', imageRatio: 1 }, jest.fn()]);
+    setDataLoaderMock({ loading: Loading.SUCCESS, error: null });
+    const { rerender } = renderInfoModal();
+    waitFor(() => {
+      expect(screen.getByTestId('card-testid')).toBeInTheDocument();
+    });
+
+    reactMock.useState = jest.fn(() => [null, jest.fn()]);
+    rerender(<InfoModal onClose={onCloseMock} isOpen={true} photo={mockPhoto} />);
+    waitFor(() => {
+      expect(screen.getByText('No data loaded')).toBeInTheDocument();
+    });
   });
 });

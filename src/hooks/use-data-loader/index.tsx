@@ -27,13 +27,13 @@ export const useDataLoader = () => {
   const loadData = useCallback(
     async <T,>(
       fetchData: (abortSignal?: AbortSignal) => Promise<T>,
-      callback: (data: T) => void
+      callback: (data: T) => Promise<void>
     ) => {
       controller.current = new AbortController();
       dispatch({ type: Loading.PENDING, payload: null });
       try {
         const data = await fetchData(controller.current.signal);
-        callback(data);
+        await callback(data);
         dispatch({ type: Loading.SUCCESS, payload: null });
       } catch (error) {
         if (error instanceof Error && !/abort/.test(error.message)) {
