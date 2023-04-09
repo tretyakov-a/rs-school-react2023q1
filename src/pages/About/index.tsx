@@ -20,6 +20,11 @@ const About = () => {
             React.Hooks
           </a>
         </li>
+        <li>
+          <a href="https://github.com/rolling-scopes-school/tasks/tree/master/react/modules/module04">
+            React.API
+          </a>
+        </li>
       </ul>
     </PageWrap>
   );

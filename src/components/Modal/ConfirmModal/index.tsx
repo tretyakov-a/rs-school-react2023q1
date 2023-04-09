@@ -4,7 +4,7 @@ import { ModalProps } from '@components/Modal/context';
 import './style.scss';
 
 const ConfirmModal = (props: ModalProps) => {
-  const { question, okCallback, onClose } = props;
+  const { content, okCallback, onClose } = props;
 
   const handleOKClick = () => {
     if (okCallback !== undefined) {
@@ -19,7 +19,7 @@ const ConfirmModal = (props: ModalProps) => {
         <div className="confirm-modal__icon">
           <FontAwesomeIcon icon={faQuestion} />
         </div>
-        <div className="confirm-modal__message">{question}</div>
+        <div className="confirm-modal__message">{content}</div>
       </div>
       <div className="confirm-modal__buttons">
         <button className="button" onClick={onClose}>

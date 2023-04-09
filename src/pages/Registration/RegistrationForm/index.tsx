@@ -20,14 +20,14 @@ const RegistrationForm = (props: RegistrationFormProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>({ defaultValues: defautFormValues });
-  const { setModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     props.onSubmit(data);
-    setModal({
+    openModal({
       type: 'confirm',
       isOpen: true,
-      question: 'Form data has been saved. Do you want to clear form?',
+      content: 'Form data has been saved. Do you want to clear form?',
       okCallback: () => {
         resetForm();
       },

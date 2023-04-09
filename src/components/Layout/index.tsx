@@ -8,13 +8,13 @@ import { ImagesServiceContext, useImagesService } from '@src/api/images';
 
 const Layout = () => {
   const { imagesService } = useImagesService();
-  const { modal, setModal } = useModal();
+  const modalValue = useModal();
 
-  const classes = ['scroll-container', modal.isOpen ? 'no-scroll' : ''].join(' ');
+  const classes = ['scroll-container', modalValue.modal.isOpen ? 'no-scroll' : ''].join(' ');
   return (
     <div className={classes} role="scroll-container">
       <ImagesServiceContext.Provider value={{ imagesService }}>
-        <ModalContext.Provider value={{ modal, setModal }}>
+        <ModalContext.Provider value={modalValue}>
           <Modal />
           <Header />
           <Outlet />

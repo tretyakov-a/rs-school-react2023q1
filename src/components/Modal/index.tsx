@@ -3,7 +3,7 @@ import './style.scss';
 import { ModalContext, getModalComponent } from '@components/Modal/context';
 
 const Modal = () => {
-  const { modal, setModal } = useContext(ModalContext);
+  const { modal, setModalState } = useContext(ModalContext);
   const [display, setDisplay] = useState<string>(modal.isOpen ? 'open' : '');
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const Modal = () => {
     setDisplay('close');
 
     setTimeout(() => {
-      setModal({ isOpen: false });
+      setModalState({ isOpen: false });
     }, Modal.animationDuration);
   };
 

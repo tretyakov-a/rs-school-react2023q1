@@ -1,4 +1,4 @@
-import { act, render, renderHook, screen } from '@testing-library/react';
+import { act, render, renderHook } from '@testing-library/react';
 import { useModal, getModalComponent, ModalContext } from './context';
 import ConfirmModal from './ConfirmModal';
 import InfoModal from './InfoModal';
@@ -8,20 +8,26 @@ jest.mock('./ConfirmModal', () => () => <div data-testid="confirm-modal-testid">
 jest.mock('./InfoModal', () => () => <div data-testid="info-modal-testid"></div>);
 
 const TestComponent = () => {
-  const { modal, setModal } = useContext(ModalContext);
-  setModal({ isOpen: true });
-  return <div>{modal.question}</div>;
+  const { modal, openModal, setModalState } = useContext(ModalContext);
+  openModal({ isOpen: true });
+  setModalState({ isOpen: false });
+  return <div>{modal.content}</div>;
 };
 
 describe('ModalContext', () => {
-  test('Should change modal on setModal call', () => {
+  test('Should change modal state', () => {
     const { result } = renderHook(() => useModal());
 
     expect(result.current.modal.isOpen).toBe(false);
     act(() => {
-      result.current.setModal({ isOpen: true });
+      result.current.openModal({ isOpen: true });
     });
     expect(result.current.modal.isOpen).toBe(true);
+
+    act(() => {
+      result.current.setModalState({ isOpen: false });
+    });
+    expect(result.current.modal.isOpen).toBe(false);
   });
 
   test('getModalComponent() works correctly', () => {
@@ -30,7 +36,7 @@ describe('ModalContext', () => {
   });
 
   test('Context default value should be set', () => {
-    render(<TestComponent />);
-    expect(screen.getByText('Are you sure?')).toBeInTheDocument();
+    const { container } = render(<TestComponent />);
+    expect(container.firstChild).not.toHaveClass('open');
   });
 });

@@ -17,7 +17,7 @@ describe('ConfirmModal test', () => {
     render(
       <ConfirmModal
         onClose={onCloseMock}
-        question={testQuestion}
+        content={testQuestion}
         isOpen={true}
         okCallback={okCallbackMock}
       />

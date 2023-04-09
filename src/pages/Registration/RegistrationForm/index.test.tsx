@@ -4,7 +4,7 @@ import RegistrationForm from '.';
 import { ModalContext } from '@components/Modal/context';
 
 const onSubmitMock = jest.fn();
-const setModalMock = jest.fn(({ okCallback }) => okCallback());
+const openModalMock = jest.fn(({ okCallback }) => okCallback());
 
 jest.mock('./Inputs', () => ({
   registerInput: jest.fn(),
@@ -70,9 +70,11 @@ const getElements = () => {
 describe('<RegistrationForm /> test', () => {
   beforeEach(() => {
     onSubmitMock.mockClear();
-    setModalMock.mockClear();
+    openModalMock.mockClear();
     render(
-      <ModalContext.Provider value={{ setModal: setModalMock, modal: { isOpen: false } }}>
+      <ModalContext.Provider
+        value={{ setModalState: jest.fn(), openModal: openModalMock, modal: { isOpen: false } }}
+      >
         <RegistrationForm onSubmit={onSubmitMock} />
       </ModalContext.Provider>
     );
@@ -90,7 +92,7 @@ describe('<RegistrationForm /> test', () => {
     const { submitButton } = getElements();
 
     fireEvent.click(submitButton);
-    expect(setModalMock).toBeCalledTimes(1);
+    expect(openModalMock).toBeCalledTimes(1);
     expect(onSubmitMock).toBeCalledTimes(1);
   });
 });

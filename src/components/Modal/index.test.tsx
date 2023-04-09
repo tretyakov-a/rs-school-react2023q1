@@ -7,7 +7,6 @@ import { ModalContext, ModalState } from '@components/Modal/context';
 jest.useFakeTimers();
 jest.spyOn(global, 'setTimeout');
 
-const setModalMock = jest.fn(() => {});
 const defaultModalState = {
   isOpen: false,
   question: 'test-question',
@@ -21,11 +20,14 @@ jest.mock('@components/Modal/context', () => ({
   getModalComponent: jest.fn(() => TestModal),
 }));
 
+const mockOpenModal = jest.fn();
+const mockSetModalState = jest.fn();
 const TestComponent = (props: { modal: ModalState }) => (
   <ModalContext.Provider
     value={{
       modal: props.modal,
-      setModal: setModalMock,
+      openModal: mockOpenModal,
+      setModalState: mockSetModalState,
     }}
   >
     <Modal />
@@ -40,7 +42,7 @@ const getElements = () => {
 
 describe('<Modal /> test', () => {
   beforeEach(() => {
-    setModalMock.mockClear();
+    mockOpenModal.mockClear();
     jest.clearAllTimers();
   });
 
@@ -81,6 +83,6 @@ describe('<Modal /> test', () => {
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), Modal.animationDuration);
 
     jest.runAllTimers();
-    expect(setModalMock).toHaveBeenCalledTimes(1);
+    expect(mockSetModalState).toHaveBeenCalledTimes(1);
   });
 });
