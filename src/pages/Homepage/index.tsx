@@ -39,7 +39,8 @@ const Homepage = () => {
   useEffect(() => {
     const searchQuery = getStorage();
     if (searchQuery !== '') loadImages(searchQuery);
-  }, [loadImages, getStorage]);
+    else loadImages('nature');
+  }, [loadImages, getStorage, imagesService, loadData, setData]);
 
   return (
     <PageWrap className="homepage">

@@ -48,13 +48,14 @@ jest.mock('@components/LoadingResult', () => ({ children }: React.PropsWithChild
 jest.mock('./CardsList', () => () => <div data-testid="cards-list-testid" />);
 
 describe('<Homepage /> test', () => {
-  test('Should render correctly', () => {
+  test('Should render correctly', async () => {
     setDataLoaderMock({ loading: Loading.IDLE, error: null });
     render(<Homepage />);
-
-    expect(screen.getByTestId('search-bar-testid')).toBeInTheDocument();
-    expect(screen.getByTestId('page-wrap-testid')).toBeInTheDocument();
-    expect(screen.getByText('Try to find some images using search form')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('search-bar-testid')).toBeInTheDocument();
+      expect(screen.getByTestId('page-wrap-testid')).toBeInTheDocument();
+      expect(screen.getByTestId('cards-list-testid')).toBeInTheDocument();
+    });
   });
 
   test('Should call loadData on submit ', async () => {
