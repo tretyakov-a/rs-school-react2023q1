@@ -40,5 +40,13 @@ describe('Http module test', () => {
     await expect(fetchData('test-url', { id: 'test-id' })).rejects.toThrow(
       'Invalid content-type in response'
     );
+
+    (global.fetch as jest.Mock).mockImplementationOnce(() =>
+      Promise.resolve({ ...responseInit, headers: new Headers({}) } as Response)
+    );
+
+    await expect(fetchData('test-url', { id: 'test-id' })).rejects.toThrow(
+      'Invalid content-type in response'
+    );
   });
 });

@@ -18,8 +18,12 @@ const capitalizedValidator: Validator<boolean, string> = (validationValue) => (i
   );
 };
 
+const isValidFileList = (fileList: FileList) => {
+  return fileList instanceof FileList && fileList.length > 0;
+};
+
 const maxFileSizeValidator: Validator<number, FileList> = (validationValue) => (fileList) => {
-  if (fileList === undefined || !(fileList instanceof FileList) || fileList.length === 0) return;
+  if (!isValidFileList(fileList)) return;
   return (
     validationValue >= fileList[0].size || getValidationMessage('maxFileSize')(validationValue)
   );
@@ -32,7 +36,7 @@ const ageValidator: Validator<number, string> = (validationValue) => (inputValue
 };
 
 const fileTypeValidator: Validator<string, FileList> = (validationValue) => (fileList) => {
-  if (fileList === undefined || !(fileList instanceof FileList) || fileList.length === 0) return;
+  if (!isValidFileList(fileList)) return;
   return (
     fileList[0].type.split('/')[0] === validationValue ||
     getValidationMessage('fileType')(validationValue)

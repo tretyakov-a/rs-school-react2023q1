@@ -5,6 +5,8 @@ import { screen, render } from '@testing-library/react';
 import { FormFieldOptionsContext } from '../../form-field/context';
 import { FormFieldOptions } from '../../form-field';
 
+const mockRegister = jest.fn();
+
 jest.mock('../../form-field/context', () => ({
   FormFieldOptionsContext: React.createContext({
     options: {
@@ -14,11 +16,15 @@ jest.mock('../../form-field/context', () => ({
   }),
 }));
 
-const TestComponent = (props: { options: FormFieldOptions }) => {
+const TestComponent = (props: {
+  options: FormFieldOptions;
+  register?: typeof mockRegister | null;
+}) => {
   const { formFieldType } = props.options;
+  const register = props.register === undefined ? mockRegister : props.register;
   return (
     <FormFieldOptionsContext.Provider
-      value={{ options: props.options, register: jest.fn(), watch: jest.fn() }}
+      value={{ options: props.options, register, watch: jest.fn() }}
     >
       <Input value={formFieldType === 'list' ? 'javascript' : undefined} />
     </FormFieldOptionsContext.Provider>
@@ -33,6 +39,7 @@ describe('<Input /> test', () => {
           name: 'name',
           type: 'text',
         }}
+        register={null}
       />
     );
 
@@ -54,5 +61,6 @@ describe('<Input /> test', () => {
     const checkboxEl = screen.getByRole('checkbox');
     expect(checkboxEl).toBeInTheDocument();
     expect(checkboxEl.getAttribute('id')).toBe('javascript-checkbox-input');
+    expect(mockRegister).toBeCalled();
   });
 });
