@@ -5,8 +5,14 @@ import * as modal from '@components/Modal/context';
 
 const modalMock = modal as { ModalContext: React.Context<unknown>; useModal: () => unknown };
 
-jest.mock('@components/Header', () => () => <div data-testid="header-testid"></div>);
-jest.mock('@components/Footer', () => () => <div data-testid="footer-testid"></div>);
+jest.mock('@src/api/images', () => ({
+  __esModule: true,
+  useImagesService: jest.fn(() => ({ imagesService: null })),
+  ImagesServiceContext: React.createContext(null),
+}));
+
+jest.mock('./Header', () => () => <div data-testid="header-testid"></div>);
+jest.mock('./Footer', () => () => <div data-testid="footer-testid"></div>);
 jest.mock('@components/Modal', () => () => <div data-testid="modal-testid"></div>);
 jest.mock('react-router-dom', () => {
   return {

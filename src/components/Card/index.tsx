@@ -1,29 +1,30 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 import './style.scss';
-import { Product, imagesUrl } from '@common/product';
-import { Rating } from './Rating';
+import { Photo } from '@src/api/images/types';
 
 interface CardPropsType {
-  data: Product;
+  data: Photo;
+  onClick?: () => void;
 }
 
 const Card = (props: CardPropsType) => {
-  const { brand, brandImage, imgs, price, rating, title } = props.data;
+  const {
+    data: { title, url_q, ownername },
+  } = props;
 
+  const cropedTitle = title.length > 64 ? title.slice(0, 64) + '...' : title;
   return (
-    <div className="card">
-      <div className="card__img">
-        <img src={`${imagesUrl}${imgs && Array.isArray(imgs) && imgs[0]}`} alt={title as string} />
-      </div>
-      <div className="card__brand-img">
-        <img src={`${imagesUrl}${brandImage}`} alt={brand as string} />
-      </div>
-      <div className="card__info">
-        <div className="card__title">{title}</div>
-        <div className="card__info-row">
-          <div className="card__rating">
-            <Rating value={rating as number} />
+    <div className="card" onClick={props.onClick}>
+      <div className="card__top">
+        <div className="card__left">
+          <div className="card__img">
+            {url_q ? <img src={url_q} alt={title} /> : <FontAwesomeIcon icon={faBook} />}
           </div>
-          <div className="card__price">{price}&nbsp;₽</div>
+        </div>
+        <div className="card__info">
+          <div className="card__title">{cropedTitle}</div>
+          <div className="card__author">by {ownername}</div>
         </div>
       </div>
     </div>

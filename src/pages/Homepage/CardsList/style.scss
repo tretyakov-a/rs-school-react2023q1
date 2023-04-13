@@ -1,0 +1,33 @@
+@import "@styles/mixins";
+@import "@styles/breakpoints";
+
+$gap: 2rem;
+
+.cards-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: $gap;
+  row-gap: $gap;
+
+  @include xs-breakpoint {
+    justify-content: center;
+  }
+
+  &__item {
+    @include flexBasisColumns(5, $gap);
+
+    @include md-breakpoint {
+      @include flexBasisColumns(4, $gap);
+    }
+
+    @include sm-breakpoint {
+      @include flexBasisColumns(3, $gap);
+    }
+
+    @include xs-breakpoint {
+      flex-basis: auto;
+      width: 180px;
+    }
+  }
+}

@@ -2,7 +2,26 @@
   &__search-bar-container {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  &__card-list-container {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: var(--color-text-l);
+  }
+
+  &__next-page-trigger {
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    &.disabled {
+      display: none;
+    }
   }
 }
 

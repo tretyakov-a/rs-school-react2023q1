@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './style.scss';
-import RegistrationForm from '@components/RegistrationForm';
-import RegistrationList from '@components/RegistrationList';
+import RegistrationForm from './RegistrationForm';
+import RegistrationList from './RegistrationList';
 import PageWrap from '@components/PageWrap';
-import { FormInputs } from '@components/RegistrationForm/types';
+import { FormInputs } from './RegistrationForm/types';
 import { cloneFile } from '@common/helpers';
 
 export type StoredFormInputs = Omit<FormInputs, 'avatar'> & {

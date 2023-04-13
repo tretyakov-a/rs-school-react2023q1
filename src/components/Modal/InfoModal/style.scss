@@ -1,0 +1,63 @@
+@import "@styles/breakpoints";
+
+$landscapeWidth: calc(#{$smBreakpoint} - var(--content-padding) * 2);
+$portraitWidth: calc(#{$landscapeWidth} - 100px);
+
+.info-modal {
+  position: relative;
+  min-height: 200px;
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1rem;
+
+  &.portrait {
+    width: $portraitWidth;
+  }
+
+  &.landscape {
+    width: $landscapeWidth;
+  }
+
+  &__content {
+    width: 100%;
+  }
+
+  @include sm-breakpoint {
+    &.portrait,
+    &.landscape {
+      min-width: auto;
+      max-width: 100%;
+      width: 100%;
+    }
+    min-width: auto;
+  }
+}
+
+.info-modal .info-modal__close-btn {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 10;
+  right: 0.5rem;
+  top: 0.5rem;
+  box-shadow: none;
+  font-size: 1.6rem;
+  padding: 0;
+  border-radius: 50%;
+
+  &:hover:active {
+    transform: translateY(2px);
+    background-color: var(--color-text-s);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--color-text-l);
+    }
+  }
+}

@@ -1,0 +1,140 @@
+@import "@styles/breakpoints";
+
+.card_full {
+  box-shadow: none;
+  background: none;
+  border: none;
+  cursor: default;
+
+  .card__top {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 1rem;
+  }
+
+  .card {
+    &__info {
+      justify-content: space-between;
+      flex-direction: row;
+      row-gap: 1rem;
+      color: var(--color-text-xl);
+      padding: 0 1rem 1rem;
+      margin-top: 1rem;
+
+      @include sm-breakpoint {
+        flex-direction: column;
+      }
+    }
+
+    &__info-left {
+      flex-basis: auto;
+      flex-grow: 1;
+      margin-right: 1rem;
+    }
+
+    &__info-right {
+      flex-basis: 50%;
+      flex-grow: 0;
+    }
+
+    &__info-author {
+      display: flex;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    &__info-icon {
+      flex-shrink: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      width: 48px;
+      height: 48px;
+      margin-right: 1rem;
+    }
+
+    &__info-title {
+      font-size: 1rem;
+    }
+
+    &__info-header {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    &__description {
+      margin-top: 1rem;
+      padding-left: 4rem;
+
+      a {
+        color: var(--color-primary);
+      }
+
+      .card__row-content {
+        display: block;
+        word-break: break-word;
+      }
+
+      p {
+        margin-top: 0.5rem;
+      }
+
+      @include sm-breakpoint {
+        padding-left: 0;
+      }
+    }
+
+    &__stats {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex-shrink: 0;
+      min-width: 220px;
+      column-gap: 1rem;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    &__views {
+      position: static;
+      color: inherit;
+      background: none;
+      text-align: right;
+    }
+
+    &__uploaded {
+      text-align: right;
+    }
+
+    &__tags {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      column-gap: 0.25rem;
+      row-gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+
+    &__tags-item {
+      background-color: var(--color-primary-alpha50);
+      border-radius: 5px;
+      padding: 5px;
+      white-space: nowrap;
+    }
+
+    &__img {
+      position: relative;
+      align-items: flex-start;
+      width: 100%;
+      padding-top: 100%;
+      background-color: var(--color-text);
+
+      img {
+        object-fit: contain;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+}

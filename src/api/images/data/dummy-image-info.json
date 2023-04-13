@@ -1,0 +1,146 @@
+{
+  "photo": {
+    "id": "15317528089",
+    "secret": "b124ffd236",
+    "server": "5603",
+    "farm": 6,
+    "dateuploaded": "1413034382",
+    "isfavorite": 0,
+    "license": "0",
+    "safety_level": "0",
+    "rotation": 0,
+    "owner": {
+      "nsid": "21692577@N02",
+      "username": "Danny VB",
+      "realname": "",
+      "location": "",
+      "iconserver": "2336",
+      "iconfarm": 3,
+      "path_alias": "parismadrid",
+      "gift": {
+        "gift_eligible": true,
+        "eligible_durations": ["year", "month", "week"],
+        "new_flow": true
+      }
+    },
+    "title": {
+      "_content": "Nature"
+    },
+    "description": {
+      "_content": "Test description"
+    },
+    "visibility": {
+      "ispublic": 1,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "dates": {
+      "posted": "1413034382",
+      "taken": "2014-10-03 14:10:11",
+      "takengranularity": 0,
+      "takenunknown": "0",
+      "lastupdate": "1669032253"
+    },
+    "views": "712561",
+    "editability": {
+      "cancomment": 0,
+      "canaddmeta": 0
+    },
+    "publiceditability": {
+      "cancomment": 1,
+      "canaddmeta": 1
+    },
+    "usage": {
+      "candownload": 0,
+      "canblog": 0,
+      "canprint": 0,
+      "canshare": 1
+    },
+    "comments": {
+      "_content": "195"
+    },
+    "notes": {
+      "note": [
+        {
+          "id": "72157651017655809",
+          "photo_id": "15317528089",
+          "author": "21692577@N02",
+          "authorname": "Danny VB",
+          "authorrealname": "",
+          "authorispro": 0,
+          "authorisdeleted": 0,
+          "x": "0",
+          "y": "213",
+          "w": "19",
+          "h": "15",
+          "_content": "nature"
+        }
+      ]
+    },
+    "people": {
+      "haspeople": 0
+    },
+    "tags": {
+      "tag": [
+        {
+          "id": "21672229-15317528089-791",
+          "author": "21692577@N02",
+          "authorname": "Danny VB",
+          "raw": "trees",
+          "_content": "trees",
+          "machine_tag": 0
+        },
+        {
+          "id": "21672229-15317528089-791",
+          "author": "21692577@N02",
+          "authorname": "Danny VB",
+          "raw": "mountains",
+          "_content": "mountains",
+          "machine_tag": 0
+        }
+      ]
+    },
+    "location": {
+      "latitude": "45.546001",
+      "longitude": "-73.327045",
+      "accuracy": "12",
+      "context": "0",
+      "locality": {
+        "_content": "St.-Bruno-de-Montarville",
+        "woeid": 1414
+      },
+      "county": {
+        "_content": "Longueuil",
+        "woeid": 29375100
+      },
+      "region": {
+        "_content": "Québec",
+        "woeid": 2344924
+      },
+      "country": {
+        "_content": "Canada",
+        "woeid": 23424775
+      },
+      "neighbourhood": {
+        "_content": "",
+        "woeid": 0
+      }
+    },
+    "geoperms": {
+      "ispublic": 1,
+      "iscontact": 0,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "urls": {
+      "url": [
+        {
+          "type": "photopage",
+          "_content": "https://www.flickr.com/photos/parismadrid/15317528089/"
+        }
+      ]
+    },
+    "media": "photo"
+  },
+  "stat": "ok"
+}

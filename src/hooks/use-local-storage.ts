@@ -8,9 +8,9 @@ const useLocalStorage = (key: string): [typeof set, typeof get] => {
     [key]
   );
 
-  const get = () => {
+  const get = useCallback(() => {
     return localStorage.getItem(key) || '';
-  };
+  }, [key]);
 
   return [set, get];
 };

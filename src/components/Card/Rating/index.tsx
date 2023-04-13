@@ -2,6 +2,7 @@ import './style.scss';
 
 interface RatingPropsType {
   value: number;
+  count?: number;
 }
 
 const Rating = (props: RatingPropsType) => {
@@ -30,11 +31,12 @@ const Rating = (props: RatingPropsType) => {
 
   const { value } = props;
   return (
-    <div className="product-rating">
+    <span className="product-rating">
       <span className="product-rating__stars" title={`rating ${String(value)}`}>
         {renderStars(value)}
       </span>
-    </div>
+      <span className="product-rating__count">{props.count}</span>
+    </span>
   );
 };
 

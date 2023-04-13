@@ -12,9 +12,19 @@ const config: Config.InitialOptions = {
     '<rootDir>/src/vite-env.d.ts',
   ],
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    '^.+\\.(ts|tsx)$': [
+      '@swc/jest',
+      {
+        jsc: {
+          transform: {
+            react: {
+              runtime: 'automatic',
+            },
+          },
+        },
+      },
+    ],
   },
-  preset: 'ts-jest',
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     '\\.(scss)$': 'identity-obj-proxy',
