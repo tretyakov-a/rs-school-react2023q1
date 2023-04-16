@@ -10,6 +10,7 @@ import { findImages } from './store';
 
 const Homepage = () => {
   const { data: images, loading, error } = useSelector((state: RootState) => state.imagesList);
+  const searchValue = useSelector((state: RootState) => state.search.value);
   const dispatch: AppDispatch = useDispatch();
 
   const handleSearchSubmit = (searchQuery: string) => {
@@ -17,7 +18,8 @@ const Homepage = () => {
   };
 
   useEffect(() => {
-    dispatch(findImages('nature'));
+    const searchText = searchValue !== '' ? searchValue : 'nature';
+    dispatch(findImages(searchText));
   }, [dispatch]);
 
   return (

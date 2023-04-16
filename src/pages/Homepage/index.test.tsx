@@ -22,12 +22,14 @@ jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(() => mockDispatch),
   useSelector: jest.fn((fn) => {
-    fn({ imagesList: null });
-    return {
-      data: ['test'],
-      loading: Loading.SUCCESS,
-      error: null,
-    };
+    return fn({
+      imagesList: {
+        data: ['test'],
+        loading: Loading.SUCCESS,
+        error: null,
+      },
+      search: { value: 'test-value' },
+    });
   }),
 }));
 
