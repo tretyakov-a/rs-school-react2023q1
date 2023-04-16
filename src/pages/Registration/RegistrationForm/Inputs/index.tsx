@@ -32,7 +32,7 @@ const renderInput = (options: FormFieldOptions) => {
       return <Select />;
     case 'radio':
     case 'checkbox':
-      return formFieldType !== undefined && formFieldType === 'list' ? (
+      return formFieldType === 'list' ? (
         <InputsList />
       ) : (
         <CustomInput id={id} type="switch">
@@ -42,4 +42,4 @@ const renderInput = (options: FormFieldOptions) => {
   }
 };
 
-export { Input, renderInput, registerInput };
+export { renderInput, registerInput };

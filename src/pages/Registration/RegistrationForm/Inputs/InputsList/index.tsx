@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { isRadioInputDataArray } from '../../data';
-import { Input } from '..';
+import Input from '../Input';
 import { FormFieldOptionsContext } from '../../form-field/context';
 import CustomInput from '../CustomInput';
 
