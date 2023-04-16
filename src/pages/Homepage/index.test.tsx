@@ -1,14 +1,14 @@
 import React from 'react';
 import '@src/__mocks__/page-wrap-mock';
 import '@src/__mocks__/images-service-context-mock';
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import Homepage from '.';
 import { Loading } from '@common/types/loading';
 import * as reactRedux from 'react-redux';
 import { findImages as mockFindImages } from './store';
 
 const mockReactRedux = reactRedux as {
-  useSelector: (fn: () => void) => void;
+  useSelector: (fn: (state: unknown) => void) => void;
   useDispatch: () => void;
 };
 
@@ -17,18 +17,19 @@ jest.mock('./store', () => ({
 }));
 
 const mockDispatch = jest.fn();
+const mockImagesList = {
+  data: ['test'],
+  loading: Loading.SUCCESS,
+  error: null,
+};
 jest.mock('react-redux', () => ({
   __esModule: true,
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(() => mockDispatch),
   useSelector: jest.fn((fn) => {
     return fn({
-      imagesList: {
-        data: ['test'],
-        loading: Loading.SUCCESS,
-        error: null,
-      },
-      search: { value: 'test-value' },
+      imagesList: mockImagesList,
+      search: { value: '' },
     });
   }),
 }));
@@ -52,30 +53,44 @@ describe('<Homepage /> test', () => {
     const { rerender } = render(<Homepage />);
     expect(screen.getByTestId('search-bar-testid')).toBeInTheDocument();
     expect(screen.getByTestId('page-wrap-testid')).toBeInTheDocument();
+    expect(screen.getByTestId('loading-result-testid')).toBeInTheDocument();
     expect(screen.getByTestId('cards-list-testid')).toBeInTheDocument();
 
-    mockReactRedux.useSelector = () => ({ data: null });
+    mockReactRedux.useSelector = (fn) =>
+      fn({
+        imagesList: { ...mockImagesList, data: null },
+        search: { value: '' },
+      });
     rerender(<Homepage />);
     expect(screen.getByText('Try to find some images using search form')).toBeInTheDocument();
 
-    mockReactRedux.useSelector = () => ({ data: [] });
+    mockReactRedux.useSelector = (fn) =>
+      fn({
+        imagesList: { ...mockImagesList, data: [] },
+        search: { value: '' },
+      });
     rerender(<Homepage />);
     expect(screen.getByText('Try to find some images using search form')).toBeInTheDocument();
   });
 
-  test('Should call dispatch on submit ', async () => {
-    mockReactRedux.useSelector = () => ({ data: null, loading: Loading.IDLE, error: null });
-    render(<Homepage />);
-
-    const submit = screen.getByRole('button', { name: /submit/i });
-    fireEvent.click(submit);
-    expect(mockFindImages).toBeCalled();
+  test('Should load data depends on searchValue', async () => {
+    mockReactRedux.useSelector = (fn) =>
+      fn({
+        imagesList: mockImagesList,
+        search: { value: '' },
+      });
+    const { rerender } = render(<Homepage />);
+    expect(mockFindImages).toBeCalledWith('nature');
     expect(mockDispatch).toBeCalledWith('test-image-action');
-  });
 
-  test('Should call dispatch on mount', async () => {
-    render(<Homepage />);
-    expect(mockFindImages).toBeCalled();
+    jest.clearAllMocks();
+    mockReactRedux.useSelector = (fn) =>
+      fn({
+        imagesList: mockImagesList,
+        search: { value: 'test-value' },
+      });
+    rerender(<Homepage />);
+    expect(mockFindImages).toBeCalledWith('test-value');
     expect(mockDispatch).toBeCalledWith('test-image-action');
   });
 });

@@ -13,19 +13,15 @@ const Homepage = () => {
   const searchValue = useSelector((state: RootState) => state.search.value);
   const dispatch: AppDispatch = useDispatch();
 
-  const handleSearchSubmit = (searchQuery: string) => {
-    dispatch(findImages(searchQuery));
-  };
-
   useEffect(() => {
     const searchText = searchValue !== '' ? searchValue : 'nature';
     dispatch(findImages(searchText));
-  }, [dispatch]);
+  }, [dispatch, searchValue]);
 
   return (
     <PageWrap className="homepage">
       <div className="homepage__search-bar-container">
-        <SearchBar onSubmit={handleSearchSubmit} loading={loading} />
+        <SearchBar loading={loading} />
       </div>
       <div className="homepage__card-list-container">
         <LoadingResult loadingState={{ loading, error }}>

@@ -3,7 +3,6 @@ import SearchBar from '.';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { Loading } from '@common/types/loading';
 
-const mockOnSubmit = jest.fn();
 const testValue = 'test-value';
 
 jest.mock('./store', () => ({
@@ -38,7 +37,7 @@ const getElements = () => {
 };
 
 const renderSearchBar = (loading: Loading = Loading.IDLE) => {
-  render(<SearchBar onSubmit={mockOnSubmit} loading={loading} />);
+  render(<SearchBar loading={loading} />);
 };
 
 describe('<SearchBar /> test', () => {
@@ -65,6 +64,5 @@ describe('<SearchBar /> test', () => {
 
     fireEvent.click(button);
     expect(mockDispatch).toBeCalled();
-    expect(mockOnSubmit).toBeCalledWith(testValue);
   });
 });

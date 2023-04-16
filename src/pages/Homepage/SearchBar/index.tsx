@@ -9,13 +9,12 @@ import { setSearch } from './store';
 import { useForm } from 'react-hook-form';
 
 type SearchBarProps = {
-  onSubmit: (searchQuery: string) => void;
   loading: Loading;
 };
 
 type SearchFormValues = { search: string };
 
-const SearchBar = ({ onSubmit, loading }: SearchBarProps) => {
+const SearchBar = ({ loading }: SearchBarProps) => {
   const searchValue = useSelector((state: RootState) => state.search.value);
   const { register, handleSubmit } = useForm<SearchFormValues>({
     defaultValues: { search: searchValue },
@@ -24,7 +23,6 @@ const SearchBar = ({ onSubmit, loading }: SearchBarProps) => {
 
   const handleFormSubmit = ({ search }: SearchFormValues) => {
     dispatch(setSearch(search));
-    onSubmit(search);
   };
 
   const loadingClass = loading === Loading.PENDING ? 'loading' : '';
