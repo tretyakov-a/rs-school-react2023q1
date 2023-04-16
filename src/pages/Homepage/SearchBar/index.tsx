@@ -33,7 +33,7 @@ const SearchBar = ({ onSubmit, loading }: SearchBarProps) => {
       <form className="search-bar__form" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="search-bar__input-container">
           <input
-            placeholder="Search for books..."
+            placeholder="Search for images..."
             className="search-bar__input"
             type="text"
             id="search"

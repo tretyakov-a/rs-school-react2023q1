@@ -15,7 +15,7 @@ jest.mock('./messages', () => ({
   getValidationMessage: jest.fn(() => () => 'test message'),
 }));
 
-const nameFormField: FormFieldOptions = {
+const mockFormField: FormFieldOptions = {
   name: 'name',
   type: 'text',
   validation: {
@@ -34,7 +34,7 @@ const noValidationField: FormFieldOptions = {
 
 describe('Validation tests', () => {
   test('getValidators()', () => {
-    const validators = getValidators(nameFormField);
+    const validators = getValidators(mockFormField);
     if (!validators) return;
 
     expect(validators).toHaveProperty('validate');
@@ -62,6 +62,7 @@ describe('Validation tests', () => {
     expect(maxFileSize100(fileList)).toBe(testMessage);
     expect(maxFileSize1000(fileList)).toBe(true);
     expect(maxFileSize100(emptyFileList)).toBeUndefined();
+    expect(maxFileSize100({} as FileList)).toBeUndefined();
   });
 
   test('fileType()', () => {
