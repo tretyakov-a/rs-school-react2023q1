@@ -1,7 +1,7 @@
 import { imageFileMock } from '@src/__mocks__/file-instance-mock';
 import RegistrationList from '.';
 import { screen, render } from '@testing-library/react';
-import { StoredFormInputs } from '@pages/Registration';
+import { StoredFormInputs } from '../store';
 
 jest.mock('../RegistrationForm/config', () => ({
   formFieldsOptions: {

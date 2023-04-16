@@ -1,41 +1,35 @@
 import React from 'react';
 import '@src/__mocks__/page-wrap-mock';
 import '@src/__mocks__/images-service-context-mock';
-import { screen, render, fireEvent, waitFor } from '@testing-library/react';
+import { screen, render, fireEvent } from '@testing-library/react';
 import Homepage from '.';
-import { Loading } from '@src/hooks/use-data-loader/types';
-import * as dataLoader from '@src/hooks/use-data-loader';
-import * as useLocalStorage from '@src/hooks/use-local-storage';
+import { Loading } from '@common/types/loading';
+import * as reactRedux from 'react-redux';
+import { findImages as mockFindImages } from './store';
 
-const dataLoaderMock = dataLoader as { useDataLoader: () => void };
-const mockUseLocalStorage = useLocalStorage as {
-  default: () => [(value: string) => void, () => string];
+const mockReactRedux = reactRedux as {
+  useSelector: (fn: () => void) => void;
+  useDispatch: () => void;
 };
 
-const setStorageValueMock = jest.fn();
-jest.mock('@src/hooks/use-local-storage', () => ({
-  __esModule: true,
-  default: () => [setStorageValueMock, () => ''],
+jest.mock('./store', () => ({
+  findImages: jest.fn(() => 'test-image-action'),
 }));
 
-const loadDataMock = jest.fn(
-  async (fetchData: () => Promise<unknown>, setData: (data: { photo: unknown[] }) => void) => {
-    await fetchData();
-    setData({ photo: ['test1'] });
-  }
-);
-
-jest.mock('@src/hooks/use-data-loader', () => ({
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
   __esModule: true,
-  useDataLoader: jest.fn(),
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(() => mockDispatch),
+  useSelector: jest.fn((fn) => {
+    fn({ imagesList: null });
+    return {
+      data: ['test'],
+      loading: Loading.SUCCESS,
+      error: null,
+    };
+  }),
 }));
-
-const setDataLoaderMock = (state: { loading: Loading; error: Error | null }) => {
-  dataLoaderMock.useDataLoader = jest.fn(() => ({
-    loadingState: state,
-    loadData: loadDataMock,
-  }));
-};
 
 jest.mock('./SearchBar', () => ({ onSubmit }: { onSubmit: () => void }) => (
   <div data-testid="search-bar-testid">
@@ -48,37 +42,38 @@ jest.mock('@components/LoadingResult', () => ({ children }: React.PropsWithChild
 jest.mock('./CardsList', () => () => <div data-testid="cards-list-testid" />);
 
 describe('<Homepage /> test', () => {
-  test('Should render correctly', async () => {
-    setDataLoaderMock({ loading: Loading.IDLE, error: null });
-    render(<Homepage />);
-    await waitFor(() => {
-      expect(screen.getByTestId('search-bar-testid')).toBeInTheDocument();
-      expect(screen.getByTestId('page-wrap-testid')).toBeInTheDocument();
-      expect(screen.getByTestId('cards-list-testid')).toBeInTheDocument();
-    });
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  test('Should call loadData on submit ', async () => {
-    setDataLoaderMock({ loading: Loading.IDLE, error: null });
+  test('Should render correctly', async () => {
+    const { rerender } = render(<Homepage />);
+    expect(screen.getByTestId('search-bar-testid')).toBeInTheDocument();
+    expect(screen.getByTestId('page-wrap-testid')).toBeInTheDocument();
+    expect(screen.getByTestId('cards-list-testid')).toBeInTheDocument();
+
+    mockReactRedux.useSelector = () => ({ data: null });
+    rerender(<Homepage />);
+    expect(screen.getByText('Try to find some images using search form')).toBeInTheDocument();
+
+    mockReactRedux.useSelector = () => ({ data: [] });
+    rerender(<Homepage />);
+    expect(screen.getByText('Try to find some images using search form')).toBeInTheDocument();
+  });
+
+  test('Should call dispatch on submit ', async () => {
+    mockReactRedux.useSelector = () => ({ data: null, loading: Loading.IDLE, error: null });
     render(<Homepage />);
 
     const submit = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submit);
-    expect(loadDataMock).toBeCalled();
-    expect(setStorageValueMock).toBeCalled();
-    await waitFor(() => {
-      expect(screen.getByTestId('cards-list-testid')).toBeInTheDocument();
-    });
+    expect(mockFindImages).toBeCalled();
+    expect(mockDispatch).toBeCalledWith('test-image-action');
   });
 
-  test('Should call loadData on mount, if storage has saved search value ', async () => {
-    setDataLoaderMock({ loading: Loading.IDLE, error: null });
-    mockUseLocalStorage.default = () => [setStorageValueMock, () => 'test-stored-value'];
-
+  test('Should call dispatch on mount', async () => {
     render(<Homepage />);
-    expect(loadDataMock).toBeCalled();
-    await waitFor(() => {
-      expect(screen.getByTestId('cards-list-testid')).toBeInTheDocument();
-    });
+    expect(mockFindImages).toBeCalled();
+    expect(mockDispatch).toBeCalledWith('test-image-action');
   });
 });

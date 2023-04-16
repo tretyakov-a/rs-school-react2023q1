@@ -30,7 +30,6 @@ const CardsList = (props: CardsListProps) => {
   };
 
   useEffect(() => {
-    console.log(loading);
     if (modal.isOpen === true) {
       setModalState({ loadingState: { loading, error } });
     }

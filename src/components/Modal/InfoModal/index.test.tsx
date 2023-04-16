@@ -1,7 +1,7 @@
 import '@src/__mocks__/images-service-context-mock';
 import { screen, render, fireEvent } from '@testing-library/react';
 import InfoModal from '.';
-import { Loading } from '@src/hooks/use-data-loader/types';
+import { Loading } from '@common/types/loading';
 import { ModalProps } from '../context';
 
 jest.mock('@components/LoadingResult', () => ({ children }: React.PropsWithChildren) => (

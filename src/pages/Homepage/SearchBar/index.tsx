@@ -13,14 +13,16 @@ type SearchBarProps = {
   loading: Loading;
 };
 
+type SearchFormValues = { search: string };
+
 const SearchBar = ({ onSubmit, loading }: SearchBarProps) => {
   const searchValue = useSelector((state: RootState) => state.search.value);
-  const { register, handleSubmit } = useForm<{ search: string }>({
+  const { register, handleSubmit } = useForm<SearchFormValues>({
     defaultValues: { search: searchValue },
   });
   const dispatch = useDispatch();
 
-  const handleFromSubmit = ({ search }: { search: string }) => {
+  const handleFormSubmit = ({ search }: SearchFormValues) => {
     dispatch(setSearch(search));
     onSubmit(search);
   };
@@ -28,7 +30,7 @@ const SearchBar = ({ onSubmit, loading }: SearchBarProps) => {
   const loadingClass = loading === Loading.PENDING ? 'loading' : '';
   return (
     <div className="search-bar">
-      <form className="search-bar__form" onSubmit={handleSubmit(handleFromSubmit)}>
+      <form className="search-bar__form" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="search-bar__input-container">
           <input
             placeholder="Search for books..."

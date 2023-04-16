@@ -4,16 +4,25 @@ import CardsList from '.';
 import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import mockImagesSearch from '@src/api/images/data/dummy-image-search.json';
 import { ModalContext } from '@components/Modal/context';
-import * as dataLoader from '@src/hooks/use-data-loader';
-import * as helpers from '@common/helpers';
-import { Loading } from '@src/hooks/use-data-loader/types';
+import { Loading } from '@common/types/loading';
 
-const mockHelpers = helpers as { loadImage: (url?: string) => Promise<unknown> };
-const dataLoaderMock = dataLoader as { useDataLoader: () => void };
+jest.mock('./store', () => ({
+  getImageInfo: jest.fn(() => 'test-image-action'),
+}));
 
-jest.mock('@common/helpers', () => ({
+jest.mock('react-redux', () => ({
   __esModule: true,
-  loadImage: jest.fn(() => Promise.resolve({ width: 50, height: 100 })),
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(() => () => ({
+    unwrap: () => Promise.resolve('test-data'),
+  })),
+  useSelector: jest.fn((fn) => {
+    fn({ cardsList: null });
+    return {
+      loading: Loading.SUCCESS,
+      error: null,
+    };
+  }),
 }));
 
 const cardsDataMock = mockImagesSearch.photos.photo;
@@ -31,27 +40,6 @@ jest.mock('@components/CardFull', () => (props: { imageRatio: number }) => (
 jest.mock('@components/Modal/context', () => ({
   ModalContext: React.createContext(null),
 }));
-
-const loadDataMock = (data: { imgUrl: string } | null = { imgUrl: '' }) =>
-  jest.fn(async (fetchData: () => void, setData: (setData: typeof data) => Promise<void>) => {
-    fetchData();
-    await setData(data);
-  });
-
-jest.mock('@src/hooks/use-data-loader', () => ({
-  __esModule: true,
-  useDataLoader: jest.fn(),
-}));
-
-const setDataLoaderMock = (
-  state: { loading: Loading; error: Error | null },
-  loadData = loadDataMock()
-) => {
-  dataLoaderMock.useDataLoader = jest.fn(() => ({
-    loadingState: state,
-    loadData,
-  }));
-};
 
 const TestComponent = (modalState: { isOpen: boolean } = { isOpen: false }) => (
   <ModalContext.Provider
@@ -71,7 +59,6 @@ describe('<CardsList /> test', () => {
   });
 
   test('Should render correctly', () => {
-    setDataLoaderMock({ loading: Loading.PENDING, error: null });
     render(TestComponent());
 
     expect(screen.getByRole('list')).toBeInTheDocument();
@@ -81,43 +68,19 @@ describe('<CardsList /> test', () => {
     expect(cards.length).toBe(cardsDataMock.length);
   });
 
-  test('Should handle card click correctly', () => {
-    setDataLoaderMock({ loading: Loading.PENDING, error: null });
+  test('Should correctly handle card click', async () => {
     render(TestComponent());
-
     fireEvent.click(screen.getAllByTestId('card-testid')[0]);
     expect(mockOpenModal).toHaveBeenCalledTimes(1);
-  });
-
-  test('Should correctly handle data load', async () => {
-    setDataLoaderMock({ loading: Loading.PENDING, error: null }, loadDataMock(null));
-    const { rerender } = render(TestComponent());
-    fireEvent.click(screen.getAllByTestId('card-testid')[0]);
-    expect(mockSetModalState).toBeCalledWith({ content: 'No data loaded' });
-
-    mockSetModalState.mockClear();
-    mockHelpers.loadImage = jest.fn(() => Promise.resolve({ width: 50, height: 100 }));
-    setDataLoaderMock(
-      { loading: Loading.PENDING, error: null },
-      loadDataMock({ imgUrl: 'test-url' })
-    );
-    rerender(TestComponent());
-
-    fireEvent.click(screen.getAllByTestId('card-testid')[0]);
-
-    expect(mockHelpers.loadImage).toBeCalled();
     await waitFor(() => {
-      expect(mockSetModalState).toBeCalledWith({ imageRatio: 2, content: expect.any(Object) });
+      expect(mockSetModalState).toBeCalled();
     });
   });
 
   test('Should change opened modal state in useEffect', async () => {
-    const mockLoadingState = { loading: Loading.IDLE, error: null };
-    setDataLoaderMock(mockLoadingState);
-
     render(TestComponent({ isOpen: true }));
-    await waitFor(() => {
-      expect(mockSetModalState).toBeCalledWith({ loadingState: mockLoadingState });
+    expect(mockSetModalState).toBeCalledWith({
+      loadingState: { loading: Loading.SUCCESS, error: null },
     });
   });
 });

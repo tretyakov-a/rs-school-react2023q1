@@ -21,12 +21,12 @@ export const registrationListSlice = createSlice({
     addListItem: (state, action: PayloadAction<StoredFormInputs>) => {
       state.data = [...state.data, action.payload];
     },
-    setListData: (state, action: PayloadAction<StoredFormInputs[]>) => {
+    setListItems: (state, action: PayloadAction<StoredFormInputs[]>) => {
       state.data = [...action.payload];
     },
   },
 });
 
-export const { setListData, addListItem } = registrationListSlice.actions;
+export const { setListItems, addListItem } = registrationListSlice.actions;
 
 export default registrationListSlice.reducer;

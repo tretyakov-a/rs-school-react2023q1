@@ -1,13 +1,34 @@
 import '@src/__mocks__/font-awesome-icon-mock';
 import SearchBar from '.';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { Loading } from '@src/hooks/use-data-loader/types';
+import { Loading } from '@common/types/loading';
 
-const setSearchValueMock = jest.fn();
-const onSubmitMock = jest.fn();
-
+const mockOnSubmit = jest.fn();
 const testValue = 'test-value';
-jest.mock('./hooks/use-state-with-ref', () => () => [testValue, setSearchValueMock]);
+
+jest.mock('./store', () => ({
+  setSearch: jest.fn(),
+}));
+
+jest.mock('react-hook-form', () => ({
+  useForm: jest.fn(() => ({
+    register: jest.fn(),
+    handleSubmit: jest.fn((fn: (value: { search: string }) => void) => (e: Event) => {
+      e.preventDefault();
+      fn({ search: testValue });
+    }),
+  })),
+}));
+
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(() => mockDispatch),
+  useSelector: jest.fn((fn) => {
+    return fn({ search: { value: testValue } });
+  }),
+}));
 
 const getElements = () => {
   const textbox = screen.getByRole('textbox');
@@ -17,7 +38,7 @@ const getElements = () => {
 };
 
 const renderSearchBar = (loading: Loading = Loading.IDLE) => {
-  render(<SearchBar onSubmit={onSubmitMock} loading={loading} />);
+  render(<SearchBar onSubmit={mockOnSubmit} loading={loading} />);
 };
 
 describe('<SearchBar /> test', () => {
@@ -38,21 +59,12 @@ describe('<SearchBar /> test', () => {
     expect(button).toHaveClass('loading');
   });
 
-  test('handleInputChange should be fired on input change', () => {
-    renderSearchBar();
-    const { searchInputEl } = getElements();
-
-    fireEvent.change(searchInputEl, {
-      target: { value: 'new value' },
-    });
-    expect(setSearchValueMock).toBeCalledTimes(1);
-  });
-
   test('handleSubmit should be fired on button click', () => {
     renderSearchBar();
     const { button } = getElements();
 
     fireEvent.click(button);
-    expect(onSubmitMock).toBeCalledWith(testValue);
+    expect(mockDispatch).toBeCalled();
+    expect(mockOnSubmit).toBeCalledWith(testValue);
   });
 });

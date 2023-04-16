@@ -5,7 +5,7 @@ import './style.scss';
 import { useEffect } from 'react';
 import LoadingResult from '@components/LoadingResult';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@src/store';
+import type { AppDispatch, RootState } from '@src/store';
 import { findImages } from './store';
 
 const Homepage = () => {

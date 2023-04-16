@@ -15,7 +15,7 @@ const LoadingResult = (props: LoadingResultProps) => {
   const renderError = (error: string) => {
     return <div>{error}</div>;
   };
-  console.log('Loading', loading === Loading.PENDING);
+
   return (
     <>
       {loading === Loading.PENDING ? (
