@@ -26,3 +26,9 @@ export interface AsyncThunkConfig {
   dispatch: AppDispatch;
   state: RootState;
 }
+
+declare global {
+  interface Window {
+    __PRELOADED_STATE__: RootState;
+  }
+}

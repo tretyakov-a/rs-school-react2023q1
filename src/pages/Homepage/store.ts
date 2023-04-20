@@ -8,12 +8,16 @@ export interface ImagesListState extends LoadingState {
   data: Photo[];
 }
 
-const initialState: ImagesListState = {
-  currentSearchValue: '',
-  data: [],
-  error: null,
-  loading: Loading.IDLE,
-};
+const isPreloadedState = !import.meta.env.SSR && window.__PRELOADED_STATE__ !== undefined;
+
+const initialState: ImagesListState = isPreloadedState
+  ? window.__PRELOADED_STATE__.imagesList
+  : {
+      currentSearchValue: '',
+      data: [],
+      error: null,
+      loading: Loading.IDLE,
+    };
 
 const imageService = new FlickrService();
 
@@ -41,6 +45,9 @@ export const imagesListSlice = createSlice({
     setCurrentSearchValue: (state, action: PayloadAction<string>) => {
       state.currentSearchValue = action.payload;
     },
+    setImages: (state, action: PayloadAction<Photo[]>) => {
+      state.data = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(findImages.pending, (state) => {
@@ -57,6 +64,6 @@ export const imagesListSlice = createSlice({
   },
 });
 
-export const {} = imagesListSlice.actions;
+export const { setImages, setCurrentSearchValue } = imagesListSlice.actions;
 
 export default imagesListSlice.reducer;
