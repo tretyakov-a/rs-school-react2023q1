@@ -1,7 +1,7 @@
 import '@src/__mocks__/loader-mock';
 import { screen, render } from '@testing-library/react';
 import LoadingResult from '.';
-import { Loading } from '@src/hooks/use-data-loader/types';
+import { Loading } from '@common/types/loading';
 
 jest.mock('@components/RssLogo', () => () => <div data-testid="rsslogo-testid"></div>);
 
@@ -15,9 +15,7 @@ describe('<LoadingResult /> test', () => {
 
   test('Should render error on ERROR state', () => {
     render(
-      <LoadingResult
-        loadingState={{ loading: Loading.ERROR, error: new Error('test-error') }}
-      ></LoadingResult>
+      <LoadingResult loadingState={{ loading: Loading.ERROR, error: 'test-error' }}></LoadingResult>
     );
     expect(screen.getByText('test-error')).toBeInTheDocument();
   });

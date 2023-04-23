@@ -1,47 +1,39 @@
 import Card from '@components/Card';
 import './style.scss';
 import { ModalContext } from '@components/Modal/context';
-import { useCallback, useContext, useEffect } from 'react';
-import { Photo, PhotoInfo } from '@src/api/images/types';
-import { ImagesServiceContext } from '@src/api/images';
-import { useDataLoader } from '@src/hooks/use-data-loader';
-import { loadImage } from '@common/helpers';
+import { useContext, useEffect } from 'react';
+import { Photo } from '@src/api/images/types';
 import CardFull from '@components/CardFull';
+import { AppDispatch, RootState } from '@src/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { getImageInfo } from './store';
 
 interface CardsListProps {
   data: Photo[];
 }
 
 const CardsList = (props: CardsListProps) => {
-  const { imagesService } = useContext(ImagesServiceContext);
-  const { loadingState, loadData } = useDataLoader();
+  const { loading, error } = useSelector((state: RootState) => state.cardsList);
+  const dispatch: AppDispatch = useDispatch();
+
   const { modal, openModal, setModalState } = useContext(ModalContext);
 
-  const setPhoto = useCallback(
-    async (data: PhotoInfo) => {
-      if (data === null) return setModalState({ content: 'No data loaded' });
-      const { width, height } = await loadImage(data.imageUrl);
-      const imageRatio = height / width;
-      setModalState({
-        imageRatio,
-        content: <CardFull data={data} imageRatio={imageRatio} />,
-      });
-    },
-    [setModalState]
-  );
-
-  const handleClick = (photo: Photo) => () => {
-    if (photo !== undefined && imagesService !== undefined) {
-      loadData(imagesService.getImageInfo.bind(null, photo.id), setPhoto);
+  const handleClick = (photo: Photo) => async () => {
+    if (photo !== undefined) {
       openModal({ type: 'info' });
+      const data = await dispatch(getImageInfo(photo.id)).unwrap();
+      setModalState({
+        imageRatio: data.imageRatio,
+        content: <CardFull data={data} />,
+      });
     }
   };
 
   useEffect(() => {
     if (modal.isOpen === true) {
-      setModalState({ loadingState });
+      setModalState({ loadingState: { loading, error } });
     }
-  }, [modal.isOpen, loadingState, setModalState]);
+  }, [modal.isOpen, loading, error, setModalState]);
 
   return (
     <ul className="cards-list">

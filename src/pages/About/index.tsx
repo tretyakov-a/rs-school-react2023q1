@@ -25,6 +25,11 @@ const About = () => {
             React.API
           </a>
         </li>
+        <li>
+          <a href="https://github.com/rolling-scopes-school/tasks/tree/master/react/modules/module05">
+            React.Redux
+          </a>
+        </li>
       </ul>
     </PageWrap>
   );

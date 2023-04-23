@@ -6,14 +6,23 @@ import { faComment, faEye } from '@fortawesome/free-regular-svg-icons';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 interface CardPropsType {
-  data: PhotoInfo;
-  imageRatio: number;
+  data: PhotoInfo & { imageRatio: number };
   onClick?: () => void;
 }
 
 const CardFull = (props: CardPropsType) => {
-  const { title, owner, dates, views, tags, description, comments, imageUrl, ownerIconUrl } =
-    props.data;
+  const {
+    title,
+    owner,
+    dates,
+    views,
+    tags,
+    description,
+    comments,
+    imageUrl,
+    ownerIconUrl,
+    imageRatio,
+  } = props.data;
 
   const viewsWithCommas = views.length > 3 ? addCommasToString(views) : views;
 
@@ -27,7 +36,6 @@ const CardFull = (props: CardPropsType) => {
     </ul>
   );
 
-  const { imageRatio } = props;
   const height = imageRatio > 1 ? '100%' : 'auto';
   const paddingTop = imageRatio > 1 ? '100%' : `${imageRatio * 100}%`;
   return (

@@ -1,5 +1,5 @@
 import Loader from '@components/Loader';
-import { Loading, LoadingState } from '@src/hooks/use-data-loader/types';
+import { Loading, LoadingState } from '@common/types/loading';
 import React from 'react';
 
 interface LoadingResultProps extends React.PropsWithChildren {
@@ -12,11 +12,21 @@ const LoadingResult = (props: LoadingResultProps) => {
     children,
   } = props;
 
-  const renderError = (error: Error) => {
-    return <div>{error.message}</div>;
+  const renderError = (error: string) => {
+    return <div>{error}</div>;
   };
 
-  return <>{loading === Loading.PENDING ? <Loader /> : error ? renderError(error) : children}</>;
+  return (
+    <>
+      {loading === Loading.PENDING ? (
+        <Loader />
+      ) : loading === Loading.ERROR && error ? (
+        renderError(error)
+      ) : (
+        children
+      )}
+    </>
+  );
 };
 
 export default LoadingResult;

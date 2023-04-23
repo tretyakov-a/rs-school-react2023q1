@@ -1,7 +1,7 @@
 import './style.scss';
 import { formFieldsOptions } from '../RegistrationForm/config';
 import { FormInputsTypes } from '../RegistrationForm/types';
-import { StoredFormInputs } from '@pages/Registration';
+import { StoredFormInputs } from '../store';
 
 interface RegistrationListProps {
   data: StoredFormInputs[];

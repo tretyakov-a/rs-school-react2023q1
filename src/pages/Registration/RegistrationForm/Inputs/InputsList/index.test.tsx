@@ -14,11 +14,9 @@ jest.mock('../CustomInput', () => (props: React.PropsWithChildren & { label: str
   </div>
 ));
 
-jest.mock('..', () => ({
-  Input: (props: { value: string }) => (
-    <input data-testid="input-testid" defaultValue={props.value}></input>
-  ),
-}));
+jest.mock('../Input', () => (props: { value: string }) => (
+  <input data-testid="input-testid" defaultValue={props.value}></input>
+));
 
 jest.mock('../../form-field/context', () => ({
   FormFieldOptionsContext: React.createContext(null),

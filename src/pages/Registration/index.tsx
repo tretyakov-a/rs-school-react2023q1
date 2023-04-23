@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
 import './style.scss';
 import RegistrationForm from './RegistrationForm';
 import RegistrationList from './RegistrationList';
 import PageWrap from '@components/PageWrap';
 import { FormInputs } from './RegistrationForm/types';
 import { cloneFile } from '@common/helpers';
-
-export type StoredFormInputs = Omit<FormInputs, 'avatar'> & {
-  avatar: File | string;
-};
+import { addListItem } from './store';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@src/store';
 
 const Registration = () => {
-  const [listData, setListData] = useState<StoredFormInputs[]>([]);
+  const listData = useSelector((state: RootState) => state.registrationList.data);
+  const dispatch = useDispatch();
 
   const handleRegistrationFormSubmit = (formData: FormInputs) => {
     const avatar =
       formData.avatar instanceof FileList && formData.avatar.length > 0
         ? cloneFile(formData.avatar[0])
         : '';
-    setListData((prevState) => [...prevState, { ...formData, avatar }]);
+    dispatch(addListItem({ ...formData, avatar }));
   };
 
   return (

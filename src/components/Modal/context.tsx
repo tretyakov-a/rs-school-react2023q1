@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import ConfirmModal from './ConfirmModal';
 import InfoModal from './InfoModal';
-import { LoadingState } from '@src/hooks/use-data-loader/types';
+import { LoadingState } from '@common/types/loading';
 
 export type ModalType = 'confirm' | 'info';
 

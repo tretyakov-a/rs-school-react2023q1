@@ -9,7 +9,6 @@ interface FormFieldProps {
 
 const FormField = (props: FormFieldProps) => {
   const { options } = useContext(FormFieldOptionsContext);
-
   const { fieldError } = props;
   const { label, validation } = options;
   const isRequired = validation?.required !== undefined && validation.required;
@@ -18,12 +17,12 @@ const FormField = (props: FormFieldProps) => {
     <>
       <div className={`registration-form__row ${fieldError ? 'invalid' : ''}`}>
         <div className="registration-form__row-title">
-          <div>{label || ''}</div>
+          <div>{label}</div>
           {!isRequired && <div className="registration-form__row-subtitle">(optional)</div>}
         </div>
         {renderInput(options)}
       </div>
-      {fieldError && <div className="registration-form__error">{fieldError?.message}</div>}
+      {fieldError && <div className="registration-form__error">{fieldError.message}</div>}
     </>
   );
 };

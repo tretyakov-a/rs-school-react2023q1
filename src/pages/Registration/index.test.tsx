@@ -5,9 +5,25 @@ import { screen, render, fireEvent } from '@testing-library/react';
 import { FormFieldOptions } from './RegistrationForm/form-field';
 import * as RegistrationForm from './RegistrationForm';
 import { FormInputs } from './RegistrationForm/types';
+import { addListItem as mockAddListItem } from './store';
 
 type RegistrationFormMockProps = { onSubmit: (formData: Pick<FormInputs, 'avatar'>) => void };
 const RegistrationFormMock = RegistrationForm as { default: React.FC<RegistrationFormMockProps> };
+
+jest.mock('./store', () => ({
+  addListItem: jest.fn(),
+}));
+
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(() => mockDispatch),
+  useSelector: jest.fn((fn) => {
+    fn({ registrationList: { data: [] } });
+    return [];
+  }),
+}));
 
 const testFormFields: FormFieldOptions[] = [
   {
@@ -21,11 +37,11 @@ const testFormFields: FormFieldOptions[] = [
 ];
 
 type TestFormInputs = Pick<FormInputs, 'avatar'>;
-const formInputsMock: Pick<FormInputs, 'avatar'> = {
+const formInputsMock: TestFormInputs = {
   avatar: getFileListMock(),
 };
 
-const formInputsEmptyFileListMock: Pick<FormInputs, 'avatar'> = {
+const formInputsEmptyFileListMock: TestFormInputs = {
   avatar: getEmptyFileListMock(),
 };
 
@@ -47,16 +63,9 @@ jest.mock('./RegistrationForm/form-field', () => ({
   getFormFields: () => testFormFields,
 }));
 
-const setValueMock = jest.fn((fn: (prev: TestFormInputs[]) => TestFormInputs[]) => fn([]));
-
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useState: () => [null, setValueMock],
-}));
-
 describe('<Registration /> test', () => {
   beforeEach(() => {
-    setValueMock.mockClear();
+    jest.clearAllMocks();
   });
 
   test('Should render correctly', () => {
@@ -70,7 +79,8 @@ describe('<Registration /> test', () => {
     render(<Registration />);
     const submit = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submit);
-    expect(setValueMock).toBeCalledTimes(1);
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockAddListItem).toBeCalledTimes(1);
   });
 
   test('Should correctly save data', () => {
@@ -83,7 +93,7 @@ describe('<Registration /> test', () => {
     render(<Registration />);
     const submit = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submit);
-    expect(setValueMock).toBeCalledTimes(1);
-    expect(setValueMock).toReturnWith([{ avatar: '' }]);
+    expect(mockDispatch).toBeCalledTimes(1);
+    expect(mockAddListItem).toBeCalledWith({ avatar: '' });
   });
 });

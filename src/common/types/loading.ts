@@ -5,12 +5,7 @@ export enum Loading {
   ERROR,
 }
 
-export interface LoadingAction {
-  type: Loading;
-  payload: Error | null;
-}
-
 export interface LoadingState {
   loading: Loading;
-  error: Error | null;
+  error: string | null;
 }

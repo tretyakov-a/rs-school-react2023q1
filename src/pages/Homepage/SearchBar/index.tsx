@@ -2,40 +2,40 @@ import React from 'react';
 import './style.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import useStateWithRef from './hooks/use-state-with-ref';
-import { Loading } from '@src/hooks/use-data-loader/types';
+import { Loading } from '@common/types/loading';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@src/store';
+import { setSearch } from './store';
+import { useForm } from 'react-hook-form';
 
 type SearchBarProps = {
-  onSubmit: (searchQuery: string) => void;
   loading: Loading;
 };
 
-const SearchBar = ({ onSubmit, loading }: SearchBarProps) => {
-  const [searchValue, setSearchValue] = useStateWithRef(SearchBar.localStorageKey);
+type SearchFormValues = { search: string };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const el = e.target;
-    setSearchValue(el.value);
-  };
+const SearchBar = ({ loading }: SearchBarProps) => {
+  const searchValue = useSelector((state: RootState) => state.search.value);
+  const { register, handleSubmit } = useForm<SearchFormValues>({
+    defaultValues: { search: searchValue },
+  });
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(searchValue);
+  const handleFormSubmit = ({ search }: SearchFormValues) => {
+    dispatch(setSearch(search));
   };
 
   const loadingClass = loading === Loading.PENDING ? 'loading' : '';
   return (
     <div className="search-bar">
-      <form className="search-bar__form" onSubmit={handleSubmit}>
+      <form className="search-bar__form" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="search-bar__input-container">
           <input
             placeholder="Search for images..."
             className="search-bar__input"
             type="text"
-            name="search"
             id="search"
-            value={searchValue}
-            onChange={handleInputChange}
+            {...register('search')}
           />
         </div>
         <button className={`search-bar__submit ${loadingClass}`} type="submit">
