@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from './toolkit';
 import searchReducer from '@pages/Homepage/SearchBar/store';
 import registrationListReducer from '@pages/Registration/store';
 import imagesListReducer from '@pages/Homepage/store';

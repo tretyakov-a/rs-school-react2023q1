@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@src/store/toolkit';
 import { FlickrService, PhotoInfo } from '@src/api/images';
 import { Loading, LoadingState } from '@common/types/loading';
 import { AsyncThunkConfig } from '@src/store';

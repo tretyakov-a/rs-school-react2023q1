@@ -1,4 +1,5 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@src/store/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { FlickrService, Photo } from '@src/api/images';
 import { Loading, LoadingState } from '@common/types/loading';
 import { AsyncThunkConfig } from '@src/store';

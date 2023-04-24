@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import { ViteDevServer, createServer as createViteServer } from 'vite';
 import ReactDOMServer from 'react-dom/server';
-import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
+import type { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import fetch from 'cross-fetch';
 global.fetch = fetch;
 
@@ -60,7 +60,7 @@ async function createServer() {
           return res.status(500).send('Failed to load the app.');
         }
         const [store, handleRender] = await render();
-        const template = await vite.transformIndexHtml(url, data);
+        const template = !isProd ? await vite.transformIndexHtml(url, data) : data;
         const preloadedState = JSON.stringify(store.getState()).replace(/</g, '\\u003c');
         const templateWithState = template.replace(
           '<!--preloadedState-->',
