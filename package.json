@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "CYPRESS_COVERAGE=true ts-node --esm server.ts",
-    "serve": "NODE_ENV=production ts-node --esm server.ts",
+    "dev": "cross-env CYPRESS_COVERAGE=true ts-node --esm server.ts",
+    "serve": "cross-env NODE_ENV=production ts-node --esm server.ts",
     "build": "npm run build:client && npm run build:server",
     "build:client": "npm run lint && tsc --noEmit && vite build --outDir dist/client",
     "build:server": "npm run lint && tsc --noEmit && vite build --outDir dist/server --ssr src/entry-server.tsx",
@@ -51,6 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "@vitejs/plugin-react": "^3.1.0",
+    "cross-env": "^7.0.3",
     "cypress": "^12.10.0",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.7.0",
