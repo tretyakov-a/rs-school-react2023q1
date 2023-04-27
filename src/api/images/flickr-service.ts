@@ -34,8 +34,7 @@ class FlickrService implements ImagesService {
     abortSignal?: AbortSignal
   ) => {
     const data: T = await fetchData(baseUrl, queryParams, { signal: abortSignal });
-
-    if (data.stats === 'fail') throw new Error(data.message);
+    if (data.stat === 'fail') throw new Error(data.message);
     return data;
   };
 

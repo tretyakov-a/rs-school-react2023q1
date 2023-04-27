@@ -22,7 +22,7 @@ export type SearchQueryParams = {
 };
 
 export type FlickrResponse = {
-  stats: 'fail' | 'ok';
+  stat: 'fail' | 'ok';
   code?: number;
   message?: string;
 };
