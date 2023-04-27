@@ -8,9 +8,9 @@ export const isRadioInputDataArray = (data: unknown): data is RadioInputData[] =
 };
 
 export type SelectOptionData = {
-  name: string;
+  option: string;
 };
 
 export const isOptionsDataArray = (data: unknown): data is SelectOptionData[] => {
-  return Array.isArray(data) && data.every((item) => 'name' in item);
+  return Array.isArray(data) && data.every((item) => 'option' in item);
 };

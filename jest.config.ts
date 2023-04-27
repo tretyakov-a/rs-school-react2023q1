@@ -5,11 +5,13 @@ import type { Config } from '@jest/types';
 const config: Config.InitialOptions = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}'],
+  coverageProvider: 'v8',
   coveragePathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/src/__mock__',
-    '<rootDir>/src/index.tsx',
+    '<rootDir>/src/entry-client.tsx',
     '<rootDir>/src/vite-env.d.ts',
+    'types.ts',
   ],
   transform: {
     '^.+\\.(ts|tsx)$': [

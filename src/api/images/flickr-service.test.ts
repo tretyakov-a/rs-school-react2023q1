@@ -1,4 +1,4 @@
-import FlickrService from './flickr-service';
+import { FlickrService } from '.';
 import mockImageSearchResult from './data/dummy-image-search.json';
 import mockImageInfoResult from './data/dummy-image-info.json';
 import * as http from '../http';

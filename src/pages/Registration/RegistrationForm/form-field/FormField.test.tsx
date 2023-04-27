@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormFieldOptionsContext } from './context';
-import FormField from './FormField';
+import { FormField } from '.';
 import { FormFieldOptions } from './types';
 import { render, screen } from '@testing-library/react';
 
