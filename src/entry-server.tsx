@@ -3,19 +3,11 @@ import { StaticRouter } from 'react-router-dom/server';
 import App from '@components/App';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import FlickrService from './api/images/flickr-service';
 import { setCurrentSearchValue, setImages } from './pages/Homepage/store';
+import type { SSRRender } from './server-types';
 
-export async function render(): Promise<
-  [
-    ToolkitStore,
-    (
-      url: string,
-      options: ReactDOMServer.RenderToPipeableStreamOptions
-    ) => ReactDOMServer.PipeableStream
-  ]
-> {
+export const render: SSRRender = async () => {
   const text = 'nature';
   const images = await new FlickrService().findImages({ text });
   store.dispatch(setImages(images.photo));
@@ -33,4 +25,4 @@ export async function render(): Promise<
         options
       ),
   ];
-}
+};

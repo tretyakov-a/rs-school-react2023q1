@@ -1,21 +1,34 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import { ViteDevServer, createServer as createViteServer } from 'vite';
-import ReactDOMServer from 'react-dom/server';
-import type { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
+import type { SSRRender } from './src/server-types';
 import fetch from 'cross-fetch';
+import type { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 global.fetch = fetch;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const isProd = process.env.NODE_ENV === 'production';
 const PORT = 5173;
+const SSR_OUTLET = '<!--ssr-outlet-->';
+const PRELOADED_STATE_OUTLET = '<!--preloaded-state-outlet-->';
 
-async function createServer() {
+const setPreloadedState = (store: ToolkitStore, template: string) => {
+  const preloadedState = JSON.stringify(store.getState()).replace(/</g, '\\u003c');
+  return template.replace(
+    PRELOADED_STATE_OUTLET,
+    `<script>window.__PRELOADED_STATE__=${preloadedState}</script>`
+  );
+};
+
+const getIndexHtml = async (isProd: boolean) => {
+  const indexHtmlPath = path.resolve(__dirname, isProd ? 'dist/client/index.html' : 'index.html');
+  return fs.readFile(indexHtmlPath, 'utf8');
+};
+
+const initServer = async (isProd: boolean): Promise<[typeof app, typeof vite]> => {
   const app = express();
-  let vite: ViteDevServer;
-
+  let vite: ViteDevServer | null = null;
   if (!isProd) {
     vite = await createViteServer({
       server: { middlewareMode: true },
@@ -30,58 +43,46 @@ async function createServer() {
       })
     );
   }
+  return [app, vite];
+};
 
-  app.use('*', async (req, res, next) => {
+async function createServer() {
+  const isProd = process.env.NODE_ENV === 'production';
+  const [expressApp, vite] = await initServer(isProd);
+
+  expressApp.use('*', async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
-      let indexHtmlPath: string,
-        render: () => Promise<
-          [
-            ToolkitStore,
-            (
-              url: string,
-              options: ReactDOMServer.RenderToPipeableStreamOptions
-            ) => ReactDOMServer.PipeableStream
-          ]
-        >;
+      const render: SSRRender = (
+        isProd
+          ? // @ts-ignore
+            await import('./dist/server/entry-server.js')
+          : await vite!.ssrLoadModule('/src/entry-server.tsx')
+      ).render;
 
-      if (!isProd) {
-        indexHtmlPath = 'index.html';
-        render = (await vite.ssrLoadModule('/src/entry-server.tsx')).render;
-      } else {
-        indexHtmlPath = 'dist/client/index.html';
-        // @ts-ignore
-        render = (await import('./dist/server/entry-server.js')).render;
-      }
+      const html = await getIndexHtml(isProd);
+      const [store, handleRender] = await render();
+      const template = !isProd ? await vite!.transformIndexHtml(url, html) : html;
+      const templateWithState = setPreloadedState(store, template);
+      const [beginHTML, endHTML] = templateWithState.split(SSR_OUTLET);
 
-      fs.readFile(path.resolve(__dirname, indexHtmlPath), 'utf8', async (error, data) => {
-        if (error) {
-          return res.status(500).send('Failed to load the app.');
-        }
-        const [store, handleRender] = await render();
-        const template = !isProd ? await vite.transformIndexHtml(url, data) : data;
-        const preloadedState = JSON.stringify(store.getState()).replace(/</g, '\\u003c');
-        const templateWithState = template.replace(
-          '<!--preloadedState-->',
-          `<script>window.__PRELOADED_STATE__=${preloadedState}</script>`
-        );
-        const [beginHTML, endHTML] = templateWithState.split('<!--ssr-outlet-->');
-
-        const appStream = handleRender(url, {
-          onAllReady: async () => {
-            res.status(200).setHeader('content-type', 'text/html').write(beginHTML);
-            appStream.pipe(res).end(endHTML);
-          },
-        });
+      const appStream = handleRender(url, {
+        onShellReady() {
+          res.status(200).setHeader('content-type', 'text/html').write(beginHTML);
+          appStream.pipe(res);
+        },
+        onAllReady() {
+          res.end(endHTML);
+        },
       });
     } catch (error) {
-      !isProd && vite.ssrFixStacktrace(error as Error);
+      !isProd && vite!.ssrFixStacktrace(error as Error);
       next(error as Error);
     }
   });
 
-  return app;
+  return expressApp;
 }
 
 createServer().then((app) => app.listen(PORT));
