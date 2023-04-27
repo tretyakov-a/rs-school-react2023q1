@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 describe('Test app functionality', () => {
-  it('navigation works', () => {
+  it('should properly handle navigation', () => {
     cy.visit('/');
 
     cy.get('a[href="/about"]').click();
