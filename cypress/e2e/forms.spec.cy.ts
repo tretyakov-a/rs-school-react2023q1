@@ -60,6 +60,9 @@ describe('Test forms pages', () => {
     nameInput.type('testname{enter}');
     cy.contains('should be capitalized').should('exist');
 
+    nameInput.clear().type('t{enter}');
+    cy.contains('length should be more or equal then 3').should('exist');
+
     nameInput.clear().type('veryLongTestname{enter}');
     cy.contains('length should be less or equal then 12').should('exist');
 
@@ -75,6 +78,15 @@ describe('Test forms pages', () => {
     cy.contains('should be valid email address').should('exist');
   });
 
+  it('should show validation messages on incorrect birthday input', () => {
+    fillForm();
+    const dateInput = cy.get('input[name="birthday"]');
+
+    dateInput.clear().type('2010-01-01');
+    submit();
+    cy.contains('age should be more or equal then 16').should('exist');
+  });
+
   it('should show validation messages on incorrect file input', () => {
     fillForm();
     const fileInput = cy.get('input[name="avatar"]');
@@ -82,5 +94,9 @@ describe('Test forms pages', () => {
     fileInput.selectFile('cypress/fixtures/over100kb-test-image.png', { force: true });
     submit();
     cy.contains('file size should be less or equal then 100 KB').should('exist');
+
+    fileInput.selectFile('cypress/fixtures/test-text-file.txt', { force: true });
+    submit();
+    cy.contains('should be image file').should('exist');
   });
 });
