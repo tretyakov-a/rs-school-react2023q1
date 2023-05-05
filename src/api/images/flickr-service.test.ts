@@ -1,10 +1,10 @@
-import FlickrService from './flickr-service';
+import { FlickrService } from '.';
 import mockImageSearchResult from './data/dummy-image-search.json';
 import mockImageInfoResult from './data/dummy-image-info.json';
 import * as http from '../http';
 
 const mockHttp = http as { fetchData: (url: string, init: object) => Promise<unknown> };
-const mockFailResult = { stats: 'fail', message: 'test-error-message' };
+const mockFailResult = { stat: 'fail', message: 'test-error-message' };
 
 jest.mock('../http', () => ({
   __esModule: true,
@@ -42,7 +42,7 @@ describe('Flickr service test', () => {
     expect(data.ownerIconUrl).toEqual('https://www.flickr.com/images/buddyicon.gif');
   });
 
-  test('throws error if server responds with stats.fail', async () => {
+  test('throws error if server responds with stat.fail', async () => {
     mockHttp.fetchData = () => Promise.resolve(mockFailResult);
 
     await expect(service.findImages({ text: 'test' })).rejects.toThrow(mockFailResult.message);

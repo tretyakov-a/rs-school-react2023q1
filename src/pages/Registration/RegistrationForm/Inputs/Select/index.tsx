@@ -7,9 +7,9 @@ const Select = () => {
 
   const renderOptions = (data: unknown) => {
     if (isOptionsDataArray(data)) {
-      return data.map(({ name }) => (
-        <option key={name} value={name}>
-          {name}
+      return data.map(({ option }) => (
+        <option key={option} value={option}>
+          {option}
         </option>
       ));
     }

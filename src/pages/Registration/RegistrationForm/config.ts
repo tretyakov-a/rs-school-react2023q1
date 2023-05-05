@@ -1,6 +1,4 @@
-import { countries } from './data/countries';
-import { genders } from './data/genders';
-import { programmingLanguages } from './data/programming-languages';
+import { countries, genders, programmingLanguages } from './data';
 import { FormFieldBaseOptions, FormFieldOptions, FormValues } from './form-field/types';
 import { FormInputs } from './types';
 

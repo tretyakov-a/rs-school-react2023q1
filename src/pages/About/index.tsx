@@ -30,6 +30,11 @@ const About = () => {
             React.Redux
           </a>
         </li>
+        <li>
+          <a href="https://github.com/rolling-scopes-school/tasks/tree/master/react/modules/module06">
+            React.SSR/SSG
+          </a>
+        </li>
       </ul>
     </PageWrap>
   );

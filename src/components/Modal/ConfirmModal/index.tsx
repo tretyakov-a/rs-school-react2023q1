@@ -17,7 +17,7 @@ const ConfirmModal = (props: ModalProps) => {
     <div className="confirm-modal">
       <div className="confirm-modal__content">
         <div className="confirm-modal__icon">
-          <FontAwesomeIcon icon={faQuestion} />
+          <FontAwesomeIcon icon={faQuestion} width={24} />
         </div>
         <div className="confirm-modal__message">{content}</div>
       </div>

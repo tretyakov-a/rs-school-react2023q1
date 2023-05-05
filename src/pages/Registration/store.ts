@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@src/store/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { FormInputs } from './RegistrationForm/types';
 
